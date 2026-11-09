@@ -63,7 +63,7 @@ For each task, in plan order:
 
 There may be no human reviewer at all, so review is built in two automatic layers, and nothing depends on someone remembering to run it:
 
-1. **`<id>-pr-reviewer` subagent: always, in every project.** `tech-lead` creates it in Phase 0.2c. Invoke it on every PR, with the PR diff, its description and its task row, never with your own reasoning or a summary of what you did. If it doesn't exist yet, stop and route to `tech-lead`. A fresh Claude Code session given only the diff and the checklist is an emergency fallback, recorded as such.
+1. **`<id>-pr-reviewer` subagent: always, in every project.** `tech-lead` creates it in Phase 0.2c. Invoke it on every PR, with the PR diff, its description and its task row, never with your own reasoning or a summary of what you did. If it doesn't exist yet, use the plugin's own `sdlc-suite:pr-reviewer` subagent instead (same rule: give it the project folder, feature id, diff range, PR description and the path of `SKILL_DIR/references/review_checklist.md`, never your reasoning), and tell the user that `tech-lead` should still create the project's own reviewer. A fresh Claude Code session given only the diff and the checklist is the last-resort fallback, recorded as such.
 2. **Automated review in CI** (required when `rigor: production`, recommended otherwise): a Claude review step configured by `platform-engineer` that runs the same checklist on every PR, even when no session is open. Its result is a **required status check**.
 
 Surface reviewers and the test reviewer, when they exist, add their findings to the same review.

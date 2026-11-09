@@ -53,6 +53,9 @@
 - base_branch: main                 # "merged" means merged into this branch
 - branch_pattern: <project_id>/<id>-<slug>     # e.g. recetas/004-shopping-list
 - commit_tag: [<project_id>/<id>]              # prefix for feature commits, e.g. [recetas/004] add list model
+- code_gate: enforce                # enforce | warn | off. The plugin's hook blocks writing source code unless Phase 0 vision and
+                                    # tech foundations are approved/waived/n/a, the branch names a feature, and its PRD is "Status: Approved".
+                                    # Omit it for the default: enforce when rigor is production, warn when personal. Only the user sets "off".
 
 ## Conventions
 - slug_case: kebab-case

@@ -7,7 +7,7 @@ Skills y plugins propios de Al, listos para instalarse desde un marketplace de C
 ```
 .claude-plugin/marketplace.json   ← catálogo del marketplace
 plugins/
-  sdlc-suite/            (v3.5.1) roles del ciclo de vida: product-manager, tech-lead, qa-engineer,
+  sdlc-suite/            (v3.6.0) roles del ciclo de vida: product-manager, tech-lead, qa-engineer,
                          engineering-lead, ux-designer, platform-engineer, release-manager,
                          document-manager + document-templates
   knowledge-base-suite/  personal-knowledge-base, inbox-router, personal-notifications,
@@ -15,6 +15,8 @@ plugins/
   financial-advisor/     asesor de inversiones
   health-advisor/        asistente de salud personal
 ```
+
+`sdlc-suite` incluye un hook (`hooks/prd_gate.py`) que bloquea escribir código sin visión/tech aprobadas, rama de feature y PRD `Approved` (`code_gate` en `SDLC.md`), y el subagente `pr-reviewer` para la revisión independiente.
 
 Cada plugin tiene `.claude-plugin/plugin.json` y sus skills en `skills/<nombre>/SKILL.md`.
 
