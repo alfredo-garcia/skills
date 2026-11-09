@@ -1,0 +1,8 @@
+{
+  "name": "knowledge-base-suite",
+  "version": "1.0.0",
+  "description": "Base de conocimiento personal de Al (~/knowledge-base): convenciones de almacenamiento, enrutado del inbox, notificaciones por Telegram, recetas/despensa y planes.",
+  "author": {
+    "name": "Al"
+  }
+}

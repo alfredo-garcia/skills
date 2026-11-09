@@ -1,0 +1,8 @@
+{
+  "name": "financial-advisor",
+  "version": "1.0.0",
+  "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente y análisis de cartera.",
+  "author": {
+    "name": "Al"
+  }
+}

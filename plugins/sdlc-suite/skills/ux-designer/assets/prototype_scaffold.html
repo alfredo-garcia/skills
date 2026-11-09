@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<!--
+  UX DESIGNER PROTOTYPE SCAFFOLD
+  ==============================
+  Starting point for a self-contained, clickable, multi-screen prototype
+  when there is no real project filesystem access to build inside.
+
+  How to use this (read prototype_guidelines.md section 1B for full context):
+  1. Fill in the :root CSS variables below from the project's ui_standards.md
+     (colors, spacing scale, radii, type). Don't invent values that aren't
+     there — leave a comment if something is missing rather than guessing.
+  2. Translate the relevant entries from ui_kit_registry.md into React
+     components in the KIT COMPONENTS section — same names, same props,
+     so this is a faithful stand-in for the real thing.
+  3. Build each screen as its own component in the SCREENS section.
+  4. Register screens in the SCREENS map at the bottom so the router can
+     navigate between them. Use navigate('ScreenName') from anywhere to
+     move between screens — this simulates real app navigation so the
+     user can click all the way through the flow.
+  5. Anything you build here that ISN'T in ui_kit_registry.md must be
+     named with a Tmp prefix (e.g. TmpInlineRatingWidget) and commented
+     as temporary — see prototype_guidelines.md section 3.
+-->
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>UX Prototype</title>
+
+<style>
+  /* ============ DESIGN TOKENS ============
+     Fill these in from docs/context/ui_standards.md.
+     Leave a TODO comment for anything the standards doc doesn't specify
+     rather than inventing a value. */
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #f7f7f8;
+    --color-border: #e2e2e6;
+    --color-text-primary: #111114;
+    --color-text-secondary: #6b6b76;
+    --color-accent: #4f46e5;        /* TODO: replace with brand accent from ui_standards.md */
+    --color-danger: #dc2626;
+    --color-success: #16a34a;
+
+    --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; /* TODO: replace with brand typeface */
+    --font-size-sm: 13px;
+    --font-size-base: 15px;
+    --font-size-lg: 20px;
+
+    --space-xs: 4px;
+    --space-sm: 8px;
+    --space-md: 16px;
+    --space-lg: 24px;
+    --space-xl: 40px;
+
+    --radius-sm: 6px;
+    --radius-md: 12px;
+
+    /* Minimum touch target for mobile-flavored screens — check
+       ui_standards.md for the project's actual minimum. */
+    --tap-target-min: 44px;
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--font-family);
+    color: var(--color-text-primary);
+    background: var(--color-bg);
+    font-size: var(--font-size-base);
+  }
+  #root { min-height: 100vh; }
+
+  /* Simple device-frame toggle so web vs. mobile concepts can sit
+     side by side when a screen's UX diverges by platform. */
+  .device-toggle {
+    display: flex; gap: var(--space-sm); padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .device-toggle button {
+    padding: var(--space-xs) var(--space-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-size: var(--font-size-sm);
+  }
+  .device-toggle button[aria-pressed="true"] {
+    background: var(--color-accent);
+    color: white;
+    border-color: var(--color-accent);
+  }
+  .frame-web { width: 100%; max-width: 960px; margin: 0 auto; }
+  .frame-mobile { width: 375px; margin: 0 auto; border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- React + Babel via CDN so this runs with zero build step -->
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+<script type="text/babel">
+const { useState, useCallback, createContext, useContext } = React;
+
+/* ============ NAVIGATION SIMULATION ============
+   A minimal in-memory router so the prototype can be clicked through
+   like a real app, without needing an actual routing library. */
+const NavContext = createContext(null);
+function useNav() { return useContext(NavContext); }
+
+function NavProvider({ initialScreen, children }) {
+  const [screen, setScreen] = useState(initialScreen);
+  const [params, setParams] = useState({});
+  const [history, setHistory] = useState([initialScreen]);
+
+  const navigate = useCallback((next, nextParams = {}) => {
+    setScreen(next);
+    setParams(nextParams);
+    setHistory(h => [...h, next]);
+  }, []);
+
+  const goBack = useCallback(() => {
+    setHistory(h => {
+      if (h.length <= 1) return h;
+      const newHistory = h.slice(0, -1);
+      setScreen(newHistory[newHistory.length - 1]);
+      return newHistory;
+    });
+  }, []);
+
+  return (
+    <NavContext.Provider value={{ screen, params, navigate, goBack }}>
+      {children}
+    </NavContext.Provider>
+  );
+}
+
+/* ============ KIT COMPONENTS ============
+   Recreate the relevant components from ui_kit_registry.md here,
+   matching real names/props exactly. A couple of illustrative
+   examples are included below — replace/expand with the project's
+   actual registry entries. */
+
+function LoadingSpinner({ fullScreen }) {
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'center',
+      padding: fullScreen ? 'var(--space-xl)' : 'var(--space-md)',
+      color: 'var(--color-text-secondary)'
+    }}>
+      Loading…
+    </div>
+  );
+}
+
+function EmptyState({ message }) {
+  return (
+    <div style={{ padding: 'var(--space-xl)', textAlign: 'center', color: 'var(--color-text-secondary)' }}>
+      {message}
+    </div>
+  );
+}
+
+function ErrorBanner({ message, onRetry }) {
+  return (
+    <div style={{
+      padding: 'var(--space-md)', background: '#fef2f2', color: 'var(--color-danger)',
+      borderRadius: 'var(--radius-sm)', display: 'flex', justifyContent: 'space-between', alignItems: 'center'
+    }}>
+      <span>{message}</span>
+      {onRetry && <button onClick={onRetry}>Retry</button>}
+    </div>
+  );
+}
+
+function Button({ children, variant = 'primary', ...props }) {
+  const base = {
+    padding: '10px 16px', borderRadius: 'var(--radius-sm)', border: 'none',
+    fontSize: 'var(--font-size-base)', cursor: 'pointer', minHeight: 'var(--tap-target-min)'
+  };
+  const variants = {
+    primary: { background: 'var(--color-accent)', color: 'white' },
+    secondary: { background: 'var(--color-surface)', color: 'var(--color-text-primary)', border: '1px solid var(--color-border)' },
+  };
+  return <button style={{ ...base, ...variants[variant] }} {...props}>{children}</button>;
+}
+
+/* ============ SCREENS ============
+   Build one component per screen. Use useNav() to read params and
+   call navigate()/goBack() to move through the flow. */
+
+function ExampleScreen() {
+  const { navigate } = useNav();
+  return (
+    <div style={{ padding: 'var(--space-lg)' }}>
+      <h2 style={{ fontSize: 'var(--font-size-lg)' }}>Example Screen</h2>
+      <p style={{ color: 'var(--color-text-secondary)' }}>Replace this with the real first screen of the flow.</p>
+      <Button onClick={() => navigate('ExampleScreen')}>Continue</Button>
+    </div>
+  );
+}
+
+/* ============ SCREEN REGISTRY ============
+   Map every screen name used in navigate() calls to its component. */
+const SCREENS = {
+  ExampleScreen,
+};
+
+/* ============ APP SHELL ============ */
+function App() {
+  const [device, setDevice] = useState('web'); // 'web' | 'mobile'
+
+  return (
+    <NavProvider initialScreen="ExampleScreen">
+      <AppShell device={device} setDevice={setDevice} />
+    </NavProvider>
+  );
+}
+
+function AppShell({ device, setDevice }) {
+  const { screen } = useNav();
+  const Screen = SCREENS[screen] || (() => <div>Unknown screen: {screen}</div>);
+
+  return (
+    <div>
+      <div className="device-toggle">
+        <button aria-pressed={device === 'web'} onClick={() => setDevice('web')}>Web</button>
+        <button aria-pressed={device === 'mobile'} onClick={() => setDevice('mobile')}>Mobile</button>
+      </div>
+      <div className={device === 'web' ? 'frame-web' : 'frame-mobile'}>
+        <Screen />
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

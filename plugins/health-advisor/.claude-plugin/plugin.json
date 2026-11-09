@@ -1,0 +1,8 @@
+{
+  "name": "health-advisor",
+  "version": "1.0.0",
+  "description": "Asistente de salud personal que trabaja sobre la ficha de salud y los exámenes del usuario (Colombia y España).",
+  "author": {
+    "name": "Al"
+  }
+}

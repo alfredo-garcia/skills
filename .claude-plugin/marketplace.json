@@ -1,0 +1,48 @@
+{
+  "name": "skills",
+  "owner": {
+    "name": "Al"
+  },
+  "metadata": {
+    "description": "Skills y plugins propios de Al",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "sdlc-suite",
+      "source": "./plugins/sdlc-suite",
+      "description": "Product & engineering lifecycle roles: product-manager, tech-lead, qa-engineer, engineering-lead, ux-designer, platform-engineer, release-manager, document-manager, plus the shared document-templates library. Project-agnostic (configured per project by SDLC.md), rigor-aware, multi-surface, monorepo-aware, test-first, with standards enforced by automated checks and independent review, and work tracked in GitHub Issues (Feature → Story → Task) with checkpoints.",
+      "version": "3.5.1",
+      "author": {
+        "name": "Al"
+      }
+    },
+    {
+      "name": "knowledge-base-suite",
+      "source": "./plugins/knowledge-base-suite",
+      "description": "Base de conocimiento personal de Al (~/knowledge-base): convenciones de almacenamiento, enrutado del inbox, notificaciones por Telegram, recetas/despensa y planes.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Al"
+      }
+    },
+    {
+      "name": "financial-advisor",
+      "source": "./plugins/financial-advisor",
+      "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente y análisis de cartera.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Al"
+      }
+    },
+    {
+      "name": "health-advisor",
+      "source": "./plugins/health-advisor",
+      "description": "Asistente de salud personal que trabaja sobre la ficha de salud y los exámenes del usuario (Colombia y España).",
+      "version": "1.0.0",
+      "author": {
+        "name": "Al"
+      }
+    }
+  ]
+}
