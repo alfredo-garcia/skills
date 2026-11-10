@@ -11,8 +11,9 @@ plugins/
                          engineering-lead, ux-designer, platform-engineer, release-manager,
                          document-manager + document-templates
   knowledge-base-suite/  personal-knowledge-base, inbox-router, personal-notifications,
-                         food-manager, plan-manager (dependen entre sí, por eso van juntas)
-  financial-advisor/     asesor de inversiones
+                         food-manager, plan-manager, fitness-manager (dependen entre sí,
+                         por eso van juntas)
+  finance-advisor/       asesor de inversiones
   health-advisor/        asistente de salud personal
 ```
 

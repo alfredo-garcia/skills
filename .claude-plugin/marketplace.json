@@ -20,17 +20,17 @@
     {
       "name": "knowledge-base-suite",
       "source": "./plugins/knowledge-base-suite",
-      "description": "Base de conocimiento personal de Al (~/knowledge-base): convenciones de almacenamiento, enrutado del inbox, notificaciones por Telegram, recetas/despensa y planes.",
-      "version": "1.0.0",
+      "description": "Base de conocimiento personal de Al (~/knowledge-base): convenciones de almacenamiento, enrutado del inbox, notificaciones por Telegram, recetas/despensa, planes y entrenamiento.",
+      "version": "1.1.0",
       "author": {
         "name": "Al"
       }
     },
     {
-      "name": "financial-advisor",
-      "source": "./plugins/financial-advisor",
+      "name": "finance-advisor",
+      "source": "./plugins/finance-advisor",
       "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente y análisis de cartera.",
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "Al"
       }
