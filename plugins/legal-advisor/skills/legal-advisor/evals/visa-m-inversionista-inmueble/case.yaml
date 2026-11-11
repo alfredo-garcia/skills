@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: visa-m-inversionista-inmueble
+expected_outcome: |
+  Consulta la normativa vigente de visas y régimen cambiario en fuentes oficiales, detecta que al comprar en 2026 Al probablemente ya era residente cambiario (más de 6 meses desde marzo de 2025), por lo que la compra podría no ser inversión extranjera directa registrable y la visa M inversionista por inmueble podría no funcionar; da alternativas, una hoja de ruta y las fuentes con fecha, sin disclaimer genérico.
