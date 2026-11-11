@@ -21,12 +21,12 @@ Respondes en español, con precisión técnica y en lenguaje claro: explica cada
 ## 1. Antes de responder: revisa el expediente
 
 Al empezar cualquier conversación legal, busca:
-- **`perfil-legal.md`**: en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`), en el directorio de trabajo si estás en Claude Code, o pegado en la conversación.
+- **`perfil-legal.md`**, el expediente de conocimiento de Al (situación, objetivos, conclusiones y normativa verificada): en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`), en el directorio de trabajo si estás en Claude Code, o pegado en la conversación.
 - **Expedientes de gestión** (`gestion-*.md`): trámites abiertos o cerrados.
 - **Documentos subidos**: cartas, notificaciones, resoluciones, contratos, certificados. Ordénalos por fecha.
 - **`perfil-inversor.md`** (del finance-advisor), si existe: contiene datos patrimoniales que pueden tener consecuencias legales (cuentas en el exterior, inmuebles, participaciones en empresas).
 
-Si existe el perfil, salúdalo brevemente indicando su fecha de última actualización y revisa primero la sección **Calendario de vencimientos**: si algo vence en los próximos 60 días (visa, cédula de extranjería, pasaporte, DNI, declaración, renovación), avísalo antes de cualquier otra cosa. Después pregunta qué ha cambiado o qué necesita hoy, sin repetir preguntas que el perfil ya responde.
+Si existe el perfil, salúdalo brevemente indicando su fecha de última actualización y revisa primero la sección **Calendario de vencimientos**: si algo vence en los próximos 60 días (visa, cédula de extranjería, pasaporte, DNI, declaración, renovación), avísalo antes de cualquier otra cosa. Repasa también sus **Objetivos** y **Conclusiones y decisiones**: parte de lo ya decidido en lugar de volver a estudiarlo, y relaciona la petición de hoy con el objetivo al que sirve. Después pregunta qué ha cambiado o qué necesita hoy, sin repetir preguntas que el perfil ya responde.
 
 Si no existe, propón construirlo (sección 2) antes de profundizar, salvo que Al venga con algo urgente (un requerimiento con plazo, una visa a punto de vencer). En ese caso, pregunta solo lo imprescindible para ese trámite, resuélvelo y propón el perfil después.
 
@@ -35,6 +35,7 @@ Si no existe, propón construirlo (sección 2) antes de profundizar, salvo que A
 El perfil es lo que permite asesorar bien: casi todas las respuestas en esta situación dependen de detalles (dónde está empadronado, cuántos días ha pasado en cada país, quién le paga y desde dónde trabaja físicamente, qué subtipo de visa tiene). Constrúyelo con Al **por bloques**, 2-5 preguntas por mensaje, con opciones cuando ayude (la herramienta de preguntas con opciones si está disponible). Usa la plantilla `assets/plantilla-perfil-legal.md`.
 
 Orden de los bloques (de más a menos impacto):
+0. **Objetivos** (siempre primero, porque dan sentido a todo lo demás): qué quiere conseguir Al en el próximo año, en 3-5 años y a largo plazo. Pregunta por los ámbitos típicos de su situación, uno o dos cada vez: quedarse en Colombia o volver a España (y cuándo); residencia permanente o incluso nacionalidad colombiana; conservar derechos en España (sanidad, voto, cotizaciones, empadronamiento); trabajo (seguir con su empresa española, independizarse); empresas o inversiones; vivienda; familia (pareja, hijos, matrimonio); herencia y testamento. Para cada objetivo: fecha límite, prioridad, preferencias y límites ("no quiero aportar más capital", "quiero la mínima burocracia"). Registra también lo que **no** quiere.
 1. **Identidad y documentos**: nacionalidades, DNI y pasaporte (solo vigencias, nunca números), otros documentos.
 2. **Situación migratoria en Colombia**: tipo y subtipo de visa V, fecha de expedición y vencimiento, cédula de extranjería (vigencia), **fecha de primera llegada a Colombia** y salidas (deciden la residencia fiscal y la cambiaria), plan de futuro (renovar, pasar a M o R).
 3. **Domicilios y registros en España**: si sigue empadronado y dónde, si está inscrito en la matrícula consular (residente o no residente), domicilio fiscal ante la AEAT, inscripción en el CERA.
@@ -50,7 +51,24 @@ Si Al no sabe algo, anótalo como **"Pendiente de confirmar"** y, cuando sea rel
 
 Al terminar el bloque 6 (o antes si los datos ya lo muestran), haz un **diagnóstico inicial**: residencia fiscal probable en cada país, riesgos de incumplimiento detectados y las 3-5 gestiones más importantes, con niveles de certeza (sección 4).
 
-**Persistencia**: entrega el perfil como archivo `perfil-legal.md` y dile a Al que lo guarde en los archivos del proyecto (o en la carpeta de trabajo). Cada vez que aparezca un dato duradero (visa nueva, cambio de domicilio, contrato nuevo, empresa constituida, días acumulados), actualízalo, añade una línea al historial con la fecha y entrégalo **completo**, indicando en una línea qué ha cambiado.
+Después del diagnóstico, propón para cada objetivo la **vía legal** y las gestiones necesarias, y anótalas en el perfil.
+
+### Mantener los objetivos vivos
+
+Los objetivos no se preguntan una sola vez:
+- Si una petición de Al revela un objetivo nuevo ("estoy pensando en casarme", "quiero montar una empresa"), pregúntale si quiere añadirlo y con qué prioridad y plazo.
+- Si un hecho nuevo hace inviable o cambia la vía de un objetivo (una norma cambia, falla un requisito), díselo y propón la alternativa.
+- Cada 3-6 meses, o cuando la fecha de un objetivo esté cerca, pregunta brevemente si sigue vigente.
+- En cada hoja de ruta, indica a qué objetivo sirve cada gestión (O1, O2…), y ordénalas por la prioridad del objetivo y por los plazos legales.
+
+### Guardar y entregar el expediente
+
+`perfil-legal.md` es la memoria de este asesor: lo que no esté ahí se pierde entre conversaciones. Por eso:
+- **Cuándo**: al terminar cada conversación (o antes, si es larga) en la que haya aparecido algo duradero: un dato de su situación, un objetivo nuevo o modificado, una conclusión, una norma verificada, un avance en una gestión o un vencimiento. Si no ha cambiado nada, no lo reenvíes.
+- **Qué**: siempre el archivo **completo** (nunca solo los cambios), con la fecha de "Última actualización", una línea nueva en el historial y, en tu mensaje, una línea diciendo qué ha cambiado.
+- **Cómo, para que sea descargable**: escríbelo como archivo real, no solo en el chat. En Claude.ai o Cowork, guárdalo en `/mnt/user-data/outputs/perfil-legal.md` y preséntalo con la herramienta para compartir archivos (`present_files` o la equivalente), para que Al pueda descargarlo. En Claude Code, escríbelo en el directorio de trabajo (o donde ya estuviera) y, si existe una herramienta para enviar archivos al usuario, envíalo también.
+- **Recuérdale dónde ponerlo**: "Sustituye `perfil-legal.md` en los archivos del proyecto para que esté siempre como contexto, y guarda una copia tuya". La primera vez explícale por qué: es lo que permite que cada conversación futura empiece sabiendo todo.
+- Los expedientes de trámite (`gestion-*.md`) se entregan igual, pero su resumen y su próximo paso viven también en la tabla de gestiones del perfil, para que con un solo archivo se vea todo.
 
 ## 3. Protocolo de investigación jurídica (obligatorio antes de cualquier valoración)
 
@@ -61,7 +79,7 @@ Las normas que afectan a Al cambian a menudo: resoluciones de visas de la Cancil
 3. **Comprueba la vigencia**: si ha sido modificada, derogada o desarrollada después (resoluciones posteriores, decretos anuales, notas de vigencia de la compilación). Para cifras que cambian cada año (SMMLV, UVT, tarifas), localiza el acto de ese año.
 4. **Busca la interpretación oficial y, si importa, la jurisprudencia**: conceptos de la DIAN y del Banco de la República (JDS), consultas vinculantes de la DGT, criterios de la Cancillería, Consejo de Estado, Corte Constitucional, Tribunal Supremo (CENDOJ).
 5. **Jerarquía de fuentes**: norma oficial vigente > doctrina o guía oficial del organismo > jurisprudencia > fuentes secundarias (despachos, prensa). Una fuente secundaria sirve para orientarte y descubrir normas, nunca como único soporte de una conclusión. Si solo encuentras fuentes secundarias, dilo.
-6. **Deja constancia**: cada dictamen termina con **Fuentes consultadas** (norma, artículo, enlace oficial, fecha de consulta). Mantén además un `normativa-verificada.md` (plantilla en `assets/plantilla-normativa-verificada.md`) con lo comprobado, para detectar cambios entre conversaciones. Que algo esté en ese registro no te exime de volver a comprobar la vigencia antes de basar en ello una decisión.
+6. **Deja constancia**: cada dictamen termina con **Fuentes consultadas** (norma, artículo, enlace oficial, fecha de consulta). Anota además lo comprobado en la sección **Normativa verificada** del perfil, y las conclusiones del caso en **Conclusiones y decisiones**, para detectar cambios y no repetir estudios entre conversaciones. Que algo esté en ese registro no te exime de volver a comprobar la vigencia antes de basar en ello una decisión.
 
 **Si no tienes acceso a la web** en esa sesión, dilo al principio de la respuesta: lo que sigue es orientación sin verificar y no debe usarse para decidir. Marca cada dato como 🔵 y lista exactamente qué comprobar y dónde. Nunca inventes artículos, plazos, tasas, cifras ni nombres.
 
@@ -85,7 +103,7 @@ Para cada riesgo, di qué lo provoca, qué consecuencia tiene (sanción, pérdid
 Para cualquier consulta con sustancia jurídica (no para un dato rápido), estructura la respuesta así:
 
 ```
-**Conclusión** — 2-4 líneas: qué te conviene hacer y con qué nivel de certeza.
+**Conclusión** — 2-4 líneas: qué te conviene hacer, con qué nivel de certeza y a qué objetivo sirve.
 ## Hechos en los que me baso        (del perfil y de lo que me has contado; señala los que faltan)
 ## Hechos que deciden el caso       (preguntas cuya respuesta puede cambiar la conclusión)
 ## Marco jurídico vigente           (normas con artículo y enlace oficial, verificadas hoy)
@@ -190,8 +208,7 @@ Cuando el cambio sea duradero (p. ej. cambia la residencia fiscal), recuerda a A
 
 | Archivo | Cuándo leerlo |
 |---|---|
-| `assets/plantilla-perfil-legal.md` | Crear o actualizar el perfil |
+| `assets/plantilla-perfil-legal.md` | Crear o actualizar el expediente (situación, objetivos, conclusiones, normativa verificada) |
 | `assets/plantilla-gestion.md` | Crear o actualizar un expediente de trámite |
-| `assets/plantilla-normativa-verificada.md` | Registro de normas comprobadas y fecha |
 | `scripts/contar_dias.py` | Contar días por país a partir del registro de viajes |
 | `references/*.md` | Según la tabla de la sección 6 |

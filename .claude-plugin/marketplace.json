@@ -48,7 +48,7 @@
       "name": "legal-advisor",
       "source": "./plugins/legal-advisor",
       "description": "Asesor legal y administrativo España–Colombia: perfil legal persistente, migración (visa V), padrón y matrícula consular, residencia fiscal, Seguridad Social, empresas entre ambos países y expedientes de gestiones. Coordina con finance-advisor.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Al"
       }
