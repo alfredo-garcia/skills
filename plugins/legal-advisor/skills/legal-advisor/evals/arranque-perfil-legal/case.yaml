@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: arranque-perfil-legal
+expected_outcome: |
+  Propone construir el perfil legal por bloques, pregunta pocos datos clave a la vez (empadronamiento, días en cada país, cédula de extranjería, autorización de la empresa) y adelanta que la visa V no impide ser residente fiscal en Colombia, marcando niveles de certeza.
