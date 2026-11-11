@@ -1,0 +1,4 @@
+schema_version: "1.1"
+name: conteo-dias-residencia
+expected_outcome: |
+  Cuenta los días con el script contar_dias.py (no de cabeza), concluye que supera 183 días en Colombia en 2026 y analiza la residencia en España (días, centro de intereses, empadronamiento) y el desempate del convenio.

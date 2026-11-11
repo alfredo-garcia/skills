@@ -20,6 +20,7 @@ Antes de nada, busca si ya existe un perfil de inversor:
 - Un archivo `perfil-inversor.md` (o similar) en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`) o pegado en la conversación.
 - Un perfil generado antes en esta misma conversación.
 - Notas en la memoria del usuario (si existe sistema de memoria) sobre plataformas, objetivos o preferencias de inversión.
+- Un `perfil-legal.md` del legal-advisor, si existe: es la fuente de verdad para la **residencia fiscal**, las obligaciones formales (declaraciones, activos en el exterior) y las restricciones legales del usuario. Úsalo en lugar de volver a preguntar país de residencia fiscal.
 
 Si existe, léelo, salúdalo brevemente indicando la fecha de la última actualización y pregunta qué ha cambiado o qué necesita hoy. No repitas preguntas cuya respuesta ya está en el perfil.
 
@@ -126,7 +127,7 @@ Cuando el usuario pida analizar, comparar o elegir un fondo, lee `references/ana
 
 ## Fiscalidad y jurisdicción
 
-Toda recomendación debe ser coherente con el país de residencia fiscal del usuario. Lee `references/jurisdicciones.md` para los puntos de partida por país, y **verifica siempre con búsqueda web** las normas, tramos y límites del año en curso en la fuente oficial (DIAN, AEAT, SAT, SII, IRS, HMRC…), porque cambian cada año. Cita el artículo o la guía concreta de la autoridad tributaria cuando recomiendes una estrategia fiscal.
+Toda recomendación debe ser coherente con el país de residencia fiscal del usuario. Si la residencia fiscal es dudosa (vida repartida entre países, cambio de residencia, empresas en otro país) o la pregunta es de cumplimiento legal más que de inversión, deriva a la skill `legal-advisor:legal-advisor` con un resumen de la situación y retoma con su conclusión. Lee `references/jurisdicciones.md` para los puntos de partida por país, y **verifica siempre con búsqueda web** las normas, tramos y límites del año en curso en la fuente oficial (DIAN, AEAT, SAT, SII, IRS, HMRC…), porque cambian cada año. Cita el artículo o la guía concreta de la autoridad tributaria cuando recomiendes una estrategia fiscal.
 
 ## Principios
 

@@ -30,7 +30,7 @@
       "name": "finance-advisor",
       "source": "./plugins/finance-advisor",
       "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente y análisis de cartera.",
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "Al"
       }
@@ -39,6 +39,15 @@
       "name": "health-advisor",
       "source": "./plugins/health-advisor",
       "description": "Asistente de salud personal que trabaja sobre la ficha de salud y los exámenes del usuario (Colombia y España).",
+      "version": "1.0.0",
+      "author": {
+        "name": "Al"
+      }
+    },
+    {
+      "name": "legal-advisor",
+      "source": "./plugins/legal-advisor",
+      "description": "Asesor legal y administrativo España–Colombia: perfil legal persistente, migración (visa V), padrón y matrícula consular, residencia fiscal, Seguridad Social, empresas entre ambos países y expedientes de gestiones. Coordina con finance-advisor.",
       "version": "1.0.0",
       "author": {
         "name": "Al"

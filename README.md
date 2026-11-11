@@ -15,6 +15,8 @@ plugins/
                          por eso van juntas)
   finance-advisor/       asesor de inversiones
   health-advisor/        asistente de salud personal
+  legal-advisor/         asesor legal España–Colombia (migración, padrón, residencia fiscal,
+                         Seguridad Social, empresas); coordina con finance-advisor
 ```
 
 `sdlc-suite` incluye un hook (`hooks/prd_gate.py`) que bloquea escribir código sin visión/tech aprobadas, rama de feature y PRD `Approved` (`code_gate` en `SDLC.md`), y el subagente `pr-reviewer` para la revisión independiente.
