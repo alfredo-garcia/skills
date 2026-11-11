@@ -4,14 +4,14 @@ Mapa de qué revisar. Verifica siempre requisitos, plazos y tasas vigentes en la
 
 ## Colombia — visa V y estatus migratorio
 
-**Marco**: régimen de visas regulado por resolución de la Cancillería (Ministerio de Relaciones Exteriores); la vigente en 2022-2025 era la Resolución 5477 de 2022 con modificaciones posteriores. Comprueba si hay una más reciente.
+**Marco**: régimen de visas de la Cancillería (Resolución 5477 de 2022 y modificaciones). El detalle por tipo y vía de visa, y lo que hay que comprobar antes de recomendar una, está en `visas-colombia.md`.
 
 Puntos a revisar con el perfil de Al:
 - **Subtipo de visa V** (p. ej. nómada digital u otro) y sus condiciones: qué actividades permite, si permite trabajar para empleadores o clientes colombianos, duración máxima, si admite beneficiarios.
 - **Cédula de extranjería**: obligatoria para visas de más de 3 meses; se tramita ante Migración Colombia en un plazo corto desde la expedición de la visa o la entrada al país (históricamente 15 días calendario). Vigencia ligada a la visa: al renovar la visa hay que renovar la cédula.
 - **Registro y novedades ante Migración Colombia**: cambios de domicilio, ocupación o estado civil pueden tener que reportarse; verifica obligaciones actuales y sanciones (multas por no tramitar la cédula a tiempo o por permanencia irregular).
 - **Salidas y entradas**: si las salidas prolongadas afectan a la vigencia o a la renovación.
-- **Paso a visa M o R**: la visa V, en general, **no acumula tiempo** para la visa de residente R; la visa M sí (tras varios años continuos con M se puede pedir R). Si Al quiere quedarse a largo plazo, analiza qué vía de visa M encaja (trabajador, socio o accionista, inversionista, cónyuge/compañero de colombiano, etc.) y los requisitos de cada una. Verifica plazos y montos (p. ej. inversión mínima en SMMLV).
+- **Paso a visa M o R**: la visa V, en general, no acumula tiempo para la R; la M sí. Para elegir la vía de M o R, sigue `visas-colombia.md`, y si es por inversión, `regimen-cambiario.md` (la residencia cambiaria a la fecha de la inversión decide si sirve).
 - **Seguro médico**: la visa V suele exigir una póliza de salud con cobertura en Colombia durante toda la estancia. Comprueba que esté vigente y que cumpla lo exigido.
 - **Certificado de movimientos migratorios**: lo expide Migración Colombia; útil para acreditar días de presencia (residencia fiscal).
 
