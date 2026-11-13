@@ -46,7 +46,7 @@ Read `SKILL_DIR/references/release_playbook.md` first.
    - **`production`:** all sections, including mobile store process with staged/phased rollout and halt criteria, minimum supported version and forced update, cross-surface deploy ordering, a go/no-go checklist, rollback per surface (including what can't be rolled back), hotfix flow, release notes policy, and the post-release monitoring window.
    - **`personal`:** §1 versioning, §2 branching, §9 rollback in a few lines. The rest "n/a (personal)".
 3. Make sure §2 matches `SDLC.md`'s `base_branch`, `branch_pattern` and `commit_tag`. Propose changes to those lines if needed (shown, approved).
-4. **Review & approval,** in chunks for `production`. Remove the tags, save at `<docs_root>/release/release_process.md` stamped, and apply `release_process: approved (YYYY-MM-DD)` in `SDLC.md`.
+4. **Review & approval,** in chunks for `production`. Remove the tags, save at `<docs_root>/release/release_process.md` stamped, and apply `release_process: approved (YYYY-MM-DD)` in `SDLC.md` (status bookkeeping, protocol §6: no second confirmation).
 
 ## Mode B: Plan a Release
 

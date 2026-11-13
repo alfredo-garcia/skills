@@ -8,6 +8,27 @@
 
 ---
 
+## Lite variant (`rigor: personal`)
+
+One screen at most. No separate approval in `flow: autopilot`: engineering-lead shows a three-line summary and starts building.
+
+```markdown
+# Implementation Plan: [Feature Name]
+> Project: `<project_id>` · Feature: `<project_id>/<id>` · Variant: lite · Branch: `<branch>` · Status: In progress / Done (YYYY-MM-DD)
+
+Approach: [one or two lines: what changes and the main risk]
+
+## Slice 1: [user-visible outcome]
+- [ ] T1 [what changes] (AC-1, AC-2)
+- [ ] T2 …
+Review: [pending / approved (date, commit range) / changes requested: blockers]
+
+## Slice 2: …
+
+## Deviations
+[none, or what differs from the PRD/UX Flow and who approved it]
+```
+
 ## Structure
 
 ```markdown

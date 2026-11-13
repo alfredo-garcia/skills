@@ -97,7 +97,7 @@ Present the drivers, the per-surface comparisons and the documents. For `product
 
 ### 7. Save and close Phase 0.2
 - Save everything at its conventional path, stamped `Project: <project_id>` (protocol §9).
-- Show and apply the `SDLC.md` changes: `tech_foundations: approved (YYYY-MM-DD)`, plus code paths if the repo structure defines them.
+- Apply `tech_foundations: approved (YYYY-MM-DD)` in `SDLC.md` (status bookkeeping, protocol §6: no second confirmation). Code-path changes, if the repo structure defines them, are configuration: show them for approval first.
 - Offer the `CLAUDE.md` snippet with the `@` import of core `tech_standards.md` (`TEMPLATES/sdlc_config_template.md`).
 - **Next steps, in order:** Mode E here (enforcement; required for `production` before the first implementation); `qa-engineer` Mode A (test strategy, required for `production`); `ux-designer` Mode 0 if there are UI surfaces; `platform-engineer` Mode A (required for `production`); `release-manager` Mode A (required for `production`); Mode D here if the project needs subagents (see below). Say which apply to this project and why.
 
@@ -128,7 +128,7 @@ Run when `product-manager` finishes a PRD (**required before UX and implementati
 ## Mode D: Subagents
 
 Read `SKILL_DIR/references/subagents_guide.md`.
-0. **Always create `<id>-pr-reviewer`** (read-only; follows `engineering-lead`'s review checklist and the review-only rules of §17), in every project and at any rigor, as part of Phase 0.2c. It's the independent reviewer when there's no human one. No approval question is needed beyond showing the file you'll create.
+0. **Always create `<id>-pr-reviewer`** (read-only, `model: sonnet`; follows `engineering-lead`'s review checklist and the review-only rules of §17), in every project and at any rigor, as part of Phase 0.2c. It's the independent reviewer when there's no human one. No approval question is needed beyond showing the file you'll create.
 1. **For any other subagent, decide whether it's warranted,** per protocol §12: recommended when `rigor: production` and there are 2+ code surfaces, or a team, or heavy cross-cutting rules. For `personal`, only if the user asks. If they're not warranted, say so in one line and stop.
 2. Propose the minimal set (typically one read-only reviewer per code surface, plus cross-cutting reviewers like `api-contract-reviewer` only for `production`). Give each a name, purpose and tools. Implementer agents only if the user wants delegated implementation.
 3. On approval, create `.claude/agents/<name>.md` in the project from `TEMPLATES/subagent_template.md`. **Never embed copies of the standards;** the agent reads the project's docs at the start of every task. Add the names to `subagents` in `SDLC.md`.

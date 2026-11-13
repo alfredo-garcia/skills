@@ -29,6 +29,9 @@
 - name: My Project
 - docs_language: es                 # language for all document prose (es, en, …)
 - rigor: personal                   # personal | production   (see Rigor in the notes above)
+- flow: autopilot                   # autopilot | step. autopilot = skills chain on their own and stop only at PRD approval,
+                                    # prototype sign-off and merge (protocol §8 Fast lane). Omit for the default:
+                                    # autopilot when rigor is personal, step when production
 - surfaces: web                     # comma-separated, any of: backend, web, android, ios, cli, worker  (or: none)
                                     # these are TARGETS. Native vs cross-platform etc. is decided by tech-lead
 
@@ -112,10 +115,11 @@ Rules:
 - When implementing a feature, follow its PRD and UX Flow; flag any contradiction instead of
   resolving it silently.
 - Build features through their implementation plan (docs/features/<id>_<slug>_impl_plan.md):
-  one task, one small PR, linked to its FR/ACs and tests. If a spec is ambiguous or contradicts
+  one task, one small PR, linked to its FR/ACs and tests (rigor personal: one commit per task
+  on the feature branch). If a spec is ambiguous or contradicts
   itself, stop and say so; never resolve it in code.
-- Code is never approved by the session or agent that wrote it; every PR is reviewed by the
-  project's pr-reviewer subagent (and the CI review, when configured) against the PRD, UX Flow,
+- Code is never approved by the session or agent that wrote it; every PR (rigor personal: every
+  slice) is reviewed by the project's pr-reviewer subagent (and the CI review, when configured) against the PRD, UX Flow,
   test plan and the review-only rules in tech_standards §17. High-risk PRs (migrations, auth,
   payments, personal data, breaking client changes, infrastructure/secrets, changes to the
   standards, checks or CI) are never merged without my explicit approval.

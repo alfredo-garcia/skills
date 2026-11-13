@@ -41,8 +41,8 @@ Each skill refers to this folder as `${CLAUDE_SKILL_DIR}/../document-templates`.
 | `adr_template.md` | Architecture Decision Record | `<docs_root>/architecture/adr/<NNN>_<slug>.md` |
 | `ui_standards_template.md` | UI Standards (Phase 0.3) | `<docs_root>/context/ui_standards.md` |
 | `ui_kit_registry_template.md` | UI Kit Registry (Phase 0.3) | `<docs_root>/context/ui_kit_registry.md` |
-| `feature_name_template.md` | Feature definition | `<features_root>/<id>_<slug>.md` |
-| `feature_name_prd_template.md` | PRD | `<features_root>/<id>_<slug>_prd.md` |
+| `feature_name_template.md` | Feature definition (production; folded into the PRD lite when personal) | `<features_root>/<id>_<slug>.md` |
+| `feature_name_prd_template.md` | PRD (full, or Lite variant when personal) | `<features_root>/<id>_<slug>_prd.md` |
 | `ux_flow_template.md` | UX Flow (component orchestration) | `<features_root>/<id>_<slug>_ux_flow.md` |
 | `master_functional_spec_template.md` | Master Functional Documentation | `<docs_root>/functional-spec.md` (+ `functional/`) |
 

@@ -1,6 +1,6 @@
 {
   "name": "sdlc-suite",
-  "version": "3.6.0",
+  "version": "3.7.0",
   "description": "Product & engineering lifecycle roles: product-manager, tech-lead, qa-engineer, engineering-lead, ux-designer, platform-engineer, release-manager, document-manager, plus the shared document-templates library. Project-agnostic (configured per project by SDLC.md), rigor-aware, multi-surface, monorepo-aware, test-first, with standards enforced by automated checks and independent review, and work tracked in GitHub Issues (Feature \u2192 Story \u2192 Task) with checkpoints.",
   "author": {
     "name": "Al"

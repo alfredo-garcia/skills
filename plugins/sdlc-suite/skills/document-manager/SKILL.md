@@ -53,9 +53,13 @@ You need both Document A and Document B for the feature (except for UI-less feat
 The master doc describes the product **as it currently exists**, so it only absorbs a feature once that feature is merged into `SDLC.md`'s `base_branch`.
 
 1. If the project is a git repo, look for evidence that the feature is merged, **always using the qualified ID** (`<project_id>/<id>`), because in a monorepo other projects have the same bare IDs: commits on the base branch tagged per `commit_tag` (`git log <base_branch> --oneline -F --grep "[<project_id>/<id>]"`), or the feature branch per `branch_pattern` listed in `git branch --merged <base_branch>`. Restrict to this project's folder when useful (`git log <base_branch> -- <project path>`). A bare-ID match (`004`) is not evidence. Show the evidence you found in one or two lines.
-2. If the evidence is clear, ask the user for a one-word confirmation and proceed. If there's no evidence, or it isn't a git repo, ask the user directly: "Is feature `<id>` merged into `<base_branch>`?" Proceed only on an explicit yes.
+2. If the evidence is clear, state it in one line (commit or branch found) and proceed without asking. If there's no evidence, or it isn't a git repo, ask the user directly: "Is feature `<id>` merged into `<base_branch>`?" Proceed only on an explicit yes.
 3. If it's not merged yet, explain in one sentence that the docs are updated after merge so they never describe unshipped behavior, and stop **without writing anything**. If the user explicitly asks for a preview, you may show the redline marked "PREVIEW (not merged) — nothing will be written", but never save it.
 4. Record the merge reference (PR number, commit hash, or "confirmed by user, date") for the changelog.
+
+## `rigor: personal`: optional and batchable
+
+With `personal`, this skill is optional (protocol §8 Fast lane): run it only when the user asks, or when they accept the one-time offer after a merge. It may document **several merged features in one run**: check the merge gate for each, extract them all, and show **one combined redline** (grouped by feature) for a single approval, then write one changelog per feature. A PRD lite (`Variant: lite`) is a valid Document A: its sections map onto the input contract's categories by content.
 
 ## Step 1: Determine mode
 

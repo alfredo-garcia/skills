@@ -66,6 +66,7 @@ TYPE="$(get type)";                 TYPE="${TYPE:-app}"
 NAME="$(get name)"
 LANG_="$(get docs_language)"
 RIGOR="$(get rigor)";               RIGOR="${RIGOR:-personal}"
+FLOW="$(get flow)";                 if [ -z "$FLOW" ]; then [ "$RIGOR" = "production" ] && FLOW=step || FLOW=autopilot; fi
 SURFACES="$(get surfaces)"
 LEGACY_PLATFORMS="$(get platforms)"
 if [ -z "$SURFACES" ] && [ -n "$LEGACY_PLATFORMS" ]; then
@@ -85,6 +86,7 @@ echo "type:          $TYPE"
 echo "name:          ${NAME:-<MISSING>}"
 echo "docs_language: ${LANG_:-<MISSING>}"
 echo "rigor:         $RIGOR"
+echo "flow:          $FLOW"
 echo "surfaces:      ${SURFACES:-<MISSING>}${SURF_NOTE:-}"
 echo "base_branch:   $BASE"
 
@@ -92,6 +94,7 @@ ERR=0
 [ -z "$PROJECT_ID" ] && { echo "CONFIG_ERROR: project_id missing in SDLC.md"; ERR=1; }
 case "$TYPE" in app|shared) ;; *) echo "CONFIG_ERROR: type must be 'app' or 'shared' (got '$TYPE')"; ERR=1 ;; esac
 case "$RIGOR" in personal|production) ;; *) echo "CONFIG_ERROR: rigor must be 'personal' or 'production' (got '$RIGOR')"; ERR=1 ;; esac
+case "$FLOW" in autopilot|step) ;; *) echo "CONFIG_ERROR: flow must be 'autopilot' or 'step' (got '$FLOW')"; ERR=1 ;; esac
 while IFS= read -r sf; do
   [ -z "$sf" ] && continue
   case "$sf" in backend|web|android|ios|cli|worker) ;; *) echo "CONFIG_ERROR: unknown surface '$sf' (allowed: backend, web, android, ios, cli, worker, none)"; ERR=1 ;; esac

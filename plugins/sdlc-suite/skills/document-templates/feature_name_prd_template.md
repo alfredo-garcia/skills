@@ -131,6 +131,50 @@ doc rather than inventing the missing detail.
 - Glossary of any domain terms, links/references to the master doc sections used.
 ```
 
+## Lite variant (`rigor: personal`, product-manager Mode L)
+
+One document that replaces the feature doc + PRD pair. Aim for one or two screens of text. Keep the IDs (`AC-n`, `FR-n`) and the section numbers below exactly, since qa-engineer, engineering-lead, the reviewer and document-manager reference them. A section with nothing to say gets one line ("none" or "n/a: reason"), never an essay.
+
+```markdown
+# PRD: [Feature Name]
+
+> Project: `<project_id>`
+> Variant: lite (rigor personal) · MVP: yes / no — Backlog item: [# or "new"]
+> Tech standards applied: `<docs_root>/context/tech_standards.md` (approved YYYY-MM-DD)
+> Surfaces touched: [from SDLC.md surfaces]
+> Prototype (ux-designer): required / signed off (YYYY-MM-DD) / exempt (YYYY-MM-DD): reason / n/a (no UI surface)
+> Source feature doc: n/a (PRD lite)
+> Status: Draft / Approved
+
+## 1. Goal & Delta
+The outcome (not the mechanic), who it's for (a vision persona), and the concrete "before" state.
+Three to five lines.
+
+## 2. Out of Scope
+What must NOT be built or invented. Bullets.
+
+## 3. User Stories & Acceptance Criteria
+- **As a** [persona], **I want** …, **so that** ….
+  - `AC-1 (FR-1): Given …, when …, then …` (testable; include negative paths and third-party failures)
+
+## 4. Functional Requirements
+1. FR-1: … (atomic, verifiable)
+
+## 5. Data & Contracts
+Only what changes (entities/fields, endpoints or function contracts), per tech_standards §3/§9. Or "none".
+
+## 6. UI States
+Only if a UI surface is touched: screens and their empty / loading / success / error / edge states,
+referencing ui_standards and existing patterns. Or "n/a".
+
+## 7. Edge Cases & Dependencies
+The non-happy paths that matter, and the modules/features/shared deps this touches (one line each).
+Platform or release needs, or "none".
+
+## 8. Open Questions
+Anything deferred by the user. Empty is fine.
+```
+
 ## Section-by-Section Guidance
 
 - **§5 (User Stories & Acceptance Criteria):** acceptance criteria must be testable (Given/When/Then). Reject vague criteria like "works well" or "is fast" — push for a concrete condition (e.g. "Given a cart with 1 item, when the user taps quick-add on a second item, then the cart shows 2 items and the subtotal updates within 1 render cycle").
