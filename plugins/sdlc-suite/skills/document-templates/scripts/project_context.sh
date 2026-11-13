@@ -67,6 +67,16 @@ NAME="$(get name)"
 LANG_="$(get docs_language)"
 RIGOR="$(get rigor)";               RIGOR="${RIGOR:-personal}"
 FLOW="$(get flow)";                 if [ -z "$FLOW" ]; then [ "$RIGOR" = "production" ] && FLOW=step || FLOW=autopilot; fi
+TECHDEC="$(get technical_decisions)"; TECHDEC="${TECHDEC:-user}"; TECHDEC_NOTE=""
+if [ "$TECHDEC" = "auto" ]; then
+  LAST_LOG="$(sed -n '/^## Decision mode log/,/^## /p' "$CFG" | grep -E '^[[:space:]]*-[[:space:]]+[0-9]{4}-[0-9]{2}-[0-9]{2}:' | tail -1)"
+  if ! echo "$LAST_LOG" | grep -qE ':[[:space:]]*auto,[[:space:]]*requested by'; then
+    TECHDEC_NOTE="  <WARNING: 'auto' without a matching last entry in '## Decision mode log'. Treat as 'user' and tell the user (protocol §14)>"
+    TECHDEC="user"
+  else
+    TECHDEC_NOTE="  (log: ${LAST_LOG#*- })"
+  fi
+fi
 SURFACES="$(get surfaces)"
 LEGACY_PLATFORMS="$(get platforms)"
 if [ -z "$SURFACES" ] && [ -n "$LEGACY_PLATFORMS" ]; then
@@ -87,6 +97,7 @@ echo "name:          ${NAME:-<MISSING>}"
 echo "docs_language: ${LANG_:-<MISSING>}"
 echo "rigor:         $RIGOR"
 echo "flow:          $FLOW"
+echo "technical_decisions: $TECHDEC${TECHDEC_NOTE}"
 echo "surfaces:      ${SURFACES:-<MISSING>}${SURF_NOTE:-}"
 echo "base_branch:   $BASE"
 
@@ -95,6 +106,7 @@ ERR=0
 case "$TYPE" in app|shared) ;; *) echo "CONFIG_ERROR: type must be 'app' or 'shared' (got '$TYPE')"; ERR=1 ;; esac
 case "$RIGOR" in personal|production) ;; *) echo "CONFIG_ERROR: rigor must be 'personal' or 'production' (got '$RIGOR')"; ERR=1 ;; esac
 case "$FLOW" in autopilot|step) ;; *) echo "CONFIG_ERROR: flow must be 'autopilot' or 'step' (got '$FLOW')"; ERR=1 ;; esac
+case "$(get technical_decisions)" in ""|user|auto) ;; *) echo "CONFIG_ERROR: technical_decisions must be 'user' or 'auto' (got '$(get technical_decisions)')"; ERR=1 ;; esac
 while IFS= read -r sf; do
   [ -z "$sf" ] && continue
   case "$sf" in backend|web|android|ios|cli|worker) ;; *) echo "CONFIG_ERROR: unknown surface '$sf' (allowed: backend, web, android, ios, cli, worker, none)"; ERR=1 ;; esac

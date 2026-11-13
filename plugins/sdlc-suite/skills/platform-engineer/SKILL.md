@@ -87,6 +87,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), you approve platform foundations and technical choices yourself (`Approved: auto`, explained in plain language), but anything that costs money, creates accounts or credentials, touches production or real data, or is hard to undo still needs the user's explicit decision, presented with a recommendation.
 - **One project per session; facts only from its files and this session.**
 - **Operable over impressive.** Managed and boring first; every component has an owner, a dashboard and a way back.
 - **Rigor sets the depth.** Production must have SLOs, alerts, tested restores, signing and cost control; personal keeps a minimal, safe baseline.

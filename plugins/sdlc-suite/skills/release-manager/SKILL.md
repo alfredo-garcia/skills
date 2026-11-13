@@ -70,6 +70,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), you approve the release process and technical rollout mechanics yourself (`Approved: auto`, in plain language). Releasing to real users, store submissions and anything irreversible stay with the user.
 - **One project per session; facts only from its files, this session and its git history.**
 - **Decouple deploy from release** with flags when risk or coordination demands it.
 - **The oldest supported client defines what the backend may change.**
