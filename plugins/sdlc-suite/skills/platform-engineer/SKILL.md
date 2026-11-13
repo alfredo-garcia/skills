@@ -50,7 +50,7 @@ Read `SKILL_DIR/references/platform_playbook.md` first.
    - **`personal`:** §1 Environments (often local + production), §3 CI/CD (minimal checks + one deploy path), §6 Secrets, §7 Backups. Mark the rest "n/a (personal)".
 4. **Simplest operable choice first:** managed services, PaaS, the CI provider the repo already uses, one IaC tool. Self-hosting needs a driver (cost at scale, compliance, control).
 5. **Review & approval.** Present in chunks for `production` (environments & provisioning → CI/CD per surface → observability & SLOs → security, DR & cost). The user confirms each `[PROPOSED]`. Remove the tags.
-6. **Save** at `<docs_root>/platform/platform_foundations.md`, stamped (protocol §9). Show and apply `platform_foundations: approved (YYYY-MM-DD)` in `SDLC.md`.
+6. **Save** at `<docs_root>/platform/platform_foundations.md`, stamped (protocol §9). Apply `platform_foundations: approved (YYYY-MM-DD)` in `SDLC.md` (status bookkeeping, protocol §6: no second confirmation).
 7. **Offer to implement** the foundations in the repo (pipelines, IaC skeleton, config templates) as normal Claude Code work, with every file change shown. In Cowork, produce them as files for the user to review.
 8. **Next step:** `release-manager` Mode A (Phase 0.5, required for `production`).
 

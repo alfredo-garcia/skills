@@ -29,8 +29,8 @@ Your job is that **"it works" always means "its tests pass"**: every acceptance 
 5. **Gates:**
    - Mode A requires `tech_foundations` approved, **including a test platform** (core TS §14 and the surface files' §9). If the test platform is missing or vague, stop and route to `tech-lead`: choosing test tools is their decision, not yours.
    - Mode B requires an approved PRD (and passed technical review when `production`).
-   - Mode C requires an approved test plan (and the approved UX Flow for UI tests).
-6. **Rigor:** with `personal`, keep everything light: a short strategy, acceptance tests for the main flows, a simple traceability check. With `production`, everything below is mandatory.
+   - Mode C requires an approved test plan (and the approved UX Flow for UI tests). With `rigor: personal`, an approved PRD is enough (plus the approved UX Flow for UI tests): no test plan is needed.
+6. **Rigor:** with `personal`, keep everything light (protocol §8 Fast lane): a short strategy; **Mode B is skipped by default** and Mode C writes the acceptance tests for the main flows straight from the PRD's ACs (the AC tags on the tests are the traceability); a test plan only if the user asks, using the template's Lite variant; a light check before merge. With `production`, everything below is mandatory.
 
 Write prose in `SDLC.md`'s `docs_language`.
 
@@ -54,7 +54,7 @@ Read `SKILL_DIR/references/test_design_playbook.md` first.
 4. **Pick the critical journeys** for end-to-end tests: few, cross-surface, from the core job-to-be-done.
 5. **Integrations:** the backend ↔ clients contract approach and old-client compatibility (with `release-manager`); per third party, sandbox vs double vs recorded responses and the failure modes covered.
 6. **Data, environments, gates, flaky policy, reporting**, as in the template. Agree the CI time budget with `platform-engineer`.
-7. Draft with `TEMPLATES/test_strategy_template.md`, every choice `**[PROPOSED]**` with its rationale. Review in chunks for `production`, remove the tags, save at `<docs_root>/quality/test_strategy.md` stamped, and apply `test_strategy: approved (YYYY-MM-DD)` in `SDLC.md`.
+7. Draft with `TEMPLATES/test_strategy_template.md`, every choice `**[PROPOSED]**` with its rationale. Review in chunks for `production`, remove the tags, save at `<docs_root>/quality/test_strategy.md` stamped, and apply `test_strategy: approved (YYYY-MM-DD)` in `SDLC.md` (status bookkeeping, protocol §6: no second confirmation).
 
 ## Mode B: Feature Test Plan
 
@@ -71,6 +71,7 @@ Read `SKILL_DIR/references/test_design_playbook.md` first.
 2. Run them. They must **fail for the right reason** (the behavior doesn't exist yet), not because of setup errors. Show the result.
 3. Commit them per `commit_tag`, before or alongside the first implementation commit. Implementation (`engineering-lead`, directly or through the project's subagents) is done when they pass, **without weakening them**.
 4. If implementation reveals that a test was wrong, the fix goes through you with the reason shown. A test is never edited just to make it pass.
+5. **Hand-off.** With `flow: autopilot`, invoke `engineering-lead` yourself (Mode A → B); otherwise name it as the next step.
 
 ## Mode D: Verification (before merge and before release)
 

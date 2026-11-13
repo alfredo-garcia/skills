@@ -91,6 +91,7 @@ Keep them loaded for the whole session. If any of them changes during the sessio
 - **Qualified Feature IDs.** Feature IDs are per project, so in a monorepo several projects have a `001`. Outside a project's own files (branch names, commit messages, cross-project requests, conversation) always write `<project_id>/<id>`, e.g. `recetas/004`, following `branch_pattern` and `commit_tag` in `SDLC.md`.
 - **Mismatch between the user and the files.** If the user talks about a product, feature or person that doesn't match the resolved project, pause and confirm which project they mean before continuing.
 - **Configuration changes go to `SDLC.md`, never into a skill.** Show the exact line(s) you'll change and get approval first.
+- **Status bookkeeping is not a configuration change.** The status line that records an approval the user has just given (a Phase 0 line set to `approved (YYYY-MM-DD)`, a PRD header line such as `Test plan: approved` or `Prototype: signed off`, a document's own `Status: Approved`) is applied directly, without a second confirmation, and reported in one line ("`SDLC.md`: `ui_foundations: approved (2026-11-13)`"). Approving the document approves its status line. Everything else in `SDLC.md` (paths, rigor, flow, gates, waivers, `code_gate`, subagents, shared deps) still needs its own approval.
 
 ## 7. Project Init (no `SDLC.md` yet)
 
@@ -123,7 +124,7 @@ Gates for everyday work afterwards:
 
 | Work | Requires |
 |---|---|
-| Feature definition (`product-manager` Mode A) | 0.1 |
+| Feature definition (`product-manager` Mode A) | 0.1. With `rigor: personal` it's folded into the PRD lite (Mode L), see Fast lane below |
 | PRD (`product-manager` Mode B) | 0.1 and 0.2 |
 | PRD technical review (`tech-lead` Mode C) | **Required before UX and implementation when `rigor: production`**; optional when `personal` |
 | Feature Test Plan (`qa-engineer` Mode B) | approved PRD (+ passed technical review when `production`); 0.2b when `production`. **Required for every feature when `production`**; for `personal`, acceptance tests of the main flows suffice |
@@ -152,7 +153,20 @@ The status of each Phase 0 step lives in `SDLC.md` (`## Phase 0`). Only the owni
 10. Independent review of every PR (`engineering-lead` Mode C) + verification (`qa-engineer` Mode D) → merge.
 11. Documentation (`document-manager`) → release (`release-manager` Mode B/C).
 
-For `personal`, steps 3 and 4 are optional, 7 covers the main flows only, 8 can be a short task checklist, and 10 is still an independent review (lighter) plus a light test check.
+For `personal`, use the **Fast lane** below.
+
+**Fast lane (`rigor: personal`).** A lighter lifecycle with fewer documents and fewer stops. Same gates in spirit (an approved spec before code, tests first, independent review), less ceremony:
+
+1. **One spec, the PRD lite** (`product-manager` Mode L): feature definition and PRD in one challenge → draft → review pass, saved only as `<id>_<slug>_prd.md` (no separate feature doc), using the PRD template's Lite variant. **Stop 1: the user approves the PRD.**
+2. **Prototype → sign-off → UX Flow** (`ux-designer`), if the feature touches a UI surface (rules unchanged). **Stop 2: the user signs off the prototype.**
+3. **Acceptance tests first, main flows only** (`qa-engineer` Mode C), straight from the PRD's ACs. No separate test plan unless the user asks for one (then the test plan template's Lite variant).
+4. **Implementation plan, Lite variant** (`engineering-lead` Mode A): a one-screen task checklist. Not a separate approval: show a three-line summary and start building; the user can interrupt.
+5. **Build** (`engineering-lead` Mode B): one feature branch, one commit per task, checks green after every task.
+6. **Independent review per slice**, not per task (`engineering-lead` Mode C): one `pr-reviewer` run on each slice's commit range (one run for the whole feature if it's a single slice). Re-review only when the previous run found blockers, and only on the fix.
+7. **Stop 3: test and approve the whole feature, then merge.** Tasks and stories never stop for the user's testing or approval. Only when every slice is built and reviewed: push the feature branch to the remote (`git push -u origin <branch>`; this push is part of the Fast lane and needs no extra confirmation), and tell the user how to test it: the preview URL if the project has preview deployments (`platform_foundations.md`, or one the push triggers), otherwise the exact command to run it locally from that branch. Present a short summary (what was built, review result, tests, high-risk changes flagged as always) and wait. The user tests the feature as a whole; feedback becomes fix commits on the same branch (pushed again, reviewer re-run only on the fix). Merge into `base_branch` only on the user's explicit approval of the whole feature.
+8. **Documentation is optional** (`document-manager`): offered once after merge, and it may document several merged features in one run.
+
+**Autopilot** (`flow` in `SDLC.md`: `autopilot` | `step`; default `autopilot` when `personal`, `step` when `production`). With `autopilot`, a skill that finishes its step doesn't hand control back with a list of next steps: it announces the hand-off in one line ("→ `qa-engineer` Mode C") and invokes the next role's skill itself (`sdlc-suite:<role>`), continuing the lifecycle above. It stops only at the three stops above, and at any blocker: a failed gate, a spec gap or contradiction, a stack conflict, a conflict in prototype feedback, a new-component announcement, a high-risk change, or checks it can't make green without weakening something. A chained skill **reuses the context already loaded in the session** (protocol, `SDLC.md`, standards, vision, the feature's docs): it doesn't re-run `project_context.sh` or re-read files that haven't changed, and reads only what its own step adds. With `step`, every skill ends by naming the next step, as before.
 
 **Waivers.** The user may explicitly choose to skip a gate (e.g. a quick experiment). Record it in `SDLC.md` as `waived (YYYY-MM-DD): <reason>`, mention once that the resulting output is provisional, and proceed. A waiver is never assumed or inferred; it has to be the user's explicit choice in this session or already recorded in `SDLC.md`.
 
@@ -222,13 +236,15 @@ Eight roles, one owner per kind of decision. When a skill hits a question outsid
 | PRD technical review | Optional | Required before UX/implementation |
 | Test strategy (0.2b) | Short; optional | Required, complete |
 | Standards enforcement (0.2c) | Formatter + linter + approved-dependency check | Every rule classified in §17; high-risk families automated and blocking before the first feature |
-| Implementation plan & independent review | Short task checklist; independent review still required | Full plan per feature; small PRs; review record; author never approves |
-| Test plan, tests first, verification | Acceptance tests for main flows; light check before merge | Test plan per feature, acceptance tests before code, `Verified` verdict required to merge |
+| Feature definition + PRD | One PRD lite (Mode L), one approval | Feature doc, then full PRD |
+| Flow between roles | `autopilot`: skills chain on their own, 3 stops (PRD, prototype, merge) | `step`: the user invokes each step |
+| Implementation plan & independent review | Lite checklist, no separate approval; independent review per slice | Full plan per feature; small PRs; review per PR; review record; author never approves |
+| Test plan, tests first, verification | No test plan by default; acceptance tests for main flows from the PRD's ACs; light check before merge | Test plan per feature, acceptance tests before code, `Verified` verdict required to merge |
 | Platform Foundations (0.4) | Optional, minimal | Required, complete |
 | Release Process (0.5) | Optional | Required |
 | Subagents (Mode D) | `<id>-pr-reviewer` always; others only if the user asks | `<id>-pr-reviewer` always; others recommended when 2+ code surfaces, a team, or heavy cross-cutting rules, created with the user's approval |
 | Automated PR review in CI | Recommended | Required (platform-engineer), as a required status check |
-| Documentation before release | Optional | Merged features must be documented before they're released |
+| Documentation before release | Optional; offered after merge, can batch several features | Merged features must be documented before they're released |
 
 If a `personal` project shows production signals (real users beyond the builder, payments, personal data of others, a team, contractual obligations), `tech-lead` and `product-manager` say so and recommend switching `rigor` (an `SDLC.md` change, with approval). They never switch it silently.
 

@@ -4,6 +4,8 @@
 > why it's worth building — the contract a user and an agent agree to before any implementation
 > detail gets written. Deliberately small: six fields, no technical detail, no exceptions.
 >
+> **Not used with `rigor: personal`:** there, these six fields are folded into the PRD lite (`feature_name_prd_template.md`, Lite variant; product-manager Mode L).
+>
 > **Produced by:** the `product-manager` skill's Mode A, after an interview/challenge process
 > (see that skill's `references/challenge_playbook.md`) — never drafted straight from a raw idea
 > without that step.

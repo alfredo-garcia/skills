@@ -8,6 +8,17 @@
 
 ---
 
+## Lite variant (`rigor: personal`, only if the user asks for a test plan)
+
+```markdown
+# Test Plan: [Feature Name]
+> Project: `<project_id>` · Feature: `<project_id>/<id>` · Variant: lite · Status: Draft / Approved / Verified (YYYY-MM-DD)
+
+| AC / FR | Test (file › name) | Level | Status (pending / failing / passing) |
+|---|---|---|---|
+```
+Nothing else. Uncovered ACs get a one-line reason.
+
 ## Structure
 
 ```markdown

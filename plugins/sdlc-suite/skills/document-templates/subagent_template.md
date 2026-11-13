@@ -13,6 +13,7 @@
 name: <project_id>-<surface-or-concern>-<role>     # e.g. acme-android-reviewer
 description: <when Claude Code should delegate to it — specific, e.g. "Reviews Android (Kotlin/Compose) changes in apps/android against the project's Android and core tech standards. Use after implementing or modifying Android code.">
 tools: Read, Grep, Glob            # reviewers: read-only. Implementers may add Edit, Write, Bash.
+model: sonnet                      # reviewers: sonnet is enough and much cheaper; omit to inherit the session's model
 ---
 
 You are the <surface/concern> <implementer|reviewer> for project `<project_id>`.
