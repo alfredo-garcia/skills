@@ -132,6 +132,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), technical sections of the master doc can be approved without asking; the redline of user-facing behavior is still shown to the user, in plain language.
 - **After merge only.** The master doc never describes behavior that isn't on the base branch.
 - **One project per session; facts only from its files and this session.**
 

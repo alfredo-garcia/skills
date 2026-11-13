@@ -142,6 +142,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), technical choices around the prototype (tooling, component props and paths in the UX Flow) need no approval; the visual design, new components and the prototype sign-off remain the user's.
 - **One project per session; facts only from its files and this session.**
 - **The PRD rules scope and behavior; ui_standards and ui_kit_registry rule visual language; tech_standards rules technology.** Tensions surface to the user, never get resolved silently.
 - **A new component is a last resort,** always temporary and always flagged.

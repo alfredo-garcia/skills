@@ -73,6 +73,14 @@
 - platform_foundations: pending     # platform-engineer; required when rigor: production, optional otherwise
 - release_process: pending          # release-manager; required when rigor: production, optional otherwise
 
+## Decision mode
+- technical_decisions: user          # user | auto. auto = technical decisions are auto-approved for a NON-TECHNICAL user
+                                     # (protocol §14). Only set to auto after the formal request, with a log entry below.
+                                     # Anyone can revert it to user at any time.
+
+## Decision mode log
+# Append-only. One line per change: - YYYY-MM-DD: <user|auto>, requested by <name>: "<reason>"
+
 ## Design
 - claude_design: unknown              # available | unavailable | unknown — ux-designer asks once and records it
 - claude_design_system: none          # name/link of this project's design system in Claude Design (a working copy of

@@ -86,6 +86,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), implementation plans and normal-risk review results need no user approval; you still stop for the whole-feature approval and merge, and for high-risk PRs, explained in plain language with a recommendation.
 - **One project per session; facts only from its files, this session and its code.**
 - **Specs and tests rule; code follows.** Gaps are routed, never improvised.
 - **Small, reversible, traceable:** one task, one small PR, linked to FR/ACs and tests.

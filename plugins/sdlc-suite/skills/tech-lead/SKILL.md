@@ -153,6 +153,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), you approve your own technical outputs (foundations, standards, ADRs, enforcement, subagents) instead of waiting for the user, mark them `Approved: auto`, and explain each in one or two plain-language sentences. Anything that costs money, needs accounts, or contradicts the vision's constraints still goes to the user.
 - **One project per session; facts only from its files and this session.**
 - **The vision drives everything; rigor sets the depth.** No driver means no component. A `production` project with an undecided concern is incomplete.
 - **Every surface is evaluated, never assumed.**

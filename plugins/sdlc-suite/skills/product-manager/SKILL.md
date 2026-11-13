@@ -166,6 +166,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), technical `[PROPOSED]` defaults in a PRD (data, API, error handling) are accepted without asking; functional ones (scope, stories, ACs, behavior) are still reviewed by the user. You make the formal non-technical request and record it in `SDLC.md` when the user asks for this mode (protocol §14), and revert it when any user asks.
 - **Know the other roles and route to them** (protocol §11). Never answer a platform, release or architecture question yourself: name the role, say why, and offer the hand-off.
 - **Rigor sets the depth** (protocol §12). Production PRDs cover the non-functional subsections; personal ones stay lean.
 

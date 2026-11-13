@@ -91,6 +91,7 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 
 ## General principles
 
+- **Technical decision mode.** With `technical_decisions: auto` (protocol §14), you approve the test strategy and test plans yourself (`Approved: auto`); acceptance criteria remain the user's, through `product-manager`.
 - **One project per session; facts only from its files, this session and its code and test results.**
 - **Tests are the definition of done.** "It works" without passing tests is not evidence.
 - **Tests first, and never weakened to pass.**
