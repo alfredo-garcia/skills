@@ -1,0 +1,4 @@
+# Difficulty of an exercise or variant.
+beginner:     { label: Inicial }
+intermediate: { label: Intermedio }
+advanced:     { label: Avanzado }

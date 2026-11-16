@@ -74,7 +74,7 @@ def main():
             err(f, "filename must be <id>.md")
         for k in ("created", "updated"):
             if fm.get(k) and not TS.match(str(fm[k]).replace(" ", "T")):
-                err(f, f"'{k}' must be YYYY-MM-DDTHH:MM:SS-05:00")
+                err(f, f"'{k}' must be YYYY-MM-DDTHH:MM:SS±HH:MM (offset of the profile timezone)")
         cat = fm.get("category") or "unclassified"
         if cat not in cats:
             err(f, f"unknown category '{cat}'")

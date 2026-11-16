@@ -1,0 +1,11 @@
+# Equipment an exercise or variant needs. `none` = bodyweight, nothing else.
+none:           { label: Sin material }
+mat:            { label: Esterilla }
+loop-band:      { label: Banda elástica cerrada (minibanda) }
+resistance-band: { label: Banda elástica larga }
+door-anchor:    { label: Anclaje de puerta }
+bench:          { label: Banco o silla }
+wall:           { label: Pared }
+dumbbells:      { label: Mancuernas }
+pool:           { label: Piscina }
+sauna:          { label: Sauna }

@@ -1,6 +1,6 @@
 # Plantilla: perfil-legal.md
 
-Es el **expediente de conocimiento** de Al: todo lo que sabes de su situación legal, sus objetivos, lo que ya se ha concluido y la normativa comprobada, en un único archivo. Al lo descarga, lo guarda y lo mantiene en los archivos del proyecto para que cada conversación empiece sabiendo todo esto. Escríbelo para que cualquier sesión futura (o un abogado al que Al se lo pase) pueda trabajar con él sin preguntar de nuevo lo que ya está resuelto.
+Es el **expediente de conocimiento** del usuario: todo lo que sabes de su situación legal, sus objetivos, lo que ya se ha concluido y la normativa comprobada, en un único archivo. El usuario lo descarga, lo guarda y lo mantiene en los archivos del proyecto para que cada conversación empiece sabiendo todo esto. Escríbelo para que cualquier sesión futura (o un abogado al que el usuario se lo pase) pueda trabajar con él sin preguntar de nuevo lo que ya está resuelto.
 
 Usa esta estructura al crear o actualizar el perfil. Deja "Pendiente de confirmar" en lo que no se sepa; no inventes datos. Nunca anotes números de documento, NIF/NIE/NIT, IBAN ni contraseñas: solo tipos, vigencias y estados.
 
@@ -11,14 +11,14 @@ Usa esta estructura al crear o actualizar el perfil. Deja "Pendiente de confirma
 ## Resumen de situación
 3-5 líneas: nacionalidad, dónde vive, estatus migratorio, residencia fiscal probable en cada país, trabajo, gestiones abiertas más importantes.
 
-## Objetivos de Al
+## Objetivos del usuario
 Lo que quiere conseguir. Toda recomendación se orienta a estos objetivos; si una gestión no sirve a ninguno, pregúntate si hace falta.
 
 | # | Objetivo | Horizonte / fecha límite | Prioridad | Vía legal elegida o en estudio | Bloqueos / requisitos pendientes | Gestiones vinculadas | Estado |
 |---|---|---|---|---|---|---|---|
 | O1 | p. ej. Residencia permanente en Colombia (visa R) | 2032 | Alta | Visa M inversionista → R | Confirmar registro IED de inmueble | gestion-2026-11-visa-m | En curso |
 
-**Preferencias y límites** (lo que Al quiere evitar o priorizar): p. ej. no perder derechos en España, mínima burocracia, no aportar más capital, privacidad, plazos personales (viajes, familia).
+**Preferencias y límites** (lo que el usuario quiere evitar o priorizar): p. ej. no perder derechos en España, mínima burocracia, no aportar más capital, privacidad, plazos personales (viajes, familia).
 
 **Objetivos descartados o cumplidos**: [objetivo, fecha, motivo] — no los borres: explican decisiones pasadas.
 
@@ -125,12 +125,12 @@ Lo ya analizado y decidido, para no repetir el estudio desde cero. Cada entrada 
 
 | Fecha | Cuestión | Conclusión | Certeza | Base (norma / fuente) | Revisar si… |
 |---|---|---|---|---|---|
-| | p. ej. ¿La compra de Makalu es IED registrable? | | 🟡 | Decreto 1068/2015 art. 2.17.1.2 | cambia la circular DCIP-83 |
+| | p. ej. ¿La compra del inmueble es IED registrable? | | 🟡 | Decreto 1068/2015 art. 2.17.1.2 | cambia la circular DCIP-83 |
 
 ## Normativa verificada
 Normas y cifras comprobadas en fuente oficial. Que algo esté aquí no exime de volver a comprobar su vigencia antes de basar una decisión en ello, pero sirve para citar con precisión y detectar cambios.
 
-| Tema | Norma / dato | Contenido relevante para Al | Enlace oficial | Verificado | Cambios detectados |
+| Tema | Norma / dato | Contenido relevante para el usuario | Enlace oficial | Verificado | Cambios detectados |
 |---|---|---|---|---|---|
 | Visas CO | Resolución 5477 de 2022 y modificaciones | | | AAAA-MM-DD | |
 | Tarifas visas CO | Resolución de tarifas del año | | | | |
@@ -139,11 +139,11 @@ Normas y cifras comprobadas en fuente oficial. Que algo esté aquí no exime de 
 | Residencia fiscal ES / CO | LIRPF art. 9 / E.T. art. 10 | | | | |
 
 ## Datos que faltan
-Preguntas pendientes para Al, ordenadas por impacto en sus objetivos.
+Preguntas pendientes para el usuario, ordenadas por impacto en sus objetivos.
 - [ ] 
 
 ## Profesionales de referencia
-- [Rol, país, cómo contactar] (solo si Al los ha indicado)
+- [Rol, país, cómo contactar] (solo si el usuario los ha indicado)
 
 ## Historial de cambios
 - AAAA-MM-DD: Perfil creado a partir de [conversación / documentos].

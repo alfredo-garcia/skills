@@ -4,8 +4,8 @@
     "name": "Al"
   },
   "metadata": {
-    "description": "Skills y plugins propios de Al",
-    "version": "1.0.0"
+    "description": "Skills y plugins de Al, reutilizables por cualquiera: cada usuario trabaja sobre su propio knowledge base.",
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -20,8 +20,8 @@
     {
       "name": "knowledge-base-suite",
       "source": "./plugins/knowledge-base-suite",
-      "description": "Base de conocimiento personal de Al (~/knowledge-base): convenciones de almacenamiento, enrutado del inbox, notificaciones por Telegram, recetas/despensa, planes y entrenamiento.",
-      "version": "1.1.0",
+      "description": "Knowledge base personal multiusuario (carpeta local sincronizada con Google Drive): convenciones de almacenamiento, arranque desde cero con perfil del dueño (_profile.yaml), cada skill monta su propio grupo, enrutado del inbox, notificaciones por Telegram opcionales, recetas/despensa, planes y entrenamiento.",
+      "version": "2.0.0",
       "author": {
         "name": "Al"
       }
@@ -29,8 +29,8 @@
     {
       "name": "finance-advisor",
       "source": "./plugins/finance-advisor",
-      "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente y análisis de cartera.",
-      "version": "1.2.0",
+      "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente en el knowledge base (grupo finance) y análisis de cartera.",
+      "version": "1.3.0",
       "author": {
         "name": "Al"
       }
@@ -38,8 +38,8 @@
     {
       "name": "health-advisor",
       "source": "./plugins/health-advisor",
-      "description": "Asistente de salud personal que trabaja sobre la ficha de salud y los exámenes del usuario (Colombia y España).",
-      "version": "1.0.0",
+      "description": "Asistente de salud personal sobre el grupo health del knowledge base (ficha, dolencias, medicación, pruebas, médicos), con sistemas de salud de España y Colombia. Monta su grupo la primera vez.",
+      "version": "2.0.0",
       "author": {
         "name": "Al"
       }
@@ -47,8 +47,8 @@
     {
       "name": "legal-advisor",
       "source": "./plugins/legal-advisor",
-      "description": "Asesor legal y administrativo España–Colombia: perfil legal persistente, migración (visa V), padrón y matrícula consular, residencia fiscal, Seguridad Social, empresas entre ambos países y expedientes de gestiones. Coordina con finance-advisor.",
-      "version": "1.2.0",
+      "description": "Asesor legal y administrativo España–Colombia: perfil legal y gestiones en el knowledge base (grupo legal), migración, padrón y matrícula consular, residencia fiscal, régimen cambiario, Seguridad Social, empresas entre ambos países. Investiga la ley vigente en fuentes oficiales. Coordina con finance-advisor y health-advisor.",
+      "version": "1.3.0",
       "author": {
         "name": "Al"
       }

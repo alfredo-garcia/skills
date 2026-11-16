@@ -1,0 +1,8 @@
+{
+  "groups": {
+    "finance": {"purpose": "Inversiones y patrimonio: perfil de inversor, cartera y plan.", "path": "finance", "skill": "finance-advisor"}
+  },
+  "domains": {
+    "investor-profile": {"purpose": "Perfil de inversor de cada usuario: situación, objetivos, cartera, plan e historial de cambios.", "type": "collection", "group": "finance", "path": "finance/profile", "schema": 1}
+  }
+}

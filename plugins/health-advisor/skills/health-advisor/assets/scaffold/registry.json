@@ -1,0 +1,48 @@
+{
+  "groups": {
+    "health": {
+      "purpose": "Salud: ficha personal, dolencias, medicación, consultas y pruebas, y médicos y centros.",
+      "path": "health",
+      "skill": "health-advisor"
+    }
+  },
+  "domains": {
+    "health-profile": {
+      "purpose": "Ficha de salud de cada usuario: datos, coberturas por país, antecedentes, hábitos, vacunas, prioridades y pendientes.",
+      "type": "state",
+      "group": "health",
+      "path": "health/profile",
+      "partition": "user",
+      "schema": 1
+    },
+    "conditions": {
+      "purpose": "Una ficha por dolencia o riesgo de salud, con evolución, valoración por niveles de certeza y hoja de ruta.",
+      "type": "collection",
+      "group": "health",
+      "path": "health/conditions",
+      "schema": 1
+    },
+    "medications": {
+      "purpose": "Medicación y suplementos: en curso, a demanda y suspendidos, con la dolencia que tratan.",
+      "type": "state",
+      "group": "health",
+      "path": "health/medications",
+      "partition": "user",
+      "schema": 1
+    },
+    "medical-records": {
+      "purpose": "Consultas, pruebas de imagen, análisis y procedimientos, con el documento original transcrito y adjunto.",
+      "type": "collection",
+      "group": "health",
+      "path": "health/records",
+      "schema": 1
+    },
+    "health-providers": {
+      "purpose": "Médicos, centros, laboratorios, aseguradoras y portales de paciente.",
+      "type": "catalog",
+      "group": "health",
+      "path": "health/providers",
+      "schema": 1
+    }
+  }
+}

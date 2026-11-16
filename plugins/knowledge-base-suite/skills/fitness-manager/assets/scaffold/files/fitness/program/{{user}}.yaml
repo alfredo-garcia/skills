@@ -1,0 +1,22 @@
+# {{name}}'s training program: current phase, constraints, weekly schedule and evolution journal.
+# Routine ids from fitness/routines/items/, stress ids from fitness/_system/stresses.yaml. See fitness/_system/schema.md.
+# Filled by fitness-manager during setup (goals, limitations, availability).
+user: {{user}}
+updated: {{now}}
+phase:
+  label: ""
+  since: {{today}}
+  goal: ""
+constraints:
+  avoid_stresses: []
+  avoid_text: []
+  rules: []
+  pain_watch: []        # e.g. [{ id: leg, label: Pierna }, { id: back, label: Espalda }]
+  red_flags:
+    urgent: []          # stop and seek care today
+    soon: []            # see a professional soon
+schedule:
+  sessions_per_week: [3, 4]
+  week: { mon: [], tue: [], wed: [], thu: [], fri: [], sat: [], sun: [] }
+  note: ""
+journal: []

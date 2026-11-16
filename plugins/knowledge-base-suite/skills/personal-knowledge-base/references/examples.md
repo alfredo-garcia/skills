@@ -31,7 +31,7 @@ release_date: 2026-09-12
 interested: yes
 ---
 
-Tercera entrega. A Al le gustó el estilo de efectos prácticos de las dos primeras.
+Tercera entrega. Le gustó el estilo de efectos prácticos de las dos primeras.
 ```
 
 `movies/index.json`
@@ -83,14 +83,14 @@ neighborhood: Santa Fe
     pantry/              state
       pantry.yaml
     reviews/             state, partition: user
-      al.yaml
+      <user>.yaml
 ```
 
 Inside the group, references are inline by id:
 
 - a recipe line `{ ing: patata, qty: 800, unit: g }` → key `patata` in `food/ingredients/items.yaml`;
 - `pantry.yaml` → `have: [patata, huevo]`, same keys;
-- `reviews/al.yaml` → `favorites: [tortilla-de-patatas]` and `ratings.tortilla-de-patatas.stars: 4`, keyed by recipe id (opinions never live inside the recipe);
+- `reviews/<user>.yaml` → `favorites: [tortilla-de-patatas]` and `ratings.tortilla-de-patatas.stars: 4`, keyed by recipe id (opinions never live inside the recipe);
 - a recipe line `{ ing: sofrito, recipe: sofrito }` → `food/recipes/items/**/sofrito.md`.
 
 Routing: a screenshot dropped in `~/knowledge-base/_inbox/` is classified by `inbox-router` as a recipe and moved unchanged to `food/_inbox/`. The food-manager skill then writes the recipe, adds any new ingredient to the catalog first, and moves the screenshot to `food/_inbox/processed/2026-10-26--tortilla-de-patatas.jpg`.

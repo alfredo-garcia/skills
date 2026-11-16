@@ -1,0 +1,29 @@
+# Muscles worked by exercises (exercise.muscles.primary / secondary). Each belongs to one zone.
+rectus-abdominis:     { label: Recto abdominal,            zone: abdomen }
+transverse-abdominis: { label: Transverso del abdomen,     zone: abdomen }
+diaphragm:            { label: Diafragma,                  zone: abdomen }
+obliques:             { label: Oblicuos,                   zone: obliques }
+quadratus-lumborum:   { label: Cuadrado lumbar,            zone: obliques }
+erector-spinae:       { label: Erectores de la columna,    zone: lower-back }
+multifidus:           { label: Multífidos,                 zone: lower-back }
+gluteus-maximus:      { label: Glúteo mayor,               zone: glutes-hips }
+gluteus-medius:       { label: Glúteo medio y menor,       zone: glutes-hips }
+hip-external-rotators: { label: Rotadores externos de cadera, zone: glutes-hips }
+hip-flexors:          { label: Flexores de cadera,         zone: glutes-hips }
+adductors:            { label: Aductores,                  zone: thighs }
+quadriceps:           { label: Cuádriceps,                 zone: thighs }
+hamstrings:           { label: Isquiotibiales,             zone: thighs }
+calves:               { label: Gemelos y sóleo,            zone: lower-legs }
+pectorals:            { label: Pectorales,                 zone: chest }
+serratus-anterior:    { label: Serrato anterior,           zone: chest }
+rhomboids-mid-traps:  { label: Romboides y trapecio medio, zone: upper-back }
+latissimus-dorsi:     { label: Dorsal ancho,               zone: upper-back }
+upper-traps:          { label: Trapecio superior,          zone: upper-back }
+anterior-deltoid:     { label: Deltoides anterior,         zone: shoulders }
+lateral-deltoid:      { label: Deltoides lateral,          zone: shoulders }
+posterior-deltoid:    { label: Deltoides posterior,        zone: shoulders }
+rotator-cuff:         { label: Manguito rotador,           zone: shoulders }
+biceps:               { label: Bíceps,                     zone: arms }
+triceps:              { label: Tríceps,                    zone: arms }
+forearms:             { label: Antebrazos,                 zone: arms }
+heart-lungs:          { label: Corazón y pulmones,         zone: cardiovascular }

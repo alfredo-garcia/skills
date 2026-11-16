@@ -1,0 +1,6 @@
+# One category per routine; drives the folder items/<folder>/.
+swim-day: { folder: 01-swim-day, label: Días de natación }
+strength: { folder: 02-strength, label: Fuerza }
+mobility: { folder: 03-mobility, label: Estiramientos y movilidad }
+express: { folder: 04-express, label: Exprés }
+cardio: { folder: 05-cardio, label: Cardio }

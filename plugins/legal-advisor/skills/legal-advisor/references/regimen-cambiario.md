@@ -38,7 +38,7 @@ Es la parte técnica que más afecta a un extranjero que invierte en Colombia, y
 
 ## 5. Inversión colombiana en el exterior y cuentas fuera
 
-- Si Al es residente cambiario y aporta a una sociedad en España, puede ser **inversión colombiana en el exterior**, con su propio registro.
+- Si el usuario es residente cambiario y aporta a una sociedad en España, puede ser **inversión colombiana en el exterior**, con su propio registro.
 - Cuentas en el exterior de un residente: si se usan para operaciones de canalización obligatoria pueden tener que registrarse como **cuentas de compensación**, con informes periódicos. Si solo recibe su salario y no hace operaciones de canalización obligatoria, analiza si hace falta.
 - Traer dinero a Colombia: canalización, numeral cambiario y prueba del origen de fondos que piden los bancos.
 

@@ -1,0 +1,7 @@
+doctor:         { label: Médico / profesional }
+clinic:         { label: Clínica u hospital }
+primary-care:   { label: Centro de atención primaria }
+imaging-center: { label: Centro de diagnóstico por imagen }
+lab:            { label: Laboratorio }
+insurer:        { label: Aseguradora / mutua }
+pharmacy:       { label: Farmacia }

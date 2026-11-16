@@ -22,8 +22,8 @@ Shortcode from `/p/<code>/`, `/reel/<code>/`, `/reels/<code>/` or `/tv/<code>/`.
    `yt-dlp --skip-download --write-info-json --write-thumbnail -o "/tmp/ig/%(id)s" "<url>"` → `description` in the `.info.json`, thumbnail as the photo.
    If the caption lacks quantities or steps and the video narrates them: `yt-dlp -x --audio-format mp3 -o "/tmp/ig/%(id)s.%(ext)s" "<url>"`, then transcribe with faster-whisper (`pip install faster-whisper`; model `small`, `language="es"` or auto). Note "transcrito del audio" in `doubts`.
    Missing tools → `pip install yt-dlp`.
-3. **Browser with Al's logged-in session** (Claude in Chrome, or Cowork's browser): open the post, expand the caption, read it, take a screenshot for the photo.
-4. Nothing worked → ask Al for a screenshot (conversation) or leave the entry with reason "necesito captura o texto" (unattended).
+3. **Browser with the user's logged-in session** (Claude in Chrome, or Cowork's browser): open the post, expand the caption, read it, take a screenshot for the photo.
+4. Nothing worked → ask the user for a screenshot (conversation) or leave the entry with reason "necesito captura o texto" (unattended).
 
 These are unofficial routes and can stop working; if one fails, go to the next without retrying it.
 
@@ -38,7 +38,7 @@ These are unofficial routes and can stop working; if one fails, go to the next w
 ## Google Doc
 
 - In the synced folder, rclone exports native Google Docs as `.docx`: `pandoc file.docx -t plain` or python-docx.
-- A Docs link in conversation: Google Drive connector if available; otherwise ask Al to paste the text.
+- A Docs link in conversation: Google Drive connector if available; otherwise ask the user to paste the text.
 - `source.type: google-doc`.
 
 ## Web page
@@ -51,4 +51,4 @@ These are unofficial routes and can stop working; if one fails, go to the next w
 
 ## Free text
 
-- Parse directly. No URL → `source.type: own`, unless Al says it's family (`family`) or a book (`book`).
+- Parse directly. No URL → `source.type: own`, unless the user says it's family (`family`) or a book (`book`).

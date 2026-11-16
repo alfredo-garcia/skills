@@ -1,0 +1,41 @@
+{
+  "groups": {
+    "fitness": {
+      "purpose": "Ejercicios, rutinas, programa y registro de entrenamiento.",
+      "path": "fitness",
+      "skill": "fitness-manager"
+    }
+  },
+  "domains": {
+    "exercises": {
+      "purpose": "Biblioteca de ejercicios clasificados por zona, músculo, tipo de trabajo y cargas.",
+      "type": "collection",
+      "group": "fitness",
+      "path": "fitness/exercises",
+      "schema": 1
+    },
+    "routines": {
+      "purpose": "Rutinas personales: ejercicios, orden y dosis.",
+      "type": "collection",
+      "group": "fitness",
+      "path": "fitness/routines",
+      "schema": 3
+    },
+    "program": {
+      "purpose": "Programa de cada usuario: fase, restricciones, rutinas por día y diario de evolución.",
+      "type": "state",
+      "group": "fitness",
+      "path": "fitness/program",
+      "partition": "user",
+      "schema": 1
+    },
+    "sessions": {
+      "purpose": "Registro de las sesiones de entrenamiento y cómo se sienten.",
+      "type": "state",
+      "group": "fitness",
+      "path": "fitness/sessions",
+      "partition": "user",
+      "schema": 2
+    }
+  }
+}

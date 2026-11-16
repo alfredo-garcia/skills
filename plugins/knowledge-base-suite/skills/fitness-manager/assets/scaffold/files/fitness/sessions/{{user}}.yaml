@@ -1,0 +1,4 @@
+# {{name}}'s training log: one entry per session actually done (or skipped). See fitness/_system/schema.md.
+user: {{user}}
+updated: {{now}}
+sessions: []

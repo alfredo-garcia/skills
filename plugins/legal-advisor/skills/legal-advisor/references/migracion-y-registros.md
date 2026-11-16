@@ -6,7 +6,7 @@ Mapa de qué revisar. Verifica siempre requisitos, plazos y tasas vigentes en la
 
 **Marco**: régimen de visas de la Cancillería (Resolución 5477 de 2022 y modificaciones). El detalle por tipo y vía de visa, y lo que hay que comprobar antes de recomendar una, está en `visas-colombia.md`.
 
-Puntos a revisar con el perfil de Al:
+Puntos a revisar con el perfil del usuario:
 - **Subtipo de visa V** (p. ej. nómada digital u otro) y sus condiciones: qué actividades permite, si permite trabajar para empleadores o clientes colombianos, duración máxima, si admite beneficiarios.
 - **Cédula de extranjería**: obligatoria para visas de más de 3 meses; se tramita ante Migración Colombia en un plazo corto desde la expedición de la visa o la entrada al país (históricamente 15 días calendario). Vigencia ligada a la visa: al renovar la visa hay que renovar la cédula.
 - **Registro y novedades ante Migración Colombia**: cambios de domicilio, ocupación o estado civil pueden tener que reportarse; verifica obligaciones actuales y sanciones (multas por no tramitar la cédula a tiempo o por permanencia irregular).
@@ -21,7 +21,7 @@ Fuentes: cancilleria.gov.co (Visas), migracioncolombia.gov.co (cédula de extran
 
 ## España — consulado, matrícula consular y padrón
 
-**Registro de Matrícula Consular** (consulado de España en la circunscripción: en Colombia, Bogotá; verifica circunscripción y si hay consulados honorarios cercanos a la ciudad de Al).
+**Registro de Matrícula Consular** (consulado de España en la circunscripción: en Colombia, Bogotá; verifica circunscripción y si hay consulados honorarios cercanos a la ciudad del usuario).
 - **Residente**: para quien vive habitualmente en la circunscripción. La inscripción como residente provoca la **baja en el padrón municipal** en España y el **alta en el PERE** (Padrón de Españoles Residentes en el Extranjero), y en el **CERA** (Censo Electoral de Residentes Ausentes).
 - **No residente**: para estancias temporales; no da de baja del padrón.
 - Ventajas de inscribirse: trámites consulares (pasaporte, fe de vida, certificados), voto desde el exterior (el voto rogado se eliminó en 2022; verifica el procedimiento vigente), protección consular, acreditación ante la AEAT y otras administraciones de que reside fuera.

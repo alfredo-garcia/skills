@@ -14,7 +14,7 @@ Verifica siempre la normativa vigente: el teletrabajo internacional es un área 
 
 - **Ley 10/2021 de trabajo a distancia**: exige acuerdo escrito de trabajo a distancia con contenido mínimo (lugar, horario, medios, gastos). Si el teletrabajo es desde otro país, conviene que el acuerdo lo diga expresamente, con la ley aplicable y la duración.
 - **Ley aplicable al contrato**: si trabaja de forma habitual en Colombia, la ley colombiana podría aplicarse en lo que tenga de imperativo (reglas de conflicto del Reglamento Roma I para el lado español; en Colombia, el Código Sustantivo del Trabajo aplica a quien trabaja en el territorio). Señálalo como zona 🟠 discutible y recomienda que lo revise un laboralista si el teletrabajo es indefinido.
-- **Riesgos para la empresa española**: que se considere que tiene un establecimiento permanente en Colombia (si Al cierra contratos o tiene un cargo directivo), u obligaciones como empleador en Colombia. Esto puede llevar a la empresa a pedir un cambio de estructura (empleador de registro / EOR, contrato con filial, pasar a contratista). Anticípalo.
+- **Riesgos para la empresa española**: que se considere que tiene un establecimiento permanente en Colombia (si el usuario cierra contratos o tiene un cargo directivo), u obligaciones como empleador en Colombia. Esto puede llevar a la empresa a pedir un cambio de estructura (empleador de registro / EOR, contrato con filial, pasar a contratista). Anticípalo.
 
 ## Seguridad Social
 

@@ -1,0 +1,6 @@
+# Type of medical record (medical-records.type); "folder" is the items/ subfolder.
+visit:     { label: Consulta,             folder: 01-visit }
+imaging:   { label: Prueba de imagen,     folder: 02-imaging }
+lab:       { label: Análisis de laboratorio, folder: 03-lab }
+procedure: { label: Procedimiento,        folder: 04-procedure }
+report:    { label: Informe u otro documento, folder: 05-report }

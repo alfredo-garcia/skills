@@ -1,0 +1,13 @@
+# Zones: what the user means by "pierna", "brazo", "abdomen"… Each belongs to one region.
+# Use them to build focused plans ("plan de glúteo", "plan de brazo").
+abdomen:     { label: Abdomen,            region: core }
+obliques:    { label: Oblicuos y laterales, region: core }
+lower-back:  { label: Zona lumbar,        region: core }
+glutes-hips: { label: Glúteos y cadera,   region: lower-body }
+thighs:      { label: Muslos,             region: lower-body }
+lower-legs:  { label: Gemelos y tobillos, region: lower-body }
+chest:       { label: Pecho,              region: upper-body }
+upper-back:  { label: Espalda alta,       region: upper-body }
+shoulders:   { label: Hombros,            region: upper-body }
+arms:        { label: Brazos,             region: upper-body }
+cardiovascular: { label: Sistema cardiovascular, region: full-body }

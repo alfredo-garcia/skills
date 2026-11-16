@@ -38,5 +38,5 @@ Qué cambia en España / Colombia como consecuencia de este trámite y qué hay 
 ¿Hace falta? [no / recomendable / imprescindible] — tipo y motivo.
 
 ## Bitácora
-- AAAA-MM-DD: [qué se hizo, respuesta recibida, número de radicado si Al lo quiere guardar]
+- AAAA-MM-DD: [qué se hizo, respuesta recibida, número de radicado si el usuario lo quiere guardar]
 ```

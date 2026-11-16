@@ -1,0 +1,26 @@
+# Movement pattern: how the exercise moves (or resists moving). One per exercise.
+hip-extension:        { label: Extensión de cadera }
+hinge:                { label: Bisagra de cadera }
+squat:                { label: Sentadilla }
+lunge:                { label: Zancada }
+hip-abduction:        { label: Abducción de cadera }
+hip-adduction:        { label: Aducción de cadera }
+anti-extension:       { label: Anti-extensión del tronco }
+anti-rotation:        { label: Anti-rotación del tronco }
+anti-lateral-flexion: { label: Anti-flexión lateral }
+horizontal-push:      { label: Empuje horizontal }
+vertical-push:        { label: Empuje vertical }
+horizontal-pull:      { label: Tracción horizontal }
+vertical-pull:        { label: Tracción vertical }
+scapular-retraction:  { label: Retracción escapular }
+elbow-flexion:        { label: Flexión de codo }
+elbow-extension:      { label: Extensión de codo }
+carry:                { label: Acarreo }
+gait:                 { label: Marcha }
+swim:                 { label: Nado }
+mobility-flow:        { label: Secuencia de movilidad }
+passive:              { label: Pasivo }
+shoulder-external-rotation: { label: Rotación externa de hombro }
+thoracic-rotation:    { label: Rotación torácica }
+static-stretch:       { label: Estiramiento estático }
+breathing:            { label: Respiración }

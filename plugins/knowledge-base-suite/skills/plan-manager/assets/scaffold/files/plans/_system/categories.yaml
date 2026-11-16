@@ -1,0 +1,19 @@
+# Plan categories. id: { label }
+restaurant: { label: Restaurante }
+bar-cafe: { label: Bar o café }
+activity: { label: Actividad }        # bolos, paintball, minigolf, rocódromo…
+outdoor: { label: Naturaleza y excursión }
+cinema: { label: Cine }
+theater: { label: Teatro }
+concert: { label: Concierto }
+festival: { label: Festival }
+fair: { label: Feria }                # ferias de emprendimiento, comerciales…
+exhibition: { label: Exposición o museo }
+workshop: { label: Taller o curso }
+sport-event: { label: Evento deportivo }
+trip-day: { label: Escapada de un día }
+other: { label: Otro }
+nightlife: { label: Fiesta y rumba }   # bares de noche, discotecas, salidas de fiesta
+game-night: { label: Noche de juegos }   # póker, juegos de mesa, videojuegos en casa
+comedy: { label: Comedia y stand-up }
+running-race: { label: Carrera de running }   # carreras en las que Al participa (5K, 10K, media maratón…)

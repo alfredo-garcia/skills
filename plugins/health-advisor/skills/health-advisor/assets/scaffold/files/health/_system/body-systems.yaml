@@ -1,0 +1,10 @@
+musculoskeletal: { label: Musculoesquelético }
+endocrine:       { label: Endocrino }
+metabolic:       { label: Metabólico }
+cardiovascular:  { label: Cardiovascular }
+digestive:       { label: Digestivo }
+respiratory:     { label: Respiratorio }
+neurological:    { label: Neurológico }
+mental-health:   { label: Salud mental }
+skin:            { label: Piel }
+other:           { label: Otro }

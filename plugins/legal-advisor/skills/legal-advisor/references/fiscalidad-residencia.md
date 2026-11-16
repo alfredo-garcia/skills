@@ -16,14 +16,14 @@ Esta referencia cubre **quién puede gravar y qué hay que presentar**. La estra
 - Los criterios adicionales (familia, patrimonio, ingresos de fuente nacional) aplican sobre todo a nacionales colombianos.
 - Los residentes tributan por su **renta mundial** y patrimonio mundial; los no residentes, solo por la de fuente colombiana.
 
-**Conteo**: usa `scripts/contar_dias.py`. Pide certificado de movimientos migratorios a Migración Colombia si Al no tiene un registro fiable.
+**Conteo**: usa `scripts/contar_dias.py`. Pide certificado de movimientos migratorios a Migración Colombia si el usuario no tiene un registro fiable.
 
 ## Doble residencia: Convenio España–Colombia
 
 Convenio para evitar la doble imposición entre España y Colombia (firmado en 2005, en vigor desde 2008; verifica protocolos posteriores).
-- **Art. 4 (desempate)**: vivienda permanente → centro de intereses vitales → morada habitual → nacionalidad → acuerdo amistoso. Ojo: la nacionalidad española de Al juega a favor de España solo si los criterios anteriores no deciden.
-- **Rentas del trabajo dependiente (art. 15 en el modelo)**: en general tributan donde se **realiza físicamente** el trabajo. Si Al reside en Colombia y trabaja desde Colombia para una empresa española, Colombia puede gravar el salario; España solo en casos limitados. Comprueba la redacción concreta del convenio y si hay excepciones (183 días, pagador, establecimiento permanente).
-- **Retenciones en España**: si Al deja de ser residente en España, su empleador debería dejar de aplicar retenciones de IRPF y, en su caso, aplicar IRNR o ninguna según el convenio. Se comunica con el **modelo 147** (comunicación de cambio de residencia a efectos de retenciones) y se acredita con el **certificado de residencia fiscal** colombiano (de la DIAN). Verifica modelo y procedimiento vigentes.
+- **Art. 4 (desempate)**: vivienda permanente → centro de intereses vitales → morada habitual → nacionalidad → acuerdo amistoso. Ojo: la nacionalidad española del usuario juega a favor de España solo si los criterios anteriores no deciden.
+- **Rentas del trabajo dependiente (art. 15 en el modelo)**: en general tributan donde se **realiza físicamente** el trabajo. Si el usuario reside en Colombia y trabaja desde Colombia para una empresa española, Colombia puede gravar el salario; España solo en casos limitados. Comprueba la redacción concreta del convenio y si hay excepciones (183 días, pagador, establecimiento permanente).
+- **Retenciones en España**: si el usuario deja de ser residente en España, su empleador debería dejar de aplicar retenciones de IRPF y, en su caso, aplicar IRNR o ninguna según el convenio. Se comunica con el **modelo 147** (comunicación de cambio de residencia a efectos de retenciones) y se acredita con el **certificado de residencia fiscal** colombiano (de la DIAN). Verifica modelo y procedimiento vigentes.
 - **Eliminación de la doble imposición**: en Colombia, descuento por impuestos pagados en el exterior (art. 254 E.T.); en España, deducción por doble imposición internacional (art. 80 LIRPF) si sigue siendo residente.
 
 ## Obligaciones formales típicas
@@ -33,7 +33,7 @@ Convenio para evitar la doble imposición entre España y Colombia (firmado en 2
 - **Si sigue siendo residente**: IRPF anual (renta mundial), modelo 720 (bienes en el extranjero por encima de 50.000 € por bloque) y 721 (cripto en el extranjero), según proceda.
 - **Si es no residente**: IRNR (modelo 210) por rentas obtenidas en España: alquileres, imputación de rentas por inmuebles no alquilados (no vivienda habitual), ganancias en España. Bancos: comunicar la no residencia para que apliquen la fiscalidad correcta.
 - **Año del cambio**: en el año en que se marcha puede seguir siendo residente en España todo el año si pasa allí más de 183 días o mantiene el centro de intereses. Planifica la fecha de salida.
-- **Impuesto de salida** (art. 95 bis LIRPF): afecta a quien tiene participaciones de gran valor y ha sido residente mucho tiempo; comprueba umbrales si Al tiene participaciones relevantes.
+- **Impuesto de salida** (art. 95 bis LIRPF): afecta a quien tiene participaciones de gran valor y ha sido residente mucho tiempo; comprueba umbrales si el usuario tiene participaciones relevantes.
 
 ### Colombia
 - **RUT** (Registro Único Tributario, DIAN): necesario para declarar, facturar, abrir ciertos productos financieros y para el certificado de residencia fiscal.

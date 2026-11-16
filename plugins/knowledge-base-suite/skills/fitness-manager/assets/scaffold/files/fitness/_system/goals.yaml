@@ -1,0 +1,11 @@
+# Training goal / type of work. An exercise can serve several; a routine declares its focus.
+# Use them for plans by type ("plan de fuerza", "plan de cardio").
+stability:   { label: Estabilidad y control,   note: "Control motor del tronco y la cadera; base de la rehabilitación lumbar" }
+strength:    { label: Fuerza }
+endurance:   { label: Resistencia muscular }
+cardio:      { label: Cardio,                  note: "Resistencia aeróbica" }
+mobility:    { label: Movilidad }
+flexibility: { label: Flexibilidad }
+balance:     { label: Equilibrio }
+warm-up:     { label: Calentamiento }
+recovery:    { label: Recuperación }

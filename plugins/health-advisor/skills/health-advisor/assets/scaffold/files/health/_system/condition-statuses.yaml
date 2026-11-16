@@ -1,0 +1,6 @@
+# Status of a condition (conditions.status).
+active:     { label: Activa / en estudio,   note: "Caso abierto con seguimiento" }
+chronic:    { label: Crónica,               note: "Estable o con brotes, tratamiento de fondo" }
+suspected:  { label: Sospecha a descartar }
+monitoring: { label: En vigilancia,         note: "Sin tratamiento, solo controles" }
+resolved:   { label: Resuelta }

@@ -6,7 +6,7 @@
 3. Dosis: la del prospecto. Verificar con búsqueda en **CIMA (AEMPS)** — cima.aemps.es — para España, o en la consulta de registros sanitarios del **INVIMA** para Colombia. Sin verificación, remitir al prospecto o al farmacéutico.
 4. No duplicar principio activo (muchos antigripales ya llevan paracetamol).
 5. Indicar duración máxima de autotratamiento y criterios para consultar.
-6. Solo medicamentos de venta sin receta en el país donde está Al. La disponibilidad sin receta cambia entre países y presentaciones: confírmala.
+6. Solo medicamentos de venta sin receta en el país donde está el usuario. La disponibilidad sin receta cambia entre países y presentaciones: confírmala.
 
 ## Diferencias útiles entre países
 - El paracetamol se llama **acetaminofén** en Colombia.
