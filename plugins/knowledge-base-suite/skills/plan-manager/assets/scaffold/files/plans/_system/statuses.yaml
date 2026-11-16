@@ -1,0 +1,8 @@
+# Plan statuses: id (stored) → Spanish label (shown in apps, Telegram and chat).
+# Nothing is ever deleted: every status can change back to any other.
+proposed: { label: Por revisar, timing: [dated, timeless] }
+wishlist: { label: Siguiendo, timing: [dated, timeless] }       # acción «Seguir»
+scheduled: { label: Confirmado, timing: [dated, timeless] }     # acción «Confirmar»
+done: { label: Hecho, timing: [dated] }
+repertoire: { label: Para repetir, timing: [timeless] }
+discarded: { label: Descartado, timing: [dated, timeless] }    # acción «Descartar»

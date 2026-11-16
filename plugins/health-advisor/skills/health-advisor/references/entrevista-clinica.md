@@ -1,6 +1,6 @@
 # Entrevista clínica por síntoma
 
-Principios: tandas de 3–6 preguntas, primero las que más discriminan (las que pueden revelar algo grave o separar hipótesis). Preguntas cerradas o con opciones cuando sea posible. Al final de cada tanda, resume lo entendido para que Al corrija.
+Principios: tandas de 3–6 preguntas, primero las que más discriminan (las que pueden revelar algo grave o separar hipótesis). Preguntas cerradas o con opciones cuando sea posible. Al final de cada tanda, resume lo entendido para que el usuario corrija.
 
 ## Preguntas transversales (casi siempre)
 - ¿Desde cuándo? ¿De golpe o poco a poco? ¿Mejor, peor, igual?

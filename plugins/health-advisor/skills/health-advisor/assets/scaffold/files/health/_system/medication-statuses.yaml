@@ -1,0 +1,3 @@
+active:    { label: En curso }
+as-needed: { label: A demanda / de rescate }
+stopped:   { label: Suspendido }

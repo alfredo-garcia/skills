@@ -1,0 +1,3 @@
+# Trips. The weekly search looks for plans in a trip-only city only inside these dates.
+updated: {{now}}
+trips: []

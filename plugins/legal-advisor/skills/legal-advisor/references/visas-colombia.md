@@ -13,7 +13,7 @@
 | **M (migrante)** | Quien quiere establecerse: cónyuge o compañero de colombiano, trabajador, socio o accionista, inversionista, pensionado, etc. | **Sí**, tras un tiempo mínimo continuo como titular (verifica los años según la vía) | Exige mantener las condiciones de la vía durante toda la vigencia |
 | **R (residente)** | Residencia permanente | — | Por tiempo acumulado con M, por vínculos o por inversión extranjera directa por encima de un umbral alto |
 
-## Vías habituales para alguien en la situación de Al
+## Vías habituales para alguien en la situación del usuario
 
 Para cada vía: lee la causal en el texto vigente, calcula el umbral con el **SMMLV del año en que se presenta la solicitud** y revisa la lista de documentos de la Cancillería.
 
@@ -29,7 +29,7 @@ Para cada vía: lee la causal en el texto vigente, calcula el umbral con el **SM
 ## Comprobaciones previas a cualquier recomendación de visa
 
 1. **Calendario**: fecha de vencimiento de la visa actual y plazo para pedir la nueva sin quedar en situación irregular.
-2. **Residencia cambiaria a la fecha de cada inversión** (ver `regimen-cambiario.md`): si Al era ya residente cambiario cuando compró o aportó, la operación puede no ser inversión extranjera directa, y entonces no sirve para la visa de inversionista tal y como está planteada. Es el **hecho decisivo** de las vías de inversión: pregunta las fechas de llegada y de cada operación.
+2. **Residencia cambiaria a la fecha de cada inversión** (ver `regimen-cambiario.md`): si el usuario era ya residente cambiario cuando compró o aportó, la operación puede no ser inversión extranjera directa, y entonces no sirve para la visa de inversionista tal y como está planteada. Es el **hecho decisivo** de las vías de inversión: pregunta las fechas de llegada y de cada operación.
 3. **Titularidad y valor**: certificado de tradición y libertad reciente; valor en escritura frente al umbral del año, con margen por si el SMMLV sube antes de presentar.
 4. **Prueba del registro**: si la inversión se canalizó con declaración de cambio (registro automático) o necesita un registro posterior; cómo se obtiene la comunicación o el certificado del Banco de la República.
 5. **Efectos colaterales**: residencia fiscal en Colombia (renta mundial), formulario 160, impuesto al patrimonio; reflejo en España (matrícula consular, padrón, residencia fiscal). Coordinar con el finance-advisor lo patrimonial.

@@ -1,0 +1,5 @@
+# {{name}}'s opinions about recipes. Recipe ids from food/recipes/items/**.
+user: {{user}}
+updated: {{now}}
+favorites: []
+ratings: {}

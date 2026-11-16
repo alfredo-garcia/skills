@@ -1,6 +1,6 @@
 ---
 name: finance-advisor
-description: Asesor de inversiones y patrimonio orientado a datos que construye y mantiene un perfil de inversor persistente, analiza la cartera real del usuario (a partir de un extracto o captura) y propone mejoras y próximos pasos concretos. Úsalo SIEMPRE que el usuario hable de sus inversiones, cartera, fondos indexados, ETFs, acciones, bonos, CDTs, pensiones voluntarias, ahorro para la jubilación, rebalanceo, comisiones (TER), fiscalidad de inversiones, plataformas o brókers (Interactive Brokers, Trade Republic, MyInvestor, Indexa, trii, Hapi, Tyba, Vanguard, Fidelity, etc.), o cuando pida comparar o analizar un fondo, aunque no diga "asesor financiero". También cuando suba un extracto de cartera, una captura de su bróker o pregunte "¿qué hago con mi dinero?" o "¿cómo voy?".
+description: Asesor de inversiones y patrimonio orientado a datos que construye y mantiene un perfil de inversor persistente en el grupo finance del knowledge base del usuario (y lo monta la primera vez), analiza la cartera real del usuario (a partir de un extracto o captura) y propone mejoras y próximos pasos concretos. Úsalo SIEMPRE que el usuario hable de sus inversiones, cartera, fondos indexados, ETFs, acciones, bonos, CDTs, pensiones voluntarias, ahorro para la jubilación, rebalanceo, comisiones (TER), fiscalidad de inversiones, plataformas o brókers (Interactive Brokers, Trade Republic, MyInvestor, Indexa, trii, Hapi, Tyba, Vanguard, Fidelity, etc.), o cuando pida comparar o analizar un fondo, aunque no diga "asesor financiero". También cuando suba un extracto de cartera, una captura de su bróker o pregunte "¿qué hago con mi dinero?" o "¿cómo voy?".
 ---
 
 # Finance Advisor
@@ -16,11 +16,16 @@ Tu trabajo en cada conversación gira alrededor de tres cosas:
 
 ### Paso 0 — Buscar el perfil existente
 
-Antes de nada, busca si ya existe un perfil de inversor:
-- Un archivo `perfil-inversor.md` (o similar) en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`) o pegado en la conversación.
-- Un perfil generado antes en esta misma conversación.
+El perfil vive en el grupo `finance` del knowledge base del usuario (contrato: `finance/_system/schema.md`; sigue la skill `personal-knowledge-base` para escrituras optimistas y timestamps).
+
+1. Busca la raíz (`~/knowledge-base`; en Cowork, la carpeta conectada que contiene `_domains.json`) y lee `_profile.yaml` (`user`, nombre, países) y `_domains.json`. Abajo, `<usuario>` = `_profile.yaml` → `user`.
+2. **Primera vez (no hay grupo `finance`)**: instala el scaffold de esta skill con `python3 <personal-knowledge-base>/scripts/install_scaffold.py <raíz> assets/scaffold`, donde `<personal-knowledge-base>` es la carpeta de esa skill (plugin `knowledge-base-suite`). Si no la encuentras, copia a mano `assets/scaffold/files/` en la raíz sin sobrescribir nada y añade a `_domains.json` las entradas de `assets/scaffold/registry.json`. Si el usuario tiene un `perfil-inversor.md` antiguo (en el proyecto, subido o en la conversación), migra su contenido al perfil del knowledge base sin perder nada.
+3. Lee el perfil, `finance/profile/items/<usuario>.md`, y mira si hay extractos nuevos en `finance/_inbox/`.
+4. **Sin knowledge base**: busca un `perfil-inversor.md` (o similar) en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`) o pegado en la conversación, o un perfil generado antes en esta misma conversación.
+
+Además:
 - Notas en la memoria del usuario (si existe sistema de memoria) sobre plataformas, objetivos o preferencias de inversión.
-- Un `perfil-legal.md` del legal-advisor, si existe: es la fuente de verdad para la **residencia fiscal**, las obligaciones formales (declaraciones, activos en el exterior) y las restricciones legales del usuario. Úsalo en lugar de volver a preguntar país de residencia fiscal.
+- El perfil legal del legal-advisor (`legal/profile/items/<usuario>.md`, o un `perfil-legal.md` si no hay knowledge base), si existe: es la fuente de verdad para la **residencia fiscal**, las obligaciones formales (declaraciones, activos en el exterior) y las restricciones legales del usuario. Úsalo en lugar de volver a preguntar país de residencia fiscal. Solo lectura.
 
 Si existe, léelo, salúdalo brevemente indicando la fecha de la última actualización y pregunta qué ha cambiado o qué necesita hoy. No repitas preguntas cuya respuesta ya está en el perfil.
 
@@ -67,8 +72,10 @@ Cuando una pregunta tenga respuestas cerradas (rango de edad, horizonte, perfil 
 Con el extracto y el descubrimiento, genera el perfil siguiendo la plantilla de `references/perfil-template.md`. Asigna un perfil de riesgo (Conservador / Moderado / Equilibrado / Dinámico / Agresivo) justificando por qué con los datos: horizonte, estabilidad de ingresos, colchón de emergencia y conducta declarada.
 
 **Persistencia** — esto es clave para que el skill sirva en conversaciones futuras:
-- Entrega el perfil como archivo `perfil-inversor.md` y dile al usuario que lo añada a los archivos del proyecto (o que lo vuelva a subir en un chat nuevo). Así lo encontrarás en el Paso 0.
-- Cada vez que algo cambie (nueva aportación, venta, cambio de objetivo, extracto nuevo), actualiza el perfil, añade una línea al historial de cambios con la fecha y entrega la versión nueva.
+- Guárdalo en `finance/profile/items/<usuario>.md` (frontmatter del schema: `risk_profile`, `last_statement`; cuerpo según la plantilla) y guarda el extracto original en `finance/profile/_attachments/<usuario>-<AAAA-MM-DD>-<plataforma>.<ext>`. Relee el archivo antes de escribir. Así lo encontrarás en el Paso 0.
+- Sin knowledge base: entrega el perfil como archivo `perfil-inversor.md` y dile al usuario que lo añada a los archivos del proyecto (o que lo vuelva a subir en un chat nuevo); sugiérele montar el knowledge base para no depender de descargas.
+- Privacidad: ni números de cuenta, ni IBAN, ni contraseñas; el grupo `finance` nunca se envía por notificaciones.
+- Cada vez que algo cambie (nueva aportación, venta, cambio de objetivo, extracto nuevo), actualiza el perfil, añade una línea al historial de cambios con la fecha y di en una línea qué ha cambiado (sin knowledge base, entrega la versión nueva).
 - La memoria automática de Claude no guarda cifras financieras personales (saldos, ingresos, patrimonio), por eso el archivo de perfil es la fuente de verdad. Lo no sensible (plataformas, preferencias, horizonte) puede quedar también en memoria si el sistema la tiene.
 
 ### Paso 4 — Diagnóstico y plan

@@ -4,7 +4,7 @@ Mapa de los sistemas y trámites más habituales para alguien con visa V y cédu
 
 **Puerta de entrada general**: gov.co (Portal Único del Estado) permite buscar cualquier trámite oficial por nombre y lleva a la ficha del SUIT (Sistema Único de Información de Trámites), con requisitos, costo y entidad responsable. Empieza por ahí cuando el trámite no esté en esta lista. La **Carpeta Ciudadana Digital** de gov.co reúne documentos y trámites con identidad digital.
 
-**Documento de identidad**: en casi todo, Al se identifica con su **cédula de extranjería** (no con el pasaporte). Si no la tiene vigente, muchos sistemas no le dejarán registrarse: es requisito previo de casi todo lo demás.
+**Documento de identidad**: en casi todo, el usuario se identifica con su **cédula de extranjería** (no con el pasaporte). Si no la tiene vigente, muchos sistemas no le dejarán registrarse: es requisito previo de casi todo lo demás.
 
 ## Altas y registros frecuentes
 
@@ -32,7 +32,7 @@ Preguntas previas: ¿tiene permiso español vigente? ¿Es turista o residente a 
 
 ## Vivienda
 
-- **Contrato de arrendamiento de vivienda urbana**: Ley 820 de 2003 (duración, incrementos anuales limitados al IPC del año anterior, preaviso, depósitos, causales de terminación). Revisa el contrato que suba Al contra esa ley.
+- **Contrato de arrendamiento de vivienda urbana**: Ley 820 de 2003 (duración, incrementos anuales limitados al IPC del año anterior, preaviso, depósitos, causales de terminación). Revisa el contrato que suba el usuario contra esa ley.
 - Codeudor o póliza de arrendamiento: habitual en Colombia y un obstáculo frecuente para extranjeros; explica alternativas (aseguradoras de arriendo, pagos anticipados) y sus límites legales.
 - Compra de inmueble por extranjero: posible; implica notaría, registro en la Oficina de Registro de Instrumentos Públicos y, si el dinero viene del exterior, registro cambiario de la inversión (ver `empresas.md`, régimen de inversión). Coordinar la parte financiera con finance-advisor.
 
@@ -50,6 +50,6 @@ Por orden de escalada:
 - **Antecedentes**: Policía Nacional (judiciales), Procuraduría (disciplinarios), Contraloría (fiscales); los piden en empleos y algunos contratos.
 - **Notarías**: autenticación de firmas, declaraciones extrajuicio, poderes, escrituras.
 - **Matrimonio o unión marital de hecho** con colombiano/a: ante notaría o juez; inscripción en el Registro Civil colombiano y en el Registro Civil Consular español (ver `documentos-y-tramites.md`).
-- **SIRE** (Migración): lo usan hoteles y empleadores para reportar extranjeros; si Al contrata a alguien extranjero o alquila a extranjeros, puede tener obligación de reporte.
+- **SIRE** (Migración): lo usan hoteles y empleadores para reportar extranjeros; si el usuario contrata a alguien extranjero o alquila a extranjeros, puede tener obligación de reporte.
 
 Fuentes: gov.co, suit.funcionpublica.gov.co, migracioncolombia.gov.co, dian.gov.co, adres.gov.co, minsalud.gov.co, runt.gov.co / runt.com.co, fcm.org.co (SIMIT), mintransporte.gov.co, sic.gov.co, superfinanciera.gov.co, supersalud.gov.co, secretariasenado.gov.co (leyes citadas).

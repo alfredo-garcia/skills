@@ -1,0 +1,7 @@
+# Certainty levels used in assessments (conditions.certainty and ## Assessment).
+evident:          { label: Evidente,                         emoji: "🟢" }
+probable:         { label: Probable,                         emoji: "🟡" }
+possible:         { label: Posible,                          emoji: "🟠" }
+to-revalidate:    { label: A revalidar,                      emoji: "🔵" }
+unlikely-serious: { label: Poco probable pero importante,    emoji: "⚠️" }
+self-reported:    { label: Autodeclarado, sin documento }

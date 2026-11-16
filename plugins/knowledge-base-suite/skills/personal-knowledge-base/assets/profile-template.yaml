@@ -1,0 +1,26 @@
+# Owner of this knowledge base. Every skill reads it instead of having personal data written inside.
+# Written by the root setup of the personal-knowledge-base skill; edit it by hand or ask Claude.
+version: 1
+user: {{user}}                 # lowercase kebab-case id; per-user files are <user>.yaml
+name: {{name}}                 # how skills address you
+address:
+  form: tú                     # tú | usted
+  grammatical_gender: neutral  # f | m | neutral — for Spanish agreement ("¿estás cansada/cansado?")
+language: es-ES                # language of the content (titles, notes, labels)
+timezone: America/Bogota       # IANA name; timestamps use its offset at the moment of writing
+home:
+  city: ""                     # e.g. Manizales
+  country: ""                  # ISO 3166-1 alpha-2, lowercase: co, es…
+countries: []                  # countries that matter for health, legal, tax (e.g. [co, es])
+household: []                  # other user ids who share per-user files here (e.g. a partner rating recipes)
+sync:
+  method: none                 # none | google-drive-desktop | rclone-bisync | other
+  command: ""                  # rclone-bisync only: script that runs the sync (e.g. ~/bin/kb-sync.sh)
+  note: ""
+telegram:
+  enabled: false               # true only after creating your own bot (see references/setup-and-sync.md)
+  mcp_account: bot             # account name of the bot in the Telegram MCP; never the personal account
+  bot_username: ""
+  bot_id: null
+  chat_id: null                # your Telegram user id (the private chat with your bot)
+updated: {{now}}

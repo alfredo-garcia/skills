@@ -1,0 +1,14 @@
+# Loads an exercise puts on the body that may need to be avoided (exercise.stresses).
+# program/<user>.yaml lists the ones to avoid right now in constraints.avoid_stresses;
+# an exercise that has any of them is not proposed for a routine.
+spinal-flexion:        { label: Flexión de columna,             note: "Crunch, tocar los pies, enrollarse" }
+loaded-spinal-flexion: { label: Carga con la espalda doblada }
+spinal-extension:      { label: Arqueo lumbar,                  note: "Hiperextensión, press por encima con la espalda arqueada" }
+loaded-rotation:       { label: Giros con carga }
+axial-load:            { label: Carga pesada sobre la columna,  note: "Peso pesado, sentadilla con barra" }
+impact:                { label: Impacto,                         note: "Correr, saltar" }
+long-lever-hip-flexion: { label: Palanca larga de flexores de cadera, note: "Elevación de piernas estiradas" }
+unsupported-bent-row:  { label: Remo inclinado sin apoyo }
+overhead:              { label: Por encima de la cabeza }
+asymmetric-swim:       { label: Nado con extensión o giro brusco, note: "Braza, mariposa, virajes con voltereta" }
+heat:                  { label: Calor intenso,                   note: "Sauna: hidratación y levantarse despacio" }

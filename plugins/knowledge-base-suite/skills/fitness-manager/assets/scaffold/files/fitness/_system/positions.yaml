@@ -1,0 +1,9 @@
+# Starting position.
+supine:     { label: Boca arriba }
+prone:      { label: Boca abajo }
+side-lying: { label: De lado }
+quadruped:  { label: A cuatro patas }
+kneeling:   { label: De rodillas }
+standing:   { label: De pie }
+seated:     { label: Sentado }
+in-water:   { label: En el agua }

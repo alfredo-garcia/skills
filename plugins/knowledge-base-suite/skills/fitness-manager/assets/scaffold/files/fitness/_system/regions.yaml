@@ -1,0 +1,6 @@
+# Body regions: the broadest grouping. Drives the exercises folder items/<folder>/.
+# An exercise's `region` is its main one; full-body = cardio, swimming, warm-ups, recovery.
+core:       { folder: 01-core,       label: Core y tronco }
+lower-body: { folder: 02-lower-body, label: Tren inferior }
+upper-body: { folder: 03-upper-body, label: Tren superior }
+full-body:  { folder: 04-full-body,  label: Cuerpo completo }

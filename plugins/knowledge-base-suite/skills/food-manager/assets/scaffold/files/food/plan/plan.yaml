@@ -1,0 +1,4 @@
+# Meal plan. Day (YYYY-MM-DD) → list of meals { slot, label, note, dishes }. See food/_system/schema.md.
+# Slots: breakfast (Desayuno), lunch (Comida), snack (Merienda), dinner (Cena).
+updated: {{now}}
+days: {}

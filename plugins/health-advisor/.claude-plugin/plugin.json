@@ -1,7 +1,7 @@
 {
   "name": "health-advisor",
-  "version": "1.0.0",
-  "description": "Asistente de salud personal que trabaja sobre la ficha de salud y los exámenes del usuario (Colombia y España).",
+  "version": "2.0.0",
+  "description": "Asistente de salud personal sobre el grupo health del knowledge base (ficha, dolencias, medicación, pruebas, médicos), con sistemas de salud de España y Colombia. Monta su grupo la primera vez.",
   "author": {
     "name": "Al"
   }

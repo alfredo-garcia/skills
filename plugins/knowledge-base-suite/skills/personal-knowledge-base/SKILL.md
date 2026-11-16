@@ -1,6 +1,6 @@
 ---
 name: personal-knowledge-base
-description: Defines the standard storage conventions (v2) for Al's personal knowledge base at ~/knowledge-base (a local folder synced two-way with Google Drive) — domain groups, domain types (tracked, collection, catalog, state), folder layout, file naming, core frontmatter, inboxes and routing, index files, attachments, vocabularies, cross-domain references and links, and date/format standards. ANY skill or task that needs to persist, look up, deduplicate, route, or track information across sessions (movies, cinemas, job opportunities, apartments, client prospects, recipes, ingredients, pantry, shopping lists, or any new domain) MUST consult and follow this skill before reading or writing to the knowledge base. Use it whenever creating a new domain or group, adding/updating/checking an item for duplicates, processing or routing an inbox, recording user feedback or preferences, or linking items across domains.
+description: "Storage conventions (v2) and setup of the user's personal knowledge base — a local folder (usually ~/knowledge-base) synced with Google Drive: root setup, the owner profile (_profile.yaml), group scaffolds, domain types (tracked, collection, catalog, state), folder layout, file naming, frontmatter, inboxes and routing, indexes, attachments, vocabularies, cross-domain links and date/format standards. ANY skill that persists, looks up, deduplicates, routes or tracks information across sessions (recipes, plans, training, health, movies, jobs, apartments or any new domain) MUST follow this skill before reading or writing the knowledge base. Use it when setting up a knowledge base for the first time (\"monta mi knowledge base\"), syncing it with Google Drive, creating a domain or group, adding or deduplicating an item, processing an inbox, recording preferences, or linking items across domains."
 ---
 
 # Personal Knowledge Base — Storage Conventions (v2)
@@ -16,7 +16,42 @@ Core principles:
 
 ## Root location and sync
 
-Everything lives under `~/knowledge-base` on Al's Ubuntu laptop and is synced two-way with `gdrive:knowledge-base` by `rclone bisync`, run every 5 minutes by cron through `~/bin/kb-sync.sh` (always run sync through that script, never `rclone bisync` directly). Local agents see real files; apps use the Drive API. Sync is not instant: expect up to ~5 minutes of lag between local writes and Drive, which is why every writer follows the optimistic write rule. If the root doesn't exist yet, create it with `_domains.json`, `_inbox/` and `_links/` before creating the first domain.
+The root is a local folder, `~/knowledge-base` by default; in Cowork it is the connected folder that contains `_domains.json` (with the device shell, usually `$HOME/mnt/knowledge-base`). Find it once per session and resolve every path against it.
+
+It is synced with Google Drive by whatever `_profile.yaml` → `sync` says: Google Drive for desktop in mirror mode (Mac/Windows) or `rclone bisync` run by cron (Linux), in which case always run sync through `sync.command`, never `rclone bisync` directly. Local agents see real files; apps use the Drive API. Sync is not instant (seconds to ~5 minutes), which is why every writer follows the optimistic write rule. Setup and troubleshooting: `references/setup-and-sync.md`.
+
+## Owner profile (`_profile.yaml`)
+
+The only place where personal facts about the owner live: user id, name and how to address them, content language, timezone, home city and country, relevant countries, sync method and (optional) Telegram delivery. **Skills never hardcode any of this**; they read it from here. Template: `assets/profile-template.yaml`.
+
+- `user` is the id for every per-user file (`<domain>/<user>.yaml`, `reviews/<user>.yaml`…). `household` lists other user ids that share per-user files in this base.
+- `timezone` (IANA) gives the offset of every timestamp written (`America/Bogota` → `-05:00`; `Europe/Madrid` → `+01:00` or `+02:00` depending on the date).
+- `telegram.enabled: false` (or missing) means no Telegram: notifications and confirmations stay in the session.
+- Personal facts that belong to a domain (health conditions, training constraints, cities to search, preferences) live in that domain's files, never here and never in a skill.
+
+## Root setup (first run)
+
+When no root with `_domains.json` exists, or the user asks to set up their knowledge base:
+
+1. Agree on the folder (default `~/knowledge-base`; in Cowork, ask the user to create and connect it first — ideally a folder inside Google Drive for desktop, see `references/setup-and-sync.md`).
+2. Ask, in one short message: name and how to address them, user id (suggest the first name in kebab-case), timezone, home city and country, other relevant countries, and whether they want Telegram now (default no).
+3. Write `_profile.yaml` from the template with those answers (`{{now}}` = current timestamp).
+4. Run `python3 scripts/install_scaffold.py <root> assets/root` (paths relative to this skill): it creates `_domains.json`, `_inbox/` with its README and `_links/`, never overwriting.
+5. Tell the user which group skills can be installed next (each one sets up its own group the first time it's used) and point them to the sync guide.
+
+Without a shell, do the same by hand: the script only copies files and merges registry entries.
+
+## Group scaffolds (each skill sets up its own group)
+
+This standard knows nothing about any domain. Each domain skill ships its own scaffold in `assets/scaffold/` — `registry.json` (its `groups`/`domains` entries) and `files/` (schema, vocabularies, empty stores, inbox README, per-user templates with `{{user}}`) — and installs it the first time it's needed:
+
+```
+python3 <personal-knowledge-base>/scripts/install_scaffold.py <root> <skill>/assets/scaffold
+```
+
+The script needs `_profile.yaml`, fills `{{user}}`, `{{name}}`, `{{now}}`, `{{today}}`, registers what is missing, creates the storage of every domain type, and never overwrites a file or an existing registry entry; a name already used with another path is reported as a conflict and nothing is written for it. After installing, the skill asks only its group-specific setup questions (e.g. cities to search, training constraints) and writes the answers into its own files.
+
+Once installed, **the group's `_system/schema.md` in the knowledge base is the contract**: the skill follows the user's copy (which may have evolved), not the scaffold.
 
 ## Folder layout
 
@@ -62,7 +97,7 @@ Inside every domain folder, depending on its type (see below):
 
 - `collection` subfolders: one level only, named `NN-<id>` from a vocabulary in the domain's `_system/` (e.g. `items/05-mains/`). The frontmatter field that drives the folder is the truth; if folder and field disagree, move the file.
 - `catalog`: when entries outgrow a single file (photos, long notes), migrate the domain to `collection`.
-- `state`: one writer at a time; every writer uses the optimistic write rule (see below). A state domain registered with `"partition": "user"` keeps one file per user, `<domain>/<user>.yaml` (user ids are lowercase kebab-case, Al = `al`); each file starts with `user` and `updated`, and only that user changes it.
+- `state`: one writer at a time; every writer uses the optimistic write rule (see below). A state domain registered with `"partition": "user"` keeps one file per user, `<domain>/<user>.yaml` (user ids are lowercase kebab-case; the owner's id is `_profile.yaml` → `user`); each file starts with `user` and `updated`, and only that user changes it.
 
 ## Domain registry (`_domains.json`)
 
@@ -71,7 +106,7 @@ Inside every domain folder, depending on its type (see below):
   "version": 2,
   "groups": {
     "food": {
-      "purpose": "Recetas, ingredientes y despensa de Al.",
+      "purpose": "Recetas, ingredientes y despensa de casa.",
       "path": "food",
       "skill": "food-manager",
       "created": "2026-10-26T15:00:00-05:00"
@@ -79,14 +114,14 @@ Inside every domain folder, depending on its type (see below):
   },
   "domains": {
     "movies": {
-      "purpose": "New movies in cinemas Al might want to see.",
+      "purpose": "New movies in cinemas the user might want to see.",
       "type": "tracked",
       "path": "movies",
       "schema": 1,
       "created": "2026-08-10T09:00:00-05:00"
     },
     "recipes": {
-      "purpose": "Recetas normalizadas que Al consulta y cocina.",
+      "purpose": "Recetas normalizadas que se consultan y cocinan en casa.",
       "type": "collection",
       "group": "food",
       "path": "food/recipes",
@@ -172,7 +207,7 @@ Binary files referenced by items: `<domain>/_attachments/<id>.<ext>`, then `<id>
 
 - **Global `_inbox/`**: anything whose destination is unknown. The `inbox-router` skill reads each entry, decides which group or top-level domain it belongs to, and moves it unchanged to that group's (or domain's) `_inbox/`, then runs the destination's `skill` if registered. If it can't decide with confidence, it leaves the entry where it is and asks the user. The router never creates items.
 - **Group or domain `_inbox/`**: the destination is already known. The owning skill (the registered `skill`, e.g. food-manager) processes each entry into items, then moves the original to `_inbox/processed/<YYYY-MM-DD>--<id>.<ext>`, linking it from the item when the domain has a `source.original` field.
-- **External inbound sources** (e.g. Al's Telegram bot): `inbox-router` reads them, writes each input as a file in `_inbox/` (or hands requests straight to the owning skill) and keeps a cursor in `_inbox/_<source>.yaml` (e.g. `_telegram.yaml` with `last_message_id`). Cursors are system files, never routed.
+- **External inbound sources** (e.g. the user's Telegram bot, configured in `_profile.yaml`): `inbox-router` reads them, writes each input as a file in `_inbox/` (or hands requests straight to the owning skill) and keeps a cursor in `_inbox/_<source>.yaml` (e.g. `_telegram.yaml` with `last_message_id`). Cursors are system files, never routed.
 - Entries whose name starts with `_` (e.g. `_README.md`, cursors) are ignored.
 - An entry that yields several items is moved once, named after the first item.
 
@@ -212,11 +247,11 @@ Any writer of a file that more than one actor can edit (skill, app, user via Cla
 ## Date and format standards
 
 - **Date only**: `YYYY-MM-DD`.
-- **Timestamp**: ISO 8601 with Colombia's offset, `YYYY-MM-DDTHH:MM:SS-05:00`.
+- **Timestamp**: ISO 8601 with the offset of `_profile.yaml` → `timezone` at that moment, `YYYY-MM-DDTHH:MM:SS±HH:MM` (examples in this skill use `-05:00`).
 - **Booleans**: `true` / `false`. **Lists**: YAML arrays, never comma strings.
 - **Numbers**: decimal point, no fractions (`0.5`, never `1/2`).
 - **Enums and vocabulary ids**: English lowercase kebab-case.
-- **Money**: two fields, `price_amount: 1200000` and `price_currency: COP`.
+- **Money**: two fields, `price_amount: 1200000` and `price_currency: COP` (ISO 4217).
 - **IDs, domain and group names, filenames**: lowercase kebab-case.
 
 ## Preferences (`preferences.md`)
@@ -241,7 +276,7 @@ Free-form notes for an agent to read before acting in that domain. Update only o
 
 ## Workflow summary for any domain skill
 
-1. Read `_domains.json`; create and register the group/domain if needed.
+1. Find the root and read `_profile.yaml` and `_domains.json`; if the group isn't registered, install the skill's scaffold (see Group scaffolds).
 2. Read the domain's `_system/` and `preferences.md`.
 3. Run the dedup workflow.
 4. Write the item (core + domain fields), adding catalog entries or vocabulary values first if needed.

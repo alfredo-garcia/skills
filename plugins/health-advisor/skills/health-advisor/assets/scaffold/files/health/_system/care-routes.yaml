@@ -1,0 +1,6 @@
+public:            { label: Sanidad pública (SNS, CatSalut, régimen subsidiado…) }
+eps:               { label: EPS (Colombia) }
+prepaid:           { label: Medicina prepagada / plan complementario }
+private-insurance: { label: Mutua o seguro privado }
+travel-insurance:  { label: Seguro de viaje }
+out-of-pocket:     { label: Particular }

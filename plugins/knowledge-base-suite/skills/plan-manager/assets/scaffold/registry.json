@@ -1,0 +1,32 @@
+{
+  "groups": {
+    "plans": {
+      "purpose": "Planes de ocio: restaurantes, actividades, espectáculos y eventos, con fecha o repetibles.",
+      "path": "plans",
+      "skill": "plan-manager"
+    }
+  },
+  "domains": {
+    "ideas": {
+      "purpose": "Cada plan posible o agendado, con fecha (eventos) o sin fecha (repetibles).",
+      "type": "tracked",
+      "group": "plans",
+      "path": "plans/ideas",
+      "schema": 1
+    },
+    "trips": {
+      "purpose": "Viajes con fechas, para buscar planes en ciudades de viaje.",
+      "type": "state",
+      "group": "plans",
+      "path": "plans/trips",
+      "schema": 1
+    },
+    "sources": {
+      "purpose": "Agendas y webs donde buscar planes, por ciudad.",
+      "type": "catalog",
+      "group": "plans",
+      "path": "plans/sources",
+      "schema": 1
+    }
+  }
+}

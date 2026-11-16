@@ -3,7 +3,7 @@
 Datos estructurales estables; verificar con búsqueda web lo que pueda haber cambiado (requisitos, teléfonos, centros).
 
 ## Pública (CatSalut / Sistema Nacional de Salud)
-- **Acceso**: Tarjeta Sanitaria Individual (TSI) de CatSalut, ligada a empadronamiento y a la condición de asegurado (trabajo, cotización, convenios, etc.). Si Al reparte su tiempo entre países, revisar que su derecho siga vigente.
+- **Acceso**: Tarjeta Sanitaria Individual (TSI) de CatSalut, ligada a empadronamiento y a la condición de asegurado (trabajo, cotización, convenios, etc.). Si el usuario reparte su tiempo entre países, revisar que su derecho siga vigente.
 - **Puerta de entrada**: CAP (Centre d'Atenció Primària) asignado → médico de familia (y enfermería). El especialista se accede por **derivación** del médico de familia (salvo excepciones como ginecología/ASSIR, salud mental en algunos casos).
 - **Urgencias**: CUAP (urgencias de atención primaria) para lo no vital; urgencias hospitalarias para lo grave; 112 emergencias; **061 Salut Respon** para consejo 24 h.
 - **App/portal**: La Meva Salut (informes, resultados, medicación, vacunas) — fuente excelente para descargar documentos al proyecto.

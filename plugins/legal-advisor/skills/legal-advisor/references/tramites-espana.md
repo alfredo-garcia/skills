@@ -11,7 +11,7 @@ Casi cualquier trámite español online exige una de estas:
 - **Certificado digital FNMT** de persona física: acreditación de identidad presencial (oficinas en España o consulados) o con DNIe / videoidentificación.
 - **DNIe** con lector o móvil NFC.
 
-Si Al no tiene ninguna activa, es la primera gestión que conviene hacer: desbloquea todas las demás. Revisa también la fecha de caducidad del certificado y anótala en el calendario del perfil.
+Si el usuario no tiene ninguna activa, es la primera gestión que conviene hacer: desbloquea todas las demás. Revisa también la fecha de caducidad del certificado y anótala en el calendario del perfil.
 
 ## Trámites frecuentes
 

@@ -1,0 +1,20 @@
+# {{name}}'s health profile. Vocabularies in health/_system/, contract in health/_system/schema.md.
+# Built block by block with health-advisor. Unknown = empty or "pendiente de confirmar".
+user: {{user}}
+updated: {{now}}
+identity: { full_name: "", birth_date: null, birthplace: "", sex: "", height_cm: null, weight_kg: null, weight_date: null, blood_type: "", blood_type_source: "" }
+residence: { main: "", since: null, share_pct: null, other: [], note: "" }
+occupation: ""
+coverage: []
+coverage_options: []
+personal_history: { conditions: [], surgeries: [], hospitalizations: [], injuries: [] }
+family_history: []
+family_history_notes: []
+allergies: []
+habits: { tobacco: "", alcohol: "", diet: "", exercise: "", sleep: "", stress: "" }
+vaccines: []
+planned_tests: []
+priorities: []
+todos: []
+changelog:
+  - { date: {{today}}, text: "Ficha creada" }

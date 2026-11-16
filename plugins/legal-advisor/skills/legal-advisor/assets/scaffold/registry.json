@@ -1,0 +1,9 @@
+{
+  "groups": {
+    "legal": {"purpose": "Situación legal y administrativa: perfil legal, objetivos, normativa verificada y gestiones.", "path": "legal", "skill": "legal-advisor"}
+  },
+  "domains": {
+    "legal-profile": {"purpose": "Expediente legal de cada usuario: situación, objetivos, conclusiones, normativa verificada y vencimientos.", "type": "collection", "group": "legal", "path": "legal/profile", "schema": 1},
+    "legal-cases": {"purpose": "Una ficha por trámite o gestión legal, con su estado, plazos y documentos.", "type": "collection", "group": "legal", "path": "legal/cases", "schema": 1}
+  }
+}

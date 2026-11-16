@@ -1,0 +1,6 @@
+# Band or load level, for dose.resistance. Ordered from easiest to hardest.
+extra-light: { label: Extra suave, order: 1 }
+light:       { label: Suave,       order: 2 }
+medium:      { label: Media,       order: 3 }
+heavy:       { label: Dura,        order: 4 }
+extra-heavy: { label: Extra dura,  order: 5 }

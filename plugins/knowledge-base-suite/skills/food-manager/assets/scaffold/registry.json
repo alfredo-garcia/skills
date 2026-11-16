@@ -1,0 +1,47 @@
+{
+  "groups": {
+    "food": {
+      "purpose": "Recetas, ingredientes, despensa y plan de comidas de casa.",
+      "path": "food",
+      "skill": "food-manager"
+    }
+  },
+  "domains": {
+    "recipes": {
+      "purpose": "Recetas normalizadas que se consultan y cocinan en casa.",
+      "type": "collection",
+      "group": "food",
+      "path": "food/recipes",
+      "schema": 4
+    },
+    "ingredients": {
+      "purpose": "Catálogo canónico de ingredientes que usan recetas y despensa.",
+      "type": "catalog",
+      "group": "food",
+      "path": "food/ingredients",
+      "schema": 1
+    },
+    "pantry": {
+      "purpose": "Lo que hay en casa y lo que hay que comprar.",
+      "type": "state",
+      "group": "food",
+      "path": "food/pantry",
+      "schema": 2
+    },
+    "reviews": {
+      "purpose": "Valoraciones, comentarios y favoritos de cada usuario sobre las recetas.",
+      "type": "state",
+      "group": "food",
+      "path": "food/reviews",
+      "partition": "user",
+      "schema": 1
+    },
+    "plan": {
+      "purpose": "Plan de comidas: qué receta toca cada día y comida.",
+      "type": "state",
+      "group": "food",
+      "path": "food/plan",
+      "schema": 1
+    }
+  }
+}

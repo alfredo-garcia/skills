@@ -1,0 +1,10 @@
+# Free-ish descriptors. Add a value here before using it. id: { label }
+romantic: { label: Romántico }
+rainy-day: { label: Para día de lluvia }
+outdoors: { label: Al aire libre }
+networking: { label: Networking }
+free: { label: Gratis }
+big-event: { label: Gran evento }
+kid-friendly: { label: Apto para niños }
+night: { label: Nocturno }
+delivery: { label: A domicilio }

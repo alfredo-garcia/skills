@@ -23,7 +23,7 @@
 
 - **Consulado de España**: actúa como notaría (poderes, escrituras, actas), renueva pasaporte, expide certificados. Requiere cita.
 - **Poder notarial**: para que alguien actúe en España (vender un inmueble, constituir una sociedad, tramitar una herencia). Poder general vs. especial: recomienda el más limitado que sirva.
-- **Certificado digital FNMT / Cl@ve**: desde el extranjero se puede obtener o renovar con ciertas vías (videoidentificación, consulado, DNIe). Es la llave para casi todos los trámites españoles online: si Al no lo tiene, es una gestión de alta prioridad.
+- **Certificado digital FNMT / Cl@ve**: desde el extranjero se puede obtener o renovar con ciertas vías (videoidentificación, consulado, DNIe). Es la llave para casi todos los trámites españoles online: si el usuario no lo tiene, es una gestión de alta prioridad.
 - **Notarías colombianas**: autentican firmas y otorgan poderes para usar en España (con apostilla).
 
 ## Licencia de conducir
@@ -39,7 +39,7 @@
 
 ## Requerimientos y notificaciones
 
-- España: notificaciones electrónicas (DEHú, sede de la AEAT, Seguridad Social). Si Al está obligado o adherido a las notificaciones electrónicas, se dan por notificadas a los 10 días naturales sin acceder. Revisa si debería activar avisos por correo.
+- España: notificaciones electrónicas (DEHú, sede de la AEAT, Seguridad Social). Si el usuario está obligado o adherido a las notificaciones electrónicas, se dan por notificadas a los 10 días naturales sin acceder. Revisa si debería activar avisos por correo.
 - Plazos: en España se computan normalmente en **días hábiles** (Ley 39/2015, excluye sábados, domingos y festivos) salvo que se diga lo contrario. En Colombia, los términos legales en días suelen ser hábiles (verifica la norma concreta).
 - Ante cualquier requerimiento: identifica organismo, acto, fecha de notificación, plazo, si cabe recurso o alegaciones, y si conviene profesional.
 

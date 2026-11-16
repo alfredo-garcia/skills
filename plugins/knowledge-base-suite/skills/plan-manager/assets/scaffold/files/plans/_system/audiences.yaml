@@ -1,0 +1,5 @@
+# Who a plan suits. A plan can have several. id: { label }
+solo: { label: Individual }
+couple: { label: Pareja }
+friends: { label: Amigos }
+family: { label: Familia }

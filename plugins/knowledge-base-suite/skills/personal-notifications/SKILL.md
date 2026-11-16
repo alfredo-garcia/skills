@@ -1,11 +1,11 @@
 ---
 name: personal-notifications
-description: Formats a domain skill's JSON output into a human-ready notification (tone, verbosity, emoji, language per domain, using ~/knowledge-base/_notification-config.json) and delivers it to Al on Telegram through his bot @AlClawMainBot with the Telegram MCP. ANY skill that needs to notify Al about domain data (new recipes, movies, job listings, apartment matches, etc.) or answer a request he sent through Telegram MUST use this skill. Use it whenever composing or sending a notification, digest or summary message for Al, or when a domain has no notification config yet and needs a default bootstrapped.
+description: Formats a domain skill's JSON output into a human-ready notification (tone, verbosity, emoji, language per domain, using ~/knowledge-base/_notification-config.json) and delivers it to the user on Telegram through their own bot (configured in _profile.yaml) with the Telegram MCP, or returns it to the session when Telegram isn't set up. ANY skill that needs to notify the user about domain data (new recipes, movies, job listings, apartment matches, etc.) or answer a request they sent through Telegram MUST use this skill. Use it whenever composing or sending a notification, digest or summary message for the user, or when a domain has no notification config yet and needs a default bootstrapped.
 ---
 
 # Personal Notifications — Formatting Standard
 
-This skill turns structured data into a message a human would actually want to read and sends it to Al on Telegram. It does **not** know anything about what a "movie" or a "job opportunity" is — it only knows how to take labeled data, present it with the right tone, length, and language for its domain, and deliver it.
+This skill turns structured data into a message a human would actually want to read and sends it to the user on Telegram. It does **not** know anything about what a "movie" or a "job opportunity" is — it only knows how to take labeled data, present it with the right tone, length, and language for its domain, and deliver it.
 
 Core principle, same as `personal-knowledge-base`: **stay domain-blind**. All domain judgment — what's worth mentioning, how items should be grouped, why they matter — belongs to the caller (the domain skill). This skill only makes presentational decisions: layout, tone, verbosity, emoji, language.
 
@@ -34,7 +34,7 @@ The caller provides a domain name and a JSON payload:
 ```
 
 - `domain` — required. Used to look up formatting config (see below).
-- `reply_to` — optional. Telegram message id of Al's message this notification answers (for requests he sent to the bot); the message is sent as a reply to it.
+- `reply_to` — optional. Telegram message id of the user's message this notification answers (for requests they sent to the bot); the message is sent as a reply to it.
 - `intro` — optional. The caller's own words for an overview/framing line. Used close to as-is — this skill fits it into the target language and layout, but doesn't reinterpret or add domain judgment to it. Omit it entirely if there's nothing worth framing (e.g. a single obvious item).
 - `items` — required, always a list, even for a single item. No special-casing single vs. multi-item messages — same contract either way.
 - Each item:
@@ -49,7 +49,7 @@ A single finished message string (or, if it would exceed Telegram's message-leng
 
 ## Per-domain config (`~/knowledge-base/_notification-config.json`)
 
-Lives alongside the knowledge base's other top-level files, but is **owned and written exclusively by this skill** — `personal-knowledge-base` never reads or writes it, and this skill never reads or writes `_domains.json` or anything inside a domain folder. Same independence principle as domains not coupling to each other, one level up.
+Lives alongside the knowledge base's other top-level files, but is **owned and written exclusively by this skill** — `personal-knowledge-base` never reads or writes it, and this skill never reads or writes `_domains.json` or anything inside a domain folder (it only reads `_profile.yaml` for delivery and the default language). Same independence principle as domains not coupling to each other, one level up.
 
 ```json
 {
@@ -87,7 +87,7 @@ Fields:
 ### Bootstrapping missing config
 
 If the caller's `domain` has no entry in `_notification-config.json`:
-1. If the file doesn't exist yet, create it with just `_default` (the baseline shown above).
+1. If the file doesn't exist yet, create it with just `_default` (the baseline shown above, with `language` taken from `_profile.yaml` → `language`, e.g. `es-ES` → `es`).
 2. Copy `_default`'s values into a new entry under the domain's name, setting `language` to the language the caller's content is written in (e.g. `es` for recipes), and save the file.
 3. Format the message using those (freshly copied) values.
 
@@ -123,17 +123,17 @@ Write all of this skill's own structural text (intro framing words if the caller
 
 ## Delivery (Telegram)
 
-Al receives notifications from his bot through the Telegram MCP:
+Delivery settings come from `_profile.yaml` → `telegram` at the root of the knowledge base (the only place this skill reads besides its own config):
 
-| Setting | Value |
+| Setting | Field |
 | --- | --- |
-| MCP account | `bot` (the bot **@AlClawMainBot**, id 8731706984) |
-| Recipient | Al — Telegram user id `7812154300` (phone +34 605 073 551) |
+| MCP account | `mcp_account` — the user's own bot in the Telegram MCP (`<bot>`) |
+| Recipient | `chat_id` — the user's Telegram user id (`<chat>`) |
 
-- Send each message chunk with `send_message(account="bot", chat_id=7812154300, message=<text>, parse_mode="md")`, in order; add `reply_to` on the first chunk when the caller passed one.
-- Always use the user id as `chat_id`: a bot can't open a chat by phone number, only write to users who have started it (Al already has).
-- Never send from the `default` account (Al's own user account) and never to any other chat.
-- If `_notification-config.json` has a `_delivery` entry, its `account` and `chat_id` override the table above.
+- Send each message chunk with `send_message(account=<bot>, chat_id=<chat>, message=<text>, parse_mode="md")`, in order; add `reply_to` on the first chunk when the caller passed one.
+- Always use the user id as `chat_id`: a bot can't open a chat by phone number, only write to users who have started it.
+- Never send from the user's personal account and never to any other chat.
+- `telegram.enabled` false or missing, or no `chat_id` → don't send: return the formatted text to the caller with `delivered: false, reason: "telegram not configured"`, so it shows the message in the session.
 - Sending fails (MCP missing, bot blocked, network) → don't retry in a loop; return the formatted text and the error to the caller so it can show it in the session.
 
 ## Workflow summary
