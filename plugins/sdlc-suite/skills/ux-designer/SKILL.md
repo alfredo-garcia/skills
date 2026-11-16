@@ -94,7 +94,7 @@ After a PRD is approved (and, when `rigor: production`, its technical review has
 **Inputs:** the PRD (`<FEATURES_ROOT>/<id>_<slug>_prd.md`, with the ID from `bash "$TEMPLATES/scripts/next_feature_id.sh" "<FEATURES_ROOT>" <slug>` if you only have a name; never mint one), plus everything loaded in Step 0. Never invent PRD content.
 
 ### Choose the path (see "Design tool selection" above)
-- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built on the project's design system in Claude Design.
+- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built on the project's design system in Claude Design. **Right after scoping, deliver the Claude Design prompt** (`SKILL_DIR/assets/claude_design_prompt_template.md`): self-contained, in `docs_language`, saved at `<prototypes>/<id>_<slug>_claude_design_prompt.md`, and shown in chat inside a single fenced code block with nothing else in it, followed by the short steps to use it. This is the Stage 1 deliverable on Path A; never just describe what to do in Claude Design.
 - **Path B, code-first or another tool** (when Claude Design is unavailable, or by exception): read `SKILL_DIR/references/prototype_guidelines.md`.
 
 ### Scope first (both paths)
@@ -110,7 +110,7 @@ List the screens and states you'll prototype, one line each, plus **every new co
 
 For every piece of feedback:
 1. Check it against the PRD, `ui_standards.md`, `ui_kit_registry.md` and `tech_standards.md`.
-2. **No conflict:** apply it and re-present. Path B edits in place; Path A changes happen on the user's canvas.
+2. **No conflict:** apply it and re-present. Path B edits in place; Path A changes happen on the user's canvas: give them a follow-up prompt (one copy-pasteable block, per the template's "Follow-up prompts") with exactly the agreed changes.
 3. **Conflict:** stop and quote exactly what it contradicts and where. The user decides which wins. Never resolve it silently in either direction. A stack conflict goes to `tech-lead`.
 4. **Log** every resolution; it feeds the UX Flow's deviations section.
 5. **New component needed by the feedback?** Announce it before adding it, as above.
@@ -159,5 +159,6 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 - `SKILL_DIR/references/ui_foundations_guide.md`: how to build UI standards on the chosen stack.
 - `SKILL_DIR/references/prototype_guidelines.md`: code-first path, Tmp convention, parity checklist, presenting.
 - `SKILL_DIR/references/claude_design_handoff.md`: the Claude Design path and reconciliation.
+- `SKILL_DIR/assets/claude_design_prompt_template.md`: the copy-pasteable Claude Design prompt (Stage 1) and follow-up prompts (Stage 2).
 - `SKILL_DIR/assets/prototype_scaffold.html`: sandboxed React starting point with a design-token hook.
 - `TEMPLATES/work_tracking_guide.md`: GitHub Issues hierarchy, labels, issue bodies, checkpoints (protocol §13).

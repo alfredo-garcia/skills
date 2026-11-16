@@ -22,11 +22,14 @@ Claude Design is in research preview. Treat the specifics below as "how it works
 
 ## 2. Handing off a feature's prototype (Stage 1)
 
-Give the user what they need for a good first pass in a Claude Design project using the project's design system:
-- the PRD sections in scope (goals, user stories, the screens and flows, every UI state from §9 and edge case from §10);
-- the agreed scope list from Stage 1, **including the new components already announced and accepted**;
-- the surfaces to cover (web / Android / iOS) and any platform conventions from `ui_standards.md`;
-- an explicit instruction to use only design-system components, and to flag anything new instead of improvising it.
+Hand the user **one ready-to-paste prompt**, built with `SKILL_DIR/assets/claude_design_prompt_template.md`. It must be self-contained (Claude Design hasn't seen the PRD) and carry:
+- the PRD content in scope (goal, what's out of scope, the screens and flows, every UI state and edge case, real copy and example data);
+- the agreed scope list from Stage 1, **including the new components already announced and accepted**, with their `Tmp` names;
+- the surfaces and formats to cover and the platform conventions and voice from `ui_standards.md`;
+- an explicit instruction to use only design-system components, and to flag anything new instead of improvising it;
+- what to deliver (navigable prototype, every state visible, a list of components used and new ones flagged).
+
+Save it at `<prototypes>/<id>_<slug>_claude_design_prompt.md` and show it in chat in a single fenced code block, followed by the steps to use it (open a project with the design system, paste, iterate, bring the result back). For feedback during Stage 2, hand over follow-up prompts the same way.
 
 The user iterates there, with or without you present. Your role resumes when they bring the result back.
 
