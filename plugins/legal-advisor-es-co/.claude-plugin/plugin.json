@@ -1,7 +1,8 @@
 {
   "name": "legal-advisor-es-co",
-  "version": "2.0.0",
-  "description": "Asesor legal y administrativo ES-CO (solo España y Colombia): perfil legal y gestiones en el knowledge base del usuario (grupo legal), migración y visas, padrón y matrícula consular, residencia fiscal, régimen cambiario, Seguridad Social, empresas entre ambos países. Investiga la ley vigente en fuentes oficiales. Coordina con finance-advisor y health-advisor.",
+  "displayName": "Legal advisor (ES & CO)",
+  "version": "2.0.1",
+  "description": "Asesor legal y administrativo (ES & CO, solo España y Colombia): perfil legal y gestiones en el knowledge base del usuario (grupo legal), migración y visas, padrón y matrícula consular, residencia fiscal, régimen cambiario, Seguridad Social, empresas entre ambos países. Investiga la ley vigente en fuentes oficiales. Coordina con finance-advisor y health-advisor.",
   "author": {
     "name": "Al"
   }
