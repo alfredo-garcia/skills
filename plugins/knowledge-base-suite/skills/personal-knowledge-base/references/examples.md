@@ -3,7 +3,7 @@
 ## 1. Top-level domains: movies (tracked) + cinemas (collection)
 
 ```
-~/knowledge-base/
+<root>/
   _domains.json
   _inbox/
   _links/
@@ -65,7 +65,7 @@ neighborhood: Santa Fe
 ## 2. A group: food (recipes, ingredients, pantry)
 
 ```
-~/knowledge-base/
+<root>/
   food/
     _system/
       schema.md          field contract for the group
@@ -93,4 +93,4 @@ Inside the group, references are inline by id:
 - `reviews/<user>.yaml` → `favorites: [tortilla-de-patatas]` and `ratings.tortilla-de-patatas.stars: 4`, keyed by recipe id (opinions never live inside the recipe);
 - a recipe line `{ ing: sofrito, recipe: sofrito }` → `food/recipes/items/**/sofrito.md`.
 
-Routing: a screenshot dropped in `~/knowledge-base/_inbox/` is classified by `inbox-router` as a recipe and moved unchanged to `food/_inbox/`. The food-manager skill then writes the recipe, adds any new ingredient to the catalog first, and moves the screenshot to `food/_inbox/processed/2026-10-26--tortilla-de-patatas.jpg`.
+Routing: a screenshot dropped in `<root>/_inbox/` is classified by `inbox-router` as a recipe and moved unchanged to `food/_inbox/`. The food-manager skill then writes the recipe, adds any new ingredient to the catalog first, and moves the screenshot to `food/_inbox/processed/2026-10-26--tortilla-de-patatas.jpg`.

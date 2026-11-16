@@ -18,10 +18,10 @@ Si aparece cualquiera de estas, la primera línea de la respuesta es: ir a urgen
 - Deshidratación: no orinar en 8–12 h, mareo al levantarse, incapacidad para retener líquidos.
 - Dolor testicular brusco.
 - Ojo rojo doloroso con pérdida de visión.
-- Dolor e hinchazón de una pantorrilla (posible trombosis), especialmente tras vuelo largo (Barcelona–Bogotá).
+- Dolor e hinchazón de una pantorrilla (posible trombosis), especialmente tras un vuelo largo.
 - Herida profunda, mordedura animal (valorar rabia/tétanos), quemadura extensa.
 - Retención de orina.
 
 ## Recursos de consejo no urgente
-- Cataluña: 061 Salut Respon (24 h).
+- España: teléfono de consejo sanitario de la comunidad autónoma (24 h).
 - Colombia: línea de orientación de la EPS o de la prepagada; teleconsulta.

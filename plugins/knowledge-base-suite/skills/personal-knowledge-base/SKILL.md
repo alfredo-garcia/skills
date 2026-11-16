@@ -1,6 +1,6 @@
 ---
 name: personal-knowledge-base
-description: "Storage conventions (v2) and setup of the user's personal knowledge base — a local folder (usually ~/knowledge-base) synced with Google Drive: root setup, the owner profile (_profile.yaml), group scaffolds, domain types (tracked, collection, catalog, state), folder layout, file naming, frontmatter, inboxes and routing, indexes, attachments, vocabularies, cross-domain links and date/format standards. ANY skill that persists, looks up, deduplicates, routes or tracks information across sessions (recipes, plans, training, health, movies, jobs, apartments or any new domain) MUST follow this skill before reading or writing the knowledge base. Use it when setting up a knowledge base for the first time (\"monta mi knowledge base\"), syncing it with Google Drive, creating a domain or group, adding or deduplicating an item, processing an inbox, recording preferences, or linking items across domains."
+description: "Storage conventions (v2) and setup of the user's personal knowledge base — a local folder (the folder the user chooses) synced with Google Drive: root setup, the owner profile (_profile.yaml), group scaffolds, domain types (tracked, collection, catalog, state), folder layout, file naming, frontmatter, inboxes and routing, indexes, attachments, vocabularies, cross-domain links and date/format standards. ANY skill that persists, looks up, deduplicates, routes or tracks information across sessions (recipes, plans, training, health, movies, jobs, apartments or any new domain) MUST follow this skill before reading or writing the knowledge base. Use it when setting up a knowledge base for the first time (\"monta mi knowledge base\"), syncing it with Google Drive, creating a domain or group, adding or deduplicating an item, processing an inbox, recording preferences, or linking items across domains."
 ---
 
 # Personal Knowledge Base — Storage Conventions (v2)
@@ -14,49 +14,66 @@ Core principles:
 - **Scaffolding in English, content in the user's language.** Folder names, file names of system files, frontmatter keys, enum/vocabulary ids and domain names are English. Content (titles, names, notes, recipe and ingredient names, display labels) is Spanish. Vocabulary files map English ids to Spanish labels.
 - **No scripts, no database engine.** Markdown + YAML + JSON, kept consistent by following these rules.
 
-## Root location and sync
+## Finding the knowledge base
 
-The root is a local folder, `~/knowledge-base` by default; in Cowork it is the connected folder that contains `_domains.json` (with the device shell, usually `$HOME/mnt/knowledge-base`). Find it once per session and resolve every path against it.
+The knowledge base lives in whatever folder the user chose; skills never assume it. Find it once per session and resolve every path against it:
 
-It is synced with Google Drive by whatever `_profile.yaml` → `sync` says: Google Drive for desktop in mirror mode (Mac/Windows) or `rclone bisync` run by cron (Linux), in which case always run sync through `sync.command`, never `rclone bisync` directly. Local agents see real files; apps use the Drive API. Sync is not instant (seconds to ~5 minutes), which is why every writer follows the optimistic write rule. Setup and troubleshooting: `references/setup-and-sync.md`.
+1. A folder the user named in this conversation.
+2. The connected folder (Cowork) or the working directory: the first one, or a direct subfolder, that contains `_domains.json` or `_profile.yaml` (with the device shell, connected folders are usually under `$HOME/mnt/`).
+3. `~/knowledge-base`, if it exists and contains `_domains.json`.
+
+Nothing found → **ask the user** which folder to use: an existing knowledge base, or a new folder (ideally inside Google Drive for desktop, see `references/setup-and-sync.md`). Never create a knowledge base in a place the user didn't choose. In plain chat with no filesystem, say so and work by returning files for the user to save.
+
+## Sync
+
+It is synced with Google Drive by whatever `_profile.yaml` → `sync` says: Google Drive for desktop in mirror mode (Mac/Windows) or `rclone bisync` run by cron (Linux), in which case always run sync through `sync.command`, never `rclone bisync` directly. Local agents see real files; apps use the Drive API. Sync is not instant (seconds to ~5 minutes), which is why every writer follows the optimistic write rule.
 
 ## Owner profile (`_profile.yaml`)
 
-The only place where personal facts about the owner live: user id, name and how to address them, content language, timezone, home city and country, relevant countries, sync method and (optional) Telegram delivery. **Skills never hardcode any of this**; they read it from here. Template: `assets/profile-template.yaml`.
+The only place where general personal facts about the owner live: user id, name and how to address them, content language, timezone, home city and country, relevant countries, sync method and (optional) Telegram delivery. **Skills never hardcode any of this, nor any other fact about a specific person**; they read it from the knowledge base. Template: `assets/profile-template.yaml`.
 
 - `user` is the id for every per-user file (`<domain>/<user>.yaml`, `reviews/<user>.yaml`…). `household` lists other user ids that share per-user files in this base.
 - `timezone` (IANA) gives the offset of every timestamp written (`America/Bogota` → `-05:00`; `Europe/Madrid` → `+01:00` or `+02:00` depending on the date).
 - `telegram.enabled: false` (or missing) means no Telegram: notifications and confirmations stay in the session.
-- Personal facts that belong to a domain (health conditions, training constraints, cities to search, preferences) live in that domain's files, never here and never in a skill.
+- Personal facts that belong to a domain (health conditions, training constraints, cities to search, legal or financial situation, preferences) live in that domain's files, never here and never in a skill.
 
-## Root setup (first run)
+## Root setup (the general minimum)
 
-When no root with `_domains.json` exists, or the user asks to set up their knowledge base:
+This skill creates only what every group needs. When the chosen folder has no `_profile.yaml` (or no `_domains.json`), tell the user the knowledge base isn't set up yet and do this:
 
-1. Agree on the folder (default `~/knowledge-base`; in Cowork, ask the user to create and connect it first — ideally a folder inside Google Drive for desktop, see `references/setup-and-sync.md`).
-2. Ask, in one short message: name and how to address them, user id (suggest the first name in kebab-case), timezone, home city and country, other relevant countries, and whether they want Telegram now (default no).
-3. Write `_profile.yaml` from the template with those answers (`{{now}}` = current timestamp).
-4. Run `python3 scripts/install_scaffold.py <root> assets/root` (paths relative to this skill): it creates `_domains.json`, `_inbox/` with its README and `_links/`, never overwriting.
-5. Tell the user which group skills can be installed next (each one sets up its own group the first time it's used) and point them to the sync guide.
+1. Ask, in one short message: name and how to address them, user id (suggest the first name in lowercase kebab-case), timezone, home city and country, other relevant countries, sync method, and whether they want Telegram now (default no).
+2. Write `_profile.yaml` from `assets/profile-template.yaml` with those answers (`{{now}}` = current timestamp).
+3. Create, only if missing: `_domains.json` (`{"version": 2, "groups": {}, "domains": {}}`), `_inbox/_README.md` (from `assets/inbox-readme.md`), `_inbox/processed/` and `_links/`.
+4. Nothing else: **no group is created here**. Tell the user each skill sets up its own group the first time it's used, and point them to the sync guide.
 
-Without a shell, do the same by hand: the script only copies files and merges registry entries.
+Never overwrite an existing file; if `_profile.yaml` exists but lacks a field a skill needs, ask for that field and add it.
 
-## Group scaffolds (each skill sets up its own group)
+## Skill startup (every skill that uses the knowledge base)
 
-This standard knows nothing about any domain. Each domain skill ships its own scaffold in `assets/scaffold/` — `registry.json` (its `groups`/`domains` entries) and `files/` (schema, vocabularies, empty stores, inbox README, per-user templates with `{{user}}`) — and installs it the first time it's needed:
+1. Find the knowledge base (above); if there is none, ask for the folder.
+2. No `_profile.yaml` → tell the user and run the root setup of this skill (load `personal-knowledge-base` by name).
+3. The skill's group isn't in `_domains.json` → the skill sets it up itself from its own `assets/scaffold/` (see below).
+4. The user has no data yet in the group (no profile, program, ficha…) → the skill says so and starts building it with the user, a few questions at a time, writing each answer to the group's files as it goes.
+
+## Group scaffolds (owned by each skill)
+
+This standard knows nothing about any domain. Each skill that owns a group ships its own scaffold and its own copy of the installer:
 
 ```
-python3 <personal-knowledge-base>/scripts/install_scaffold.py <root> <skill>/assets/scaffold
+<skill>/assets/scaffold/registry.json   its groups/domains entries for _domains.json
+<skill>/assets/scaffold/files/          schema, vocabularies, empty stores, inbox README,
+                                        per-user templates named with {{user}}
+<skill>/scripts/scaffold.py             python3 scripts/scaffold.py <root>
 ```
 
-The script needs `_profile.yaml`, fills `{{user}}`, `{{name}}`, `{{now}}`, `{{today}}`, registers what is missing, creates the storage of every domain type, and never overwrites a file or an existing registry entry; a name already used with another path is reported as a conflict and nothing is written for it. After installing, the skill asks only its group-specific setup questions (e.g. cities to search, training constraints) and writes the answers into its own files.
+The installer needs `_profile.yaml`, fills `{{user}}`, `{{name}}`, `{{now}}`, `{{today}}`, registers what is missing, creates the storage of every domain type, and never overwrites a file or an existing registry entry; a name already used with another path is reported as a conflict and nothing is written for it. Without a shell, the skill does the same by hand. Scaffolds contain structure only — never content about a person (no starter catalogs of their things, no example cities or conditions of a real user).
 
 Once installed, **the group's `_system/schema.md` in the knowledge base is the contract**: the skill follows the user's copy (which may have evolved), not the scaffold.
 
 ## Folder layout
 
 ```
-~/knowledge-base/
+<root>/
   _domains.json              registry of groups and domains
   _inbox/                    global inbox, handled by inbox-router
     processed/
@@ -276,7 +293,7 @@ Free-form notes for an agent to read before acting in that domain. Update only o
 
 ## Workflow summary for any domain skill
 
-1. Find the root and read `_profile.yaml` and `_domains.json`; if the group isn't registered, install the skill's scaffold (see Group scaffolds).
+1. Follow Skill startup: find the knowledge base, read `_profile.yaml` and `_domains.json`, set up the group from the skill's scaffold if it isn't registered.
 2. Read the domain's `_system/` and `preferences.md`.
 3. Run the dedup workflow.
 4. Write the item (core + domain fields), adding catalog entries or vocabulary values first if needed.

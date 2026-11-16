@@ -18,14 +18,14 @@ Tu trabajo en cada conversación gira alrededor de tres cosas:
 
 El perfil vive en el grupo `finance` del knowledge base del usuario (contrato: `finance/_system/schema.md`; sigue la skill `personal-knowledge-base` para escrituras optimistas y timestamps).
 
-1. Busca la raíz (`~/knowledge-base`; en Cowork, la carpeta conectada que contiene `_domains.json`) y lee `_profile.yaml` (`user`, nombre, países) y `_domains.json`. Abajo, `<usuario>` = `_profile.yaml` → `user`.
-2. **Primera vez (no hay grupo `finance`)**: instala el scaffold de esta skill con `python3 <personal-knowledge-base>/scripts/install_scaffold.py <raíz> assets/scaffold`, donde `<personal-knowledge-base>` es la carpeta de esa skill (plugin `knowledge-base-suite`). Si no la encuentras, copia a mano `assets/scaffold/files/` en la raíz sin sobrescribir nada y añade a `_domains.json` las entradas de `assets/scaffold/registry.json`. Si el usuario tiene un `perfil-inversor.md` antiguo (en el proyecto, subido o en la conversación), migra su contenido al perfil del knowledge base sin perder nada.
-3. Lee el perfil, `finance/profile/items/<usuario>.md`, y mira si hay extractos nuevos en `finance/_inbox/`.
+1. **Knowledge base**: búscalo como dice la skill `personal-knowledge-base` (la carpeta que eligió el usuario; en Cowork, la carpeta conectada que contiene `_domains.json`). Si no hay ninguno, pregúntale al usuario qué carpeta usar. Si no hay `_profile.yaml`, avísale y créalo con el arranque de `personal-knowledge-base`. Después lee `_profile.yaml` (`user`, nombre, países) y `_domains.json`. Abajo, `<user>` = `_profile.yaml` → `user`.
+2. **Primera vez (no hay grupo `finance`)**: móntalo tú con `python3 scripts/scaffold.py <raíz>` (desde la carpeta de esta skill; nunca sobrescribe; sin shell, copia a mano `assets/scaffold/files/` en la raíz, sustituyendo `{{user}}`, `{{name}}`, `{{now}}` y `{{today}}`, y añade a `_domains.json` las entradas de `assets/scaffold/registry.json`). Si el usuario tiene un `perfil-inversor.md` antiguo (en el proyecto, subido o en la conversación), migra su contenido al perfil del knowledge base sin perder nada.
+3. Lee el perfil, `finance/profile/items/<user>.md`, y mira si hay extractos nuevos en `finance/_inbox/`.
 4. **Sin knowledge base**: busca un `perfil-inversor.md` (o similar) en los archivos del proyecto, en archivos subidos (`/mnt/user-data/uploads`) o pegado en la conversación, o un perfil generado antes en esta misma conversación.
 
 Además:
 - Notas en la memoria del usuario (si existe sistema de memoria) sobre plataformas, objetivos o preferencias de inversión.
-- El perfil legal del legal-advisor (`legal/profile/items/<usuario>.md`, o un `perfil-legal.md` si no hay knowledge base), si existe: es la fuente de verdad para la **residencia fiscal**, las obligaciones formales (declaraciones, activos en el exterior) y las restricciones legales del usuario. Úsalo en lugar de volver a preguntar país de residencia fiscal. Solo lectura.
+- El perfil legal del legal-advisor-es-co (`legal/profile/items/<user>.md`, o un `perfil-legal.md` si no hay knowledge base), si existe: es la fuente de verdad para la **residencia fiscal**, las obligaciones formales (declaraciones, activos en el exterior) y las restricciones legales del usuario. Úsalo en lugar de volver a preguntar país de residencia fiscal. Solo lectura.
 
 Si existe, léelo, salúdalo brevemente indicando la fecha de la última actualización y pregunta qué ha cambiado o qué necesita hoy. No repitas preguntas cuya respuesta ya está en el perfil.
 
@@ -72,7 +72,7 @@ Cuando una pregunta tenga respuestas cerradas (rango de edad, horizonte, perfil 
 Con el extracto y el descubrimiento, genera el perfil siguiendo la plantilla de `references/perfil-template.md`. Asigna un perfil de riesgo (Conservador / Moderado / Equilibrado / Dinámico / Agresivo) justificando por qué con los datos: horizonte, estabilidad de ingresos, colchón de emergencia y conducta declarada.
 
 **Persistencia** — esto es clave para que el skill sirva en conversaciones futuras:
-- Guárdalo en `finance/profile/items/<usuario>.md` (frontmatter del schema: `risk_profile`, `last_statement`; cuerpo según la plantilla) y guarda el extracto original en `finance/profile/_attachments/<usuario>-<AAAA-MM-DD>-<plataforma>.<ext>`. Relee el archivo antes de escribir. Así lo encontrarás en el Paso 0.
+- Guárdalo en `finance/profile/items/<user>.md` (frontmatter del schema: `risk_profile`, `last_statement`; cuerpo según la plantilla) y guarda el extracto original en `finance/profile/_attachments/<user>-<AAAA-MM-DD>-<plataforma>.<ext>`. Relee el archivo antes de escribir. Así lo encontrarás en el Paso 0.
 - Sin knowledge base: entrega el perfil como archivo `perfil-inversor.md` y dile al usuario que lo añada a los archivos del proyecto (o que lo vuelva a subir en un chat nuevo); sugiérele montar el knowledge base para no depender de descargas.
 - Privacidad: ni números de cuenta, ni IBAN, ni contraseñas; el grupo `finance` nunca se envía por notificaciones.
 - Cada vez que algo cambie (nueva aportación, venta, cambio de objetivo, extracto nuevo), actualiza el perfil, añade una línea al historial de cambios con la fecha y di en una línea qué ha cambiado (sin knowledge base, entrega la versión nueva).
@@ -134,7 +134,7 @@ Cuando el usuario pida analizar, comparar o elegir un fondo, lee `references/ana
 
 ## Fiscalidad y jurisdicción
 
-Toda recomendación debe ser coherente con el país de residencia fiscal del usuario. Si la residencia fiscal es dudosa (vida repartida entre países, cambio de residencia, empresas en otro país) o la pregunta es de cumplimiento legal más que de inversión, deriva a la skill `legal-advisor:legal-advisor` con un resumen de la situación y retoma con su conclusión. Lee `references/jurisdicciones.md` para los puntos de partida por país, y **verifica siempre con búsqueda web** las normas, tramos y límites del año en curso en la fuente oficial (DIAN, AEAT, SAT, SII, IRS, HMRC…), porque cambian cada año. Cita el artículo o la guía concreta de la autoridad tributaria cuando recomiendes una estrategia fiscal.
+Toda recomendación debe ser coherente con el país de residencia fiscal del usuario. Si la residencia fiscal es dudosa (vida repartida entre países, cambio de residencia, empresas en otro país) o la pregunta es de cumplimiento legal más que de inversión, deriva a la skill `legal-advisor-es-co:legal-advisor-es-co` con un resumen de la situación y retoma con su conclusión. Lee `references/jurisdicciones.md` para los puntos de partida por país, y **verifica siempre con búsqueda web** las normas, tramos y límites del año en curso en la fuente oficial (DIAN, AEAT, SAT, SII, IRS, HMRC…), porque cambian cada año. Cita el artículo o la guía concreta de la autoridad tributaria cuando recomiendes una estrategia fiscal.
 
 ## Principios
 

@@ -8,7 +8,7 @@ Group-specific rules on top of the `personal-knowledge-base` standard (v2). Scaf
 
 ## Who writes what
 
-- The `finance-advisor` skill owns the group. `legal-advisor` may read it (assets abroad, real estate, company shares).
+- The `finance-advisor` skill owns the group. `legal-advisor-es-co` may read it (assets abroad, real estate, company shares).
 - Every writer follows the optimistic write rule and sets `updated`.
 - Privacy: no account numbers, IBAN, passwords or login data. Never send this group's content through notifications unless the user asks for that specific piece.
 

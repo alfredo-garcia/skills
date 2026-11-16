@@ -1,6 +1,6 @@
 ---
 name: food-manager
-description: "Owns the food group of the user's knowledge base (<root>/food), and sets it up the first time: turns any recipe input into normalized recipe files, edits recipes, keeps each user's ratings, comments and favorites in a separate reviews registry, and keeps the pantry. Use it whenever the user shares a recipe in any form — a screenshot from any app or site, a photo of a book, pasted text, an Instagram, YouTube or web link, a Google Doc or PDF — whether in a chat, in Cowork or through Telegram via inbox-router; when they ask to process the food inbox (\"procesa el inbox de recetas\"); when they ask to change or fix a recipe, mark it as curated, rate it, comment it or add it to favorites (\"cambia X en la receta Y\", \"ponle 4 estrellas al ajiaco\", \"guarda la tortilla en favoritas\"); asks which recipes are pending curation; or say what they bought or ran out of (\"compré nata\", \"se acabó el arroz\"). Always follow the personal-knowledge-base skill and food/_system/schema.md; never invent another format."
+description: "Owns the food group of the user's knowledge base (<root>/food), and sets it up the first time: turns any recipe input into normalized recipe files, edits recipes, keeps each user's ratings, comments and favorites in a separate reviews registry, and keeps the pantry. Use it whenever the user shares a recipe in any form — a screenshot from any app or site, a photo of a book, pasted text, an Instagram, YouTube or web link, a Google Doc or PDF — whether in a chat, in Cowork or through Telegram via inbox-router; when they ask to process the food inbox (\"procesa el inbox de recetas\"); when they ask to change or fix a recipe, mark it as curated, rate it, comment it or add it to favorites (\"cambia X en la receta Y\", \"ponle 4 estrellas a las lentejas\", \"guarda la tortilla en favoritas\"); asks which recipes are pending curation; or say what they bought or ran out of (\"compré nata\", \"se acabó el arroz\"). Always follow the personal-knowledge-base skill and food/_system/schema.md; never invent another format."
 ---
 
 # food-manager
@@ -10,8 +10,8 @@ Takes recipe input in any form and leaves it as correctly formatted files in the
 ## 0. Before anything
 
 1. Read the `personal-knowledge-base` skill (inboxes, dedup, optimistic writes, timestamps).
-2. Find the root (`~/knowledge-base`; in Cowork, the connected folder that contains `_domains.json`) and read `_profile.yaml` (user id, name, timezone, Telegram) and `_domains.json`. No root yet → run the root setup of `personal-knowledge-base` first.
-3. **First use — no `food` group in `_domains.json`**: install this skill's scaffold with `python3 ../personal-knowledge-base/scripts/install_scaffold.py <root> assets/scaffold` (paths relative to this skill's folder) (it never overwrites). It brings the schema, vocabularies, a starter ingredient catalog, the pantry, the user's reviews file and an empty meal plan. Ask one optional question ("¿algo que no comas o que quieras evitar?") and write the answer in `food/recipes/preferences.md`. Then continue with the request.
+2. **Knowledge base**: find it as the `personal-knowledge-base` skill says (the folder the user chose; in Cowork, the connected folder that contains `_domains.json`). None found → ask the user which folder to use. No `_profile.yaml` → tell the user and create it with the root setup of `personal-knowledge-base`. Then read `_profile.yaml` (user id, name, timezone, Telegram) and `_domains.json`.
+3. **First use — no `food` group in `_domains.json`**: set it up yourself with `python3 scripts/scaffold.py <root>` (run from this skill's folder; it never overwrites; without a shell, copy `assets/scaffold/files/` into the root and merge `assets/scaffold/registry.json` into `_domains.json` by hand). It brings only structure: the schema, vocabularies, an empty ingredient catalog and pantry, the user's empty reviews file and an empty meal plan. Ingredients are created from recipes or when the user asks for one; recipes come only from the user. Tell the user the food group is ready and empty, and ask two optional questions ("¿algo que no comas o que quieras evitar?", "¿qué das siempre por hecho que hay en casa (sal, aceite…)?"); write the answers in `food/recipes/preferences.md`. Then continue with the request.
 4. Every path below is relative to the root and confirmed in `_domains.json` (`food` group, domains `recipes`, `ingredients`, `pantry`, `reviews`, `plan`). Read in one go: `food/_system/schema.md` (the contract: the user's copy wins over anything here), `food/_system/units.yaml`, `food/recipes/_system/categories.yaml`, `food/recipes/_system/tags.yaml`, `food/ingredients/items.yaml`, `food/ingredients/_system/families.yaml`, `food/recipes/preferences.md`. For favorites and ratings, also `food/reviews/<user>.yaml` (`<user>` = `_profile.yaml` → `user`, or another id listed in `household` when that person is the one talking).
 5. No filesystem (plain chat): do the same work, but return the resulting files in the reply for the user to save, and say so in one line.
 
@@ -50,7 +50,7 @@ Confirmations happen where the user is talking: in the chat or Cowork session, o
 3. **Translate** to Spanish (Spain) if needed; add "Traducida del <idioma>" to `doubts`.
 4. **Normalize ingredients**, line by line:
    - Match the catalog by id, `name` and `synonyms`, accent- and case-insensitive, singular.
-   - Not found → add to `food/ingredients/items.yaml` first: Spanish (Spain) id and name, source wording as a synonym if it differs, a `family`, `staple: false` (staples are only what `schema.md` says, unless the user says otherwise).
+   - Not found → add to `food/ingredients/items.yaml` first: Spanish (Spain) id and name, source wording as a synonym if it differs, a `family`, `staple: false` (staples are only what `schema.md` and `preferences.md` say).
    - Keep the original unit (map to a `units.yaml` id), never convert. Fractions → decimals. Ranges ("2-3 dientes") → lower bound in `qty`, the range in `note`.
    - Vague amounts ("un chorrito", "un puñado") → closest unit, explained in `doubts`.
    - Preparation in `note`; multi-part recipes with Spanish `group` slugs (`masa`, `relleno`, `para-servir`); sub-recipes with `recipe: <id>`.
@@ -82,7 +82,7 @@ Process them; never drop information. What needs the user's eyes goes in `doubts
 
 1. Identify the recipe from the user's words (id, title, synonyms, accent-insensitive).
 2. **Always confirm before acting**: show the title and path, plus the change you understood, and wait for a yes.
-   > ¿Es esta? **Ajiaco santafereño** (`food/recipes/items/03-soups/ajiaco-santafereno.md`). Cambio: 3 → 4 papas criollas.
+   > ¿Es esta? **Lentejas estofadas** (`food/recipes/items/03-soups/lentejas-estofadas.md`). Cambio: 3 → 4 zanahorias.
    Several candidates → list them numbered and ask which. None → say so and ask.
 3. Apply only what was confirmed. Re-normalize any ingredient line you touch. `category` changed → move the file; `id` never changes, even if the title does.
 4. Recompute `missing`, set `updated`, run `scripts/check.py`, and reply with what changed (before → after).

@@ -11,7 +11,7 @@
    España y Colombia suelen informar en mg/dL; algunos laboratorios europeos usan SI.
 3. **Todos los valores**: fuera de rango, en el límite y patrones (p. ej. VCM bajo + ferritina baja; ALT/AST elevadas con GGT normal).
 4. **Tendencia**: tabla con las fechas anteriores del proyecto. Un valor "normal" que ha cambiado mucho puede importar más que uno levemente alterado y estable.
-5. **Factores de confusión**: ayuno, ejercicio intenso previo (CK, transaminasas), hidratación, ciclo, medicación (estatinas, metformina, IBP, anticonceptivos), suplementos (biotina altera pruebas tiroideas), altitud (Manizales ~2.150 m sube hemoglobina y hematocrito), infección reciente.
+5. **Factores de confusión**: ayuno, ejercicio intenso previo (CK, transaminasas), hidratación, ciclo, medicación (estatinas, metformina, IBP, anticonceptivos), suplementos (biotina altera pruebas tiroideas), altitud (por encima de ~2.000 m sube hemoglobina y hematocrito; ver `locations.yaml` → `altitude_m`), infección reciente.
 6. **Coherencia clínica**: ¿explica los síntomas actuales? ¿Hay algo que el síntoma predice y no se ha medido?
 7. **Qué falta**: pruebas que completarían el estudio, y cuáles son razonables pedir en atención primaria vs especialista.
 

@@ -1,6 +1,6 @@
 # Cities and the search scope for each. Filled by plan-manager during setup; add a city here before using it.
 # scope: everyday = any plan, always (your home city) | big-only = only big concerts/events | trip-only = only during trips in trips/trips.yaml
 # Example:
-# manizales: { label: Manizales, country: CO, scope: everyday }
-# medellin: { label: Medellín, country: CO, scope: big-only }
+# <home-city-id>: { label: <Ciudad>, country: <ISO>, scope: everyday }
+# <other-city-id>: { label: <Ciudad>, country: <ISO>, scope: big-only }
 {}

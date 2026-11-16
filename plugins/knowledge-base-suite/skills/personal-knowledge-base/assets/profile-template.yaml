@@ -7,12 +7,12 @@ address:
   form: tú                     # tú | usted
   grammatical_gender: neutral  # f | m | neutral — for Spanish agreement ("¿estás cansada/cansado?")
 language: es-ES                # language of the content (titles, notes, labels)
-timezone: America/Bogota       # IANA name; timestamps use its offset at the moment of writing
+timezone: ""                   # IANA name (e.g. Europe/Madrid); timestamps use its offset at the moment of writing
 home:
-  city: ""                     # e.g. Manizales
-  country: ""                  # ISO 3166-1 alpha-2, lowercase: co, es…
-countries: []                  # countries that matter for health, legal, tax (e.g. [co, es])
-household: []                  # other user ids who share per-user files here (e.g. a partner rating recipes)
+  city: ""                     # city name
+  country: ""                  # ISO 3166-1 alpha-2, lowercase
+countries: []                  # countries that matter for health, legal, tax (ISO codes)
+household: []                  # other user ids who share per-user files here (e.g. a partner who rates recipes)
 sync:
   method: none                 # none | google-drive-desktop | rclone-bisync | other
   command: ""                  # rclone-bisync only: script that runs the sync (e.g. ~/bin/kb-sync.sh)
