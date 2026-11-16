@@ -14,12 +14,19 @@
       "path": "fitness/exercises",
       "schema": 1
     },
+    "subroutines": {
+      "purpose": "Sub-rutinas: grupos de ejercicios con un propósito, con su orden y dosis.",
+      "type": "collection",
+      "group": "fitness",
+      "path": "fitness/subroutines",
+      "schema": 1
+    },
     "routines": {
-      "purpose": "Rutinas personales: ejercicios, orden y dosis.",
+      "purpose": "Rutinas personales: qué sub-rutinas, en qué orden y qué días.",
       "type": "collection",
       "group": "fitness",
       "path": "fitness/routines",
-      "schema": 3
+      "schema": 4
     },
     "program": {
       "purpose": "Programa de cada usuario: fase, restricciones, rutinas por día y diario de evolución.",
@@ -35,7 +42,7 @@
       "group": "fitness",
       "path": "fitness/sessions",
       "partition": "user",
-      "schema": 2
+      "schema": 3
     }
   }
 }

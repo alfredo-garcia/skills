@@ -1,0 +1,7 @@
+# One category per sub-routine; drives the folder items/<folder>/. Add the user's own categories here before using them.
+stability: { folder: 01-stability, label: Estabilidad }
+strength: { folder: 02-strength, label: Fuerza }
+cardio: { folder: 03-cardio, label: Cardio }
+mobility: { folder: 04-mobility, label: Estiramientos y movilidad }
+recovery: { folder: 05-recovery, label: Recuperación }
+express: { folder: 06-express, label: Exprés }
