@@ -72,7 +72,7 @@ A routine is one session template. Required: core fields, `title`, `category`, `
 | Field | Rule |
 | --- | --- |
 | aliases | Other names the user uses for it |
-| category | One id from `routines/_system/categories.yaml` (`swim-day`, `strength`, `mobility`, `express`, `cardio`); drives the folder |
+| category | One id from `routines/_system/categories.yaml` (e.g. `strength`, `cardio`, `mobility`, `mixed`, `express`); drives the folder |
 | days | Weekdays the routine is for: list of `mon`, `tue`, `wed`, `thu`, `fri`, `sat`, `sun`. Empty = no fixed day (express, archived). The source of truth for the weekly plan |
 | user | Owner (user id) |
 | status | `active`, `paused`, `draft`, `archived` (never delete: archive) |
@@ -80,7 +80,7 @@ A routine is one session template. Required: core fields, `title`, `category`, `
 | duration_min | Approximate length |
 | time_of_day | Free Spanish note |
 | rest | Default seconds between sets |
-| blocks | Ordered list `{ id, label, note, duration_min, range, items }`; `id` is a kebab-case English slug (`warm-up`, `mat`, `strength`, `pool`, `recovery`) |
+| blocks | Ordered list `{ id, label, note, duration_min, range, items }`; `id` is a kebab-case English slug (`warm-up`, `main`, `strength`, `cardio`, `recovery`) |
 
 Block item (the personal dose): `{ ex, sets, reps, time, hold, duration_min, rest, variant, resistance, range, note }` — only `ex` is required; `ex` exists in `exercises`; `variant` is a key of that exercise's `variants`; `resistance` from `resistances.yaml`; `rest` overrides the routine's; `range` is the ceiling before changing variant or band. Items of a block with its own `duration_min` share that time.
 

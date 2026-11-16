@@ -19,7 +19,7 @@ Shared vocabularies in `_system/`: `condition-statuses`, `certainty`, `body-syst
 ## Who writes what
 
 - The `health-advisor` skill owns the group: it creates and updates conditions, records, medications, providers and the profile.
-- Other skills **read** health data; they never write it. `fitness-manager` reads `conditions` (and `_links/conditions-program.json`) to keep `program.constraints` safe; `food-manager` may read `conditions` (e.g. gota, colesterol) when planning meals; `legal-advisor` / `finance-advisor` may read `health-profile.coverage`.
+- Other skills **read** health data; they never write it. `fitness-manager` reads `conditions` (and `_links/conditions-program.json`) to keep `program.constraints` safe; `food-manager` may read `conditions` (e.g. colesterol, diabetes) when planning meals; `legal-advisor-es-co` / `finance-advisor` may read `health-profile.coverage`.
 - Every writer follows the optimistic write rule and sets `updated`.
 - Privacy: this group contains clinical data and portal credentials. Never send its content through notifications or to external services unless the user asks for that specific piece.
 
@@ -48,7 +48,7 @@ Required: core fields, `title`, `status`, `body_system`.
 
 | Field | Rule |
 | --- | --- |
-| id | Slug of the Spanish name of the condition (`gota`, `hernia-discal-l4-l5`) |
+| id | Slug of the Spanish name of the condition (`migrana`, `hipertension-arterial`) |
 | title / aliases | Spanish display name; other names the user or doctors use |
 | status | `condition-statuses.yaml` |
 | body_system | `body-systems.yaml` id |
@@ -68,7 +68,7 @@ Body sections, in this order: `## Summary`, `## Timeline`, `## Objective data`, 
 
 `{ id, active_ingredient, brand, form, strength, dose, schedule, status, since, until, conditions: [ids], prescriber, record, notes }`
 
-- `id`: slug of the active ingredient (`levotiroxina`, `paracetamol-hidrocodona`); unique in the file.
+- `id`: slug of the active ingredient (`ibuprofeno`, `amoxicilina-acido-clavulanico`); unique in the file.
 - `status`: `medication-statuses.yaml` (`active`, `as-needed`, `stopped`).
 - `prescriber`: `health-providers` id or empty; `record`: the `medical-records` id of the prescription.
 - Never delete: a stopped medication keeps its line with `status: stopped` and `until`.
@@ -79,7 +79,7 @@ One file per encounter or result. Required: core fields, `title`, `type`, `date`
 
 | Field | Rule |
 | --- | --- |
-| id | `<YYYY-MM-DD>-<slug of the Spanish title>` (`2026-10-20-rm-columna-lumbosacra`) |
+| id | `<YYYY-MM-DD>-<slug of the Spanish title>` (`2026-01-15-analitica-general`) |
 | type | `record-types.yaml`; drives the folder `items/NN-<type>/` |
 | date | Date of the visit or study |
 | provider / center | `health-providers` ids (professional / place) |

@@ -30,5 +30,5 @@
 | Herpes labial | Aciclovir crema | |
 | Insomnio ocasional | Higiene del sueño; melatonina; doxilamina (España) | Doxilamina: no conducir, no en mayores. Insomnio > 3 semanas → consultar. |
 
-## Altitud y viajes (Manizales ~2.150 m)
-A esa altitud el mal de altura es raro y leve; sí en excursiones al Nevado del Ruiz (>4.000 m): aclimatar, hidratarse, bajar si empeora. Recordar repelente (DEET o icaridina) en zonas cálidas por dengue.
+## Altitud y viajes
+Si el usuario vive o viaja por encima de ~2.000 m (`locations.yaml` → `altitude_m`): el mal de altura es raro y leve a esa altitud; sí en excursiones por encima de ~3.500–4.000 m: aclimatar, hidratarse, bajar si empeora. Recordar repelente (DEET o icaridina) en zonas cálidas por dengue.

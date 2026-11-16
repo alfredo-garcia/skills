@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Skills y plugins de Al, reutilizables por cualquiera: cada usuario trabaja sobre su propio knowledge base.",
-    "version": "1.1.0"
+    "version": "1.2.0"
   },
   "plugins": [
     {
@@ -21,7 +21,7 @@
       "name": "knowledge-base-suite",
       "source": "./plugins/knowledge-base-suite",
       "description": "Knowledge base personal multiusuario (carpeta local sincronizada con Google Drive): convenciones de almacenamiento, arranque desde cero con perfil del dueño (_profile.yaml), cada skill monta su propio grupo, enrutado del inbox, notificaciones por Telegram opcionales, recetas/despensa, planes y entrenamiento.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Al"
       }
@@ -30,7 +30,7 @@
       "name": "finance-advisor",
       "source": "./plugins/finance-advisor",
       "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente en el knowledge base (grupo finance) y análisis de cartera.",
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "Al"
       }
@@ -39,16 +39,16 @@
       "name": "health-advisor",
       "source": "./plugins/health-advisor",
       "description": "Asistente de salud personal sobre el grupo health del knowledge base (ficha, dolencias, medicación, pruebas, médicos), con sistemas de salud de España y Colombia. Monta su grupo la primera vez.",
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "Al"
       }
     },
     {
-      "name": "legal-advisor",
-      "source": "./plugins/legal-advisor",
-      "description": "Asesor legal y administrativo España–Colombia: perfil legal y gestiones en el knowledge base (grupo legal), migración, padrón y matrícula consular, residencia fiscal, régimen cambiario, Seguridad Social, empresas entre ambos países. Investiga la ley vigente en fuentes oficiales. Coordina con finance-advisor y health-advisor.",
-      "version": "1.3.0",
+      "name": "legal-advisor-es-co",
+      "source": "./plugins/legal-advisor-es-co",
+      "description": "Asesor legal y administrativo ES-CO (solo España y Colombia): perfil legal y gestiones en el knowledge base del usuario (grupo legal), migración y visas, padrón y matrícula consular, residencia fiscal, régimen cambiario, Seguridad Social, empresas entre ambos países. Investiga la ley vigente en fuentes oficiales. Coordina con finance-advisor y health-advisor.",
+      "version": "2.0.0",
       "author": {
         "name": "Al"
       }

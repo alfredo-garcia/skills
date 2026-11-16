@@ -10,7 +10,7 @@ Guía para una persona que empieza de cero. El knowledge base es una carpeta nor
 
 ## 2. Instalar el marketplace
 
-- **Claude escritorio o Cowork**: Customize → Plugins → *Add marketplace* → `alfredo-garcia/skills`. Después instala `knowledge-base-suite` y, si los quieres, `health-advisor`, `finance-advisor` y `legal-advisor`.
+- **Claude escritorio o Cowork**: Customize → Plugins → *Add marketplace* → `alfredo-garcia/skills`. Después instala `knowledge-base-suite` y, si los quieres, `health-advisor`, `finance-advisor` y `legal-advisor-es-co`.
 - **Claude Code**: `/plugin marketplace add alfredo-garcia/skills` y luego `/plugin install knowledge-base-suite@skills` (y los demás).
 
 Las skills no llevan datos de nadie. Todo lo tuyo se guarda en tu carpeta.
@@ -38,7 +38,7 @@ Google no tiene cliente oficial para Linux, así que se usa `rclone`:
 ```bash
 sudo apt install rclone
 rclone config            # nuevo remoto "gdrive", tipo "drive", acceso completo
-mkdir -p ~/knowledge-base
+mkdir -p ~/knowledge-base   # o la carpeta que elijas
 rclone mkdir gdrive:knowledge-base
 rclone bisync ~/knowledge-base gdrive:knowledge-base --resync   # solo la primera vez
 ```
@@ -67,7 +67,7 @@ Si el mismo archivo se edita en dos sitios antes de sincronizar, Drive o rclone 
 
 ## 4. Primer arranque
 
-En una sesión con la carpeta conectada, escribe: **«monta mi knowledge base»**. La skill `personal-knowledge-base` te hará unas pocas preguntas (nombre, cómo quieres que te traten, zona horaria, ciudad y países, si quieres Telegram) y creará lo siguiente:
+En una sesión con la carpeta conectada, escribe: **«monta mi knowledge base»**. (También vale empezar directamente con cualquier skill: si no encuentra un knowledge base, te pregunta qué carpeta usar, y si no tiene tu perfil, te avisa y lo crea contigo). La skill `personal-knowledge-base` te hará unas pocas preguntas (nombre, cómo quieres que te traten, zona horaria, ciudad y países, si quieres Telegram) y creará lo siguiente:
 
 ```
 knowledge-base/

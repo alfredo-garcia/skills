@@ -1,6 +1,6 @@
 {
   "name": "finance-advisor",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "Asesor de inversiones y patrimonio con perfil de inversor persistente en el knowledge base (grupo finance) y análisis de cartera.",
   "author": {
     "name": "Al"

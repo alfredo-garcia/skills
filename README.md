@@ -10,12 +10,12 @@ plugins/
   sdlc-suite/            (v3.6.0) roles del ciclo de vida: product-manager, tech-lead, qa-engineer,
                          engineering-lead, ux-designer, platform-engineer, release-manager,
                          document-manager + document-templates
-  knowledge-base-suite/  (v2.0.0) personal-knowledge-base, inbox-router, personal-notifications,
+  knowledge-base-suite/  (v2.1.0) personal-knowledge-base, inbox-router, personal-notifications,
                          food-manager, plan-manager, fitness-manager (dependen entre sí,
                          por eso van juntas)
   finance-advisor/       asesor de inversiones (grupo finance del knowledge base)
   health-advisor/        asistente de salud personal (grupo health del knowledge base)
-  legal-advisor/         asesor legal España–Colombia (migración, padrón, residencia fiscal,
+  legal-advisor-es-co/         asesor legal España–Colombia (migración, padrón, residencia fiscal,
                          Seguridad Social, empresas); coordina con finance-advisor
 ```
 
@@ -46,7 +46,7 @@ En Claude (web/desktop): Customize → Plugins → añadir marketplace con la UR
 
 1. Instala el marketplace y `knowledge-base-suite` (más los advisors que quieras).
 2. Crea una carpeta sincronizada con Google Drive y conéctala en Cowork. Guía completa (Mac, Windows y Linux, conflictos, Telegram opcional): [`setup-and-sync.md`](plugins/knowledge-base-suite/skills/personal-knowledge-base/references/setup-and-sync.md).
-3. Di «monta mi knowledge base»: se crea `_profile.yaml` (tus datos: nombre, zona horaria, ciudad, países, Telegram), `_domains.json`, `_inbox/` y `_links/`.
-4. Cada skill monta su propio grupo la primera vez que la usas, desde su `assets/scaffold/` (schema, vocabularios, archivos vacíos), con `personal-knowledge-base/scripts/install_scaffold.py`, que nunca sobrescribe nada.
+3. Di «monta mi knowledge base» (o usa cualquier skill: si no encuentra knowledge base, te pide la carpeta): se crea `_profile.yaml` (tus datos: nombre, zona horaria, ciudad, países, Telegram), `_domains.json`, `_inbox/` y `_links/`.
+4. Cada skill monta su propio grupo la primera vez que la usas, con su propio `scripts/scaffold.py` y su `assets/scaffold/` (schema, vocabularios, archivos vacíos); nunca sobrescribe nada. `personal-knowledge-base` solo crea el mínimo general.
 
-Todo lo personal vive en el knowledge base de cada uno: perfil en `_profile.yaml` y datos de dominio (restricciones de entrenamiento, ciudades, preferencias, fichas) en los archivos de su grupo.
+Todo lo personal vive en el knowledge base de cada uno: perfil en `_profile.yaml` y datos de dominio (restricciones de entrenamiento, ciudades, preferencias, fichas, perfil legal y de inversor) en los archivos de su grupo. Las skills no contienen datos de ninguna persona ni ejemplos de su situación, y se llaman entre sí por nombre de skill, sin depender del marketplace.

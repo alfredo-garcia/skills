@@ -10,8 +10,8 @@ Keeps the user's leisure plans in the `plans` group, exactly as the contract say
 ## 0. Before anything
 
 1. Read the `personal-knowledge-base` skill (dedup, optimistic writes, timestamps, tracked domains).
-2. Find the root: `~/knowledge-base` (in Cowork, the connected folder that contains `_domains.json`; with the device shell it is `$HOME/mnt/knowledge-base`). Work on the files there, in place. Read `_profile.yaml` (user, home city, timezone, Telegram) and `_domains.json`. No root yet → run the root setup of `personal-knowledge-base` first.
-3. **First use — no `plans` group in `_domains.json`**: install this skill's scaffold with `python3 ../personal-knowledge-base/scripts/install_scaffold.py <root> assets/scaffold` (paths relative to this skill's folder; it never overwrites). Then ask, in one message: the home city (default `_profile.yaml` → `home.city`; scope `everyday`), other cities worth watching only for big events (`big-only`), any upcoming trips, and anything they never want proposed. Write the cities in `plans/_system/cities.yaml` (`<id>: { label, country, scope }`), trips in `trips/trips.yaml`, and the rest in `ideas/preferences.md`. Optionally seed `sources/items.yaml` with a few agendas of the home city found on the web (`checked: false`).
+2. **Knowledge base**: find it as the `personal-knowledge-base` skill says (the folder the user chose; in Cowork, the connected folder that contains `_domains.json`). None found → ask the user which folder to use. No `_profile.yaml` → tell the user and create it with the root setup of `personal-knowledge-base`. Then read `_profile.yaml` (user, home city, timezone, Telegram) and `_domains.json`.
+3. **First use — no `plans` group in `_domains.json`**: set it up yourself with `python3 scripts/scaffold.py <root>` (run from this skill's folder; it never overwrites; without a shell, copy `assets/scaffold/files/` into the root and merge `assets/scaffold/registry.json` into `_domains.json` by hand). Then ask, in one message: the home city (default `_profile.yaml` → `home.city`; scope `everyday`), other cities worth watching only for big events (`big-only`), any upcoming trips, and anything they never want proposed. Write the cities in `plans/_system/cities.yaml` (`<id>: { label, country, scope }`), trips in `trips/trips.yaml`, and the rest in `ideas/preferences.md`. Optionally seed `sources/items.yaml` with a few agendas of the home city found on the web (`checked: false`).
 4. Confirm the `plans` group and its domains `ideas`, `trips`, `sources` in `_domains.json`. Read in one go: `plans/_system/schema.md`, `plans/_system/categories.yaml`, `audiences.yaml`, `tags.yaml`, `cities.yaml`, `plans/ideas/preferences.md`, `plans/ideas/index.json`, `plans/trips/trips.yaml`. For the weekly search also `plans/sources/items.yaml` and `plans/ideas/_digest.yaml`.
 5. No filesystem (plain chat): do the same work, return the resulting files in the reply for the user to save, and say so in one line.
 
@@ -55,8 +55,8 @@ Scheduled runs only do Weekly search (and Capture of inbox entries); they never 
    - `audience`: every audience the plan suits, from `solo`, `couple`, `friends`, `family`. Use the obvious ones (a romantic dinner → `couple`; paintball → `friends`, `family`); when the user says "para ir con mi familia", include it. Never record who actually goes.
    - `priority`: `normal` unless the user shows urgency or excitement ("tengo muchas ganas" → `high`).
 4. **Status**: a plan the user shares starts as `wishlist` (or `scheduled` if they give a date they're committed to), with `report_status: notified`. Items created by the weekly search start as `proposed` / `pending`.
-5. **Dedup**: slug of the Spanish title (add the city when the name is generic: `minigolf-manizales`). Look it up in `index.json`, then compare normalized titles, `source.url`, and for dated plans the same title + overlapping dates; also `series`. Same plan → update the existing file (fill empty fields, add new sessions, never downgrade `status`); say "actualizado". If it was `discarded` and the user now shares it again → ask whether to bring it back. Different plan, same slug → append the creation date (tracked rule).
-6. **Recurring events**: if the event happens every year or season (Feria de Manizales, a yearly entrepreneurship fair), set `series` to the slug without year and give the id the year (`feria-de-manizales-2027`).
+5. **Dedup**: slug of the Spanish title (add the city when the name is generic: `minigolf-<ciudad>`). Look it up in `index.json`, then compare normalized titles, `source.url`, and for dated plans the same title + overlapping dates; also `series`. Same plan → update the existing file (fill empty fields, add new sessions, never downgrade `status`); say "actualizado". If it was `discarded` and the user now shares it again → ask whether to bring it back. Different plan, same slug → append the creation date (tracked rule).
+6. **Recurring events**: if the event happens every year or season (a city's yearly fair, a yearly entrepreneurship fair), set `series` to the slug without year and give the id the year (`feria-del-libro-2027`).
 7. **Photo**: image the user sent > poster/post image > place photo from the source page. None → empty.
 8. **Fill** core fields (`id`, `domain: ideas`, `created`/`updated` now, ISO with the profile timezone offset, `report_status`) and `source` (`type`: `chat`, `telegram`, `app`, `web` or `search`; `url`; `found` = today; `original`). Body: short Spanish notes (what it is, why it fits, practical tips) only with content.
 9. **Check** before saving: status valid for `timing` (`done` only dated, `repertoire` and `history` only timeless; dated needs `sessions` or `available_until` unless unknown, then say so); every vocabulary id exists; dates and money follow the standard; YAML parses.
@@ -66,7 +66,7 @@ Scheduled runs only do Weekly search (and Capture of inbox entries); they never 
 ## 4. Summary (Capture)
 
 > Guardado **Minigolf Cable Plaza** → `plans/ideas/items/minigolf-cable-plaza.md`
-> Actividad · sin fecha (repetible) · Manizales · amigos, familia, pareja
+> Actividad · sin fecha (repetible) · <Ciudad> · amigos, familia, pareja
 > Lista de deseos · Precio: 25.000 COP · Falta: dirección
 
 For dated plans include the date(s) and, if tickets are needed, the on-sale date or "entradas ya a la venta".
@@ -75,7 +75,7 @@ For dated plans include the date(s) and, if tickets are needed, the on-sale date
 
 1. Identify the plan from the user's words (id, title, place, accent-insensitive). Several candidates → numbered list, ask. None → say so, offer to capture it.
 2. **Always confirm before acting**, showing title, path and the change:
-   > ¿Es este? **Bolera XYZ** (`plans/ideas/items/bolera-xyz-manizales.md`). Lo agendo para el sábado 14/11 a las 16:00.
+   > ¿Es este? **Bolera XYZ** (`plans/ideas/items/bolera-xyz.md`). Lo agendo para el sábado 14/11 a las 16:00.
 3. Apply only what was confirmed:
    - **Schedule**: `status: scheduled`, `scheduled: { start, end }`. Dated plans: the date must match a session or the window; if not, warn before confirming. Tickets bought → `tickets.state: bought`.
    - **Done**: dated → `status: done`, `report_status: archived`, keep `scheduled` (set it to the date the user says if it was empty). Timeless → `status: repertoire`, append `{ date, note }` to `history`, clear `scheduled`.
@@ -97,7 +97,7 @@ For dated plans include the date(s) and, if tickets are needed, the on-sale date
 
 ## 8. Trips
 
-"Viajo a Barcelona del 27/12 al 2/2" → confirm, then add or update an entry in `plans/trips/trips.yaml` (`id`: `<city>-<YYYY-MM>` of the start; `city` from `cities.yaml`, adding it with `scope: trip-only` if new). Cancelled trip → remove the entry after confirming. Set `updated`.
+"Viajo a Lisboa del 27/12 al 2/2" → confirm, then add or update an entry in `plans/trips/trips.yaml` (`id`: `<city>-<YYYY-MM>` of the start; `city` from `cities.yaml`, adding it with `scope: trip-only` if new). Cancelled trip → remove the entry after confirming. Set `updated`.
 
 ## 9. Weekly search (scheduled)
 

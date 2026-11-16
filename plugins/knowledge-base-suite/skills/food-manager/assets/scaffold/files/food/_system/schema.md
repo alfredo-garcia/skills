@@ -83,7 +83,7 @@ The skill adds photos: those the user sends through Claude, the video thumbnail 
 - Fresh meat names the concrete cut and the animal: id `<corte>-de-<animal>`, name `<corte> (<animal>)` (`espaldilla-de-ternera` → "espaldilla (ternera)", `pechuga-de-pollo` → "pechuga (pollo)"). No generic meat ingredients (`ternera`, `pollo`, `carne-picada`); if the source doesn't say the cut, pick the usual one for the dish and note it in `doubts`. Cured and processed meats (beicon, jamón, chorizo, morcilla) keep their product name.
 - State goes in the recipe line's `note`, not in the id (`ajo` + `note: picado`), except products bought that way (`tomate-triturado`, `caldo-de-pollo`).
 - `family`: id from `ingredients/_system/families.yaml`.
-- `staple: true`: assumed always available; ignored by "what am I missing". Only water (`agua`) is a staple: salt, pepper and olive oil are regular ingredients tracked in the pantry.
+- `staple: true`: assumed always available; ignored by "what am I missing". Which ingredients are staples is the user's decision (default: only water, `agua`); record it in `recipes/preferences.md`.
 
 ## pantry (schema 2)
 
@@ -97,7 +97,7 @@ The skill adds photos: those the user sends through Claude, the video thumbnail 
 One file per user, `reviews/<user>.yaml` (user ids from `_profile.yaml`). Only that user (through the app, Claude or Telegram) changes it.
 
 ```yaml
-user: al
+user: <user>
 updated: 2026-10-28T09:00:00-05:00
 favorites: [tortilla-de-patatas]
 ratings:

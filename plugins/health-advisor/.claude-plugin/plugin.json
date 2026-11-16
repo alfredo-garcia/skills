@@ -1,6 +1,6 @@
 {
   "name": "health-advisor",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Asistente de salud personal sobre el grupo health del knowledge base (ficha, dolencias, medicación, pruebas, médicos), con sistemas de salud de España y Colombia. Monta su grupo la primera vez.",
   "author": {
     "name": "Al"

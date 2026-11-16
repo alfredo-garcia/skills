@@ -1,6 +1,6 @@
 ---
 name: personal-notifications
-description: Formats a domain skill's JSON output into a human-ready notification (tone, verbosity, emoji, language per domain, using ~/knowledge-base/_notification-config.json) and delivers it to the user on Telegram through their own bot (configured in _profile.yaml) with the Telegram MCP, or returns it to the session when Telegram isn't set up. ANY skill that needs to notify the user about domain data (new recipes, movies, job listings, apartment matches, etc.) or answer a request they sent through Telegram MUST use this skill. Use it whenever composing or sending a notification, digest or summary message for the user, or when a domain has no notification config yet and needs a default bootstrapped.
+description: Formats a domain skill's JSON output into a human-ready notification (tone, verbosity, emoji, language per domain, using <root>/_notification-config.json) and delivers it to the user on Telegram through their own bot (configured in _profile.yaml) with the Telegram MCP, or returns it to the session when Telegram isn't set up. ANY skill that needs to notify the user about domain data (new recipes, movies, job listings, apartment matches, etc.) or answer a request they sent through Telegram MUST use this skill. Use it whenever composing or sending a notification, digest or summary message for the user, or when a domain has no notification config yet and needs a default bootstrapped.
 ---
 
 # Personal Notifications — Formatting Standard
@@ -47,7 +47,7 @@ The caller provides a domain name and a JSON payload:
 
 A single finished message string (or, if it would exceed Telegram's message-length limit — currently 4096 characters — multiple sequential message strings, split cleanly between items, never mid-item), sent as described in Delivery. The caller gets back the sent message ids, or the reason delivery failed.
 
-## Per-domain config (`~/knowledge-base/_notification-config.json`)
+## Per-domain config (`<root>/_notification-config.json`)
 
 Lives alongside the knowledge base's other top-level files, but is **owned and written exclusively by this skill** — `personal-knowledge-base` never reads or writes it, and this skill never reads or writes `_domains.json` or anything inside a domain folder (it only reads `_profile.yaml` for delivery and the default language). Same independence principle as domains not coupling to each other, one level up.
 

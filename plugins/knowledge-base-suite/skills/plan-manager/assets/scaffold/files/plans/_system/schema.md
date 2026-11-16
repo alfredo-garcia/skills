@@ -75,7 +75,7 @@ The user controls their plans with three actions. **None deletes anything**: fil
 | place | `{ name, address, neighborhood, maps_url }` |
 | sessions | dated only. List of `{ start, end, note }` ISO timestamps |
 | available_from / available_until | dated only. Dates (`YYYY-MM-DD`) for windows: cartelera, exposición, temporada |
-| series | dated only, optional. Slug shared by every edition of a recurring event (`feria-de-manizales`); edition ids add the year (`feria-de-manizales-2027`) |
+| series | dated only, optional. Slug shared by every edition of a recurring event (`feria-del-libro`); edition ids add the year (`feria-del-libro-2027`) |
 | scheduled | `{ start, end }` when status is `scheduled` (dated: also kept after `done` as the record) |
 | history | timeless only. List of `{ date, note }`, oldest first |
 | tickets | `{ required, url, on_sale, state }`; state `none`, `to-buy`, `bought` |
@@ -92,20 +92,20 @@ Body: free Spanish notes.
 
 ```yaml
 ---
-id: concierto-karol-g-medellin
+id: concierto-de-ejemplo
 domain: ideas
 created: 2026-11-06T19:00:00-05:00
 updated: 2026-11-06T19:00:00-05:00
 report_status: notified
-title: Concierto de Karol G
+title: Concierto de ejemplo
 category: concert
 timing: dated
 audience: [couple, friends]
 tags: [big-event, night]
 status: wishlist
 priority: high
-city: medellin
-place: { name: Estadio Atanasio Girardot, address: "", neighborhood: "", maps_url: "" }
+city: ciudad-ejemplo
+place: { name: Estadio de ejemplo, address: "", neighborhood: "", maps_url: "" }
 sessions:
   - { start: 2027-02-20T20:00:00-05:00, end: null, note: "" }
 tickets: { required: true, url: "https://…", on_sale: 2026-11-15T10:00:00-05:00, state: to-buy }
@@ -119,7 +119,7 @@ source: { type: search, url: "https://…", found: 2026-11-06, original: null }
 
 ```yaml
 ---
-id: bolera-xyz-manizales
+id: bolera-xyz
 domain: ideas
 created: 2026-09-01T10:00:00-05:00
 updated: 2026-11-02T22:00:00-05:00
@@ -130,7 +130,7 @@ timing: timeless
 audience: [friends, family, couple]
 tags: [rainy-day]
 status: repertoire
-city: manizales
+city: ciudad-ejemplo
 place: { name: Bolera XYZ, address: "", neighborhood: "", maps_url: "" }
 history:
   - { date: 2026-09-14, note: "Promo 2x1 los martes" }
@@ -146,8 +146,8 @@ System file written by the weekly search after each Telegram digest, so the user
 sent: 2026-11-12T17:45:00-05:00
 message_ids: [1234]
 items:
-  1: concierto-karol-g-medellin
-  2: bolera-xyz-manizales
+  1: concierto-de-ejemplo
+  2: bolera-xyz
 ```
 
 Overwritten on each digest; only the latest digest's numbers are valid.
