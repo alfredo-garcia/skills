@@ -10,7 +10,7 @@ Guía para una persona que empieza de cero. El knowledge base es una carpeta nor
 
 ## 2. Instalar el marketplace
 
-- **Claude escritorio o Cowork**: Customize → Plugins → *Add marketplace* → `alfredo-garcia/skills`. Después instala `knowledge-base-suite` y, si los quieres, `health-advisor`, `finance-advisor` y `legal-advisor-es-co`.
+- **Claude escritorio o Cowork**: Customize → Plugins → *Add marketplace* → `alfredo-garcia/skills`. Después instala `knowledge-base-suite` y, si los quieres, `health-advisor`, `finance-advisor` y `legal-advisor-es-co` (aparece como «Legal advisor (ES & CO)»).
 - **Claude Code**: `/plugin marketplace add alfredo-garcia/skills` y luego `/plugin install knowledge-base-suite@skills` (y los demás).
 
 Las skills no llevan datos de nadie. Todo lo tuyo se guarda en tu carpeta.
