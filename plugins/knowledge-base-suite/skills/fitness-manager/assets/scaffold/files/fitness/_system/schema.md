@@ -14,7 +14,7 @@ Shared vocabularies in `_system/`: `regions`, `zones`, `muscles`, `goals`, `patt
 
 ## The model in one paragraph
 
-`exercises` is the library: what each exercise is, what it works and what it loads. `subroutines` are groups of exercises with one purpose (estabilidad, fuerza de empuje y pierna, cardio por intervalos…): which exercises, in what order and with **their** dose (sets, reps, seconds, variant, band). `routines` are the user's sessions: which sub-routines, in what order, on which weekdays. `program` says which routine goes on which weekday, the current phase, the constraints (what to avoid) and the journal of their physical evolution. `sessions` is the log of what they actually did each day and how they felt. The library never holds personal dose; the dose lives only in the sub-routine (a different dose is a different sub-routine); no one holds execution history but `sessions`.
+`exercises` is the library: what each exercise is, what it works and what it loads. `subroutines` are groups of exercises with one purpose (estabilidad, fuerza de empuje y pierna, cardio por intervalos…): which exercises, in what order and with **their** dose (sets, reps, seconds, variant, band). `routines` are the user's sessions: which sub-routines, in what order, on which weekdays. `program` holds the current phase, the constraints (what to avoid), the weekly targets and the journal of their physical evolution; the weekly plan is the `days` of the active routines. `sessions` is the log of what they actually did each day and how they felt. The library never holds personal dose; the dose lives only in the sub-routine (a different dose is a different sub-routine); no one holds execution history but `sessions`.
 
 ## Classification
 
@@ -107,13 +107,13 @@ A routine has no doses: they live in its sub-routines, so changing a sub-routine
 
 Body: `## Guidelines` (for the day as a whole), `## History` (dated lines: parts added, removed or reordered, days changed, and why).
 
-## program (schema 1)
+## program (schema 2)
 
 `program/<user>.yaml`, only that user's file.
 
 - `phase`: `{ label, since, goal }` — current training phase.
 - `constraints`: `avoid_stresses` (ids), `avoid_text` (Spanish list), `rules` (Spanish list: progression and safety rules), `pain_watch` (list `{ id, label }`: body areas whose pain is scored in every session, e.g. `leg`, `back`), `red_flags` (`{ urgent, soon }`, Spanish lists: symptoms that stop training — `urgent` = seek care today, `soon` = see a professional soon). Constraints come from the user, their physio or doctor, or the `health` group; only the user lifts one.
-- `schedule`: `sessions_per_week` (`[min, max]`), `week` (`mon`…`sun` → list of routine ids, never sub-routines; a day can be empty `[]`), `note`. `week` is a cache rebuilt from the `days` of active routines: whoever changes a routine's `days` updates `week` in the same step; if they disagree, the routines win.
+- `schedule`: `sessions_per_week` (`[min, max]`), `note`. There is no weekly calendar here: which routine goes on which weekday is only the `days` of the active routines. Schema 1 kept a copy in `schedule.week`; schema 2 drops it (delete it when migrating).
 - `journal`: dated list `{ date, type, text, routine, metrics }`. `type`: `checkin` (how they feel, pain, energy), `adjustment` (routine changed), `milestone` (achievement), `measurement` (`metrics` map, e.g. `{ weight_kg: 80 }`), `setback` (worse, back to a previous level). Newest last.
 
 ## sessions (schema 3)

@@ -34,7 +34,7 @@ En tandas cortas (2–4 preguntas), con opciones cuando ayude:
 
 1. Objetivo y momento: qué quiere conseguir (fuerza, cardio, perder peso, readaptación de una lesión…) → `phase`.
 2. Lesiones, dolores o limitaciones, y lo que le haya dicho su médico o fisio. Si hay grupo `health`, parte de sus `conditions` y confírmalas. Tradúcelas a `constraints`: `avoid_stresses` (ids de `stresses.yaml`), `avoid_text`, `rules`, `pain_watch` (zonas cuyo dolor se puntúa en cada sesión) y `red_flags` (`urgent`/`soon`, propias de esa lesión; si dudas, pídeselas a `health-advisor`). Sin lesiones → listas vacías.
-3. Disponibilidad y medios: días y momento del día, dónde (casa, gimnasio, piscina, fuera), material → `schedule` y `preferences.md` de `routines`.
+3. Disponibilidad y medios: días y momento del día, dónde (casa, gimnasio, piscina, fuera), material → `days` de las rutinas, `schedule` y `preferences.md` de `routines`.
 4. Escribe `fitness/program/<user>.yaml` (relee antes), una entrada `checkin` en `journal` con el arranque, y propón la primera rutina (sección 6).
 
 Nunca propongas un ejercicio cuyo `stresses` cruce `program.constraints.avoid_stresses`, aunque el usuario lo pida: explica qué carga tiene y ofrece una alternativa. Una restricción del programa solo se quita si el usuario dice que se lo ha autorizado su médico o fisio, y queda anotado en `journal`.
@@ -48,7 +48,7 @@ Nunca propongas un ejercicio cuyo `stresses` cruce `program.constraints.avoid_st
 | "sube la plancha", "esto me cuesta", revisión de progresión | **Ajustar** (5) | Siempre |
 | "quiero una rutina / sub-rutina de fuerza / pierna / cardio…", "el lunes añade la sauna" | **Rutina o sub-rutina nueva** (6) | Siempre, antes de activarla o meterla en la semana |
 | El usuario comparte un ejercicio (vídeo, captura, texto, fisio) | **Nuevo ejercicio** (7) | No para guardarlo en la biblioteca; sí para añadirlo a una sub-rutina |
-| "qué toca hoy" | **Hoy**: rutina(s) de `schedule.week` para el día, con sus sub-rutinas en orden, sus dosis y la última nota relevante | No |
+| "qué toca hoy" | **Hoy**: rutinas activas cuyos `days` incluyen el día, con sus sub-rutinas en orden, sus dosis y la última nota relevante | No |
 | "cómo voy", "resumen del mes" | **Informe** (8) | No |
 | "procesa el inbox de fitness", tarea programada | **Inbox**: cada entrada de `fitness/_inbox/` como Nuevo ejercicio, sub-rutina o rutina; original a `processed/<YYYY-MM-DD>--<id>.<ext>` | No; informe al final |
 
@@ -99,8 +99,8 @@ Si `routines/preferences.md` o `subroutines/preferences.md` dice que el usuario 
 **Rutina nueva o cambio de una rutina** (qué sub-rutinas y qué días):
 
 1. Componla con sub-rutinas activas, en orden (`parts`); si falta una, créala antes. Una nota solo de ese día va en `note` de la parte, nunca cambiando dosis.
-2. Propón los días de `schedule.week` en que encaja sin pisar el descanso; muéstrala como lista de sub-rutinas con su duración.
-3. Con su sí: crea o actualiza `fitness/routines/items/NN-<category>/<id>.md` (`## Guidelines`, `## History`), actualiza `schedule.week` (solo ids de rutinas) y `journal`.
+2. Propón sus `days` (los días de la semana en que encaja) sin pisar el descanso; muéstrala como lista de sub-rutinas con su duración.
+3. Con su sí: crea o actualiza `fitness/routines/items/NN-<category>/<id>.md` (`## Guidelines`, `## History`) y `journal`. El plan semanal son los `days` de las rutinas activas: no hay calendario aparte que mantener.
 
 ## 7. Nuevo ejercicio en la biblioteca
 
