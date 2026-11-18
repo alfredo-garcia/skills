@@ -26,7 +26,7 @@
       "type": "state",
       "group": "food",
       "path": "food/pantry",
-      "schema": 2
+      "schema": 3
     },
     "reviews": {
       "purpose": "Valoraciones, comentarios y favoritos de cada usuario sobre las recetas.",

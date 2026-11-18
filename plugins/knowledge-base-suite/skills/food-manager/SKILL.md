@@ -1,6 +1,6 @@
 ---
 name: food-manager
-description: "Owns the food group of the user's knowledge base (<root>/food), and sets it up the first time: turns any recipe input into normalized recipe files, edits recipes, keeps each user's ratings, comments and favorites in a separate reviews registry, and keeps the pantry. Use it whenever the user shares a recipe in any form — a screenshot from any app or site, a photo of a book, pasted text, an Instagram, YouTube or web link, a Google Doc or PDF — whether in a chat, in Cowork or through Telegram via inbox-router; when they ask to process the food inbox (\"procesa el inbox de recetas\"); when they ask to change or fix a recipe, mark it as curated, rate it, comment it or add it to favorites (\"cambia X en la receta Y\", \"ponle 4 estrellas a las lentejas\", \"guarda la tortilla en favoritas\"); asks which recipes are pending curation; or say what they bought or ran out of (\"compré nata\", \"se acabó el arroz\"). Always follow the personal-knowledge-base skill and food/_system/schema.md; never invent another format."
+description: "Owns the food group of the user's knowledge base (<root>/food), and sets it up the first time: turns any recipe input into normalized recipe files, edits recipes, keeps each user's ratings, comments and favorites in a separate reviews registry, and keeps the pantry and shopping list (food and household products: paper, cleaning, personal care). Use it whenever the user shares a recipe in any form — a screenshot from any app or site, a photo of a book, pasted text, an Instagram, YouTube or web link, a Google Doc or PDF — whether in a chat, in Cowork or through Telegram via inbox-router; when they ask to process the food inbox (\"procesa el inbox de recetas\"); when they ask to change or fix a recipe, mark it as curated, rate it, comment it or add it to favorites (\"cambia X en la receta Y\", \"ponle 4 estrellas a las lentejas\", \"guarda la tortilla en favoritas\"); asks which recipes are pending curation; or say what they bought or ran out of, or where they buy something (\"compré nata\", \"se acabó el arroz\", \"apunta papel de cocina\", \"el arroz lo compro en D1\"), or want to track a new household product in the pantry ("añade el suavizante a la despensa"). Always follow the personal-knowledge-base skill and food/_system/schema.md; never invent another format."
 ---
 
 # food-manager
@@ -12,7 +12,7 @@ Takes recipe input in any form and leaves it as correctly formatted files in the
 1. Read the `personal-knowledge-base` skill (inboxes, dedup, optimistic writes, timestamps).
 2. **Knowledge base**: find it as the `personal-knowledge-base` skill says (the folder the user chose; in Cowork, the connected folder that contains `_domains.json`). None found → ask the user which folder to use. No `_profile.yaml` → tell the user and create it with the root setup of `personal-knowledge-base`. Then read `_profile.yaml` (user id, name, timezone, Telegram) and `_domains.json`.
 3. **First use — no `food` group in `_domains.json`**: set it up yourself with `python3 scripts/scaffold.py <root>` (run from this skill's folder; it never overwrites; without a shell, copy `assets/scaffold/files/` into the root and merge `assets/scaffold/registry.json` into `_domains.json` by hand). It brings only structure: the schema, vocabularies, an empty ingredient catalog and pantry, the user's empty reviews file and an empty meal plan. Ingredients are created from recipes or when the user asks for one; recipes come only from the user. Tell the user the food group is ready and empty, and ask two optional questions ("¿algo que no comas o que quieras evitar?", "¿qué das siempre por hecho que hay en casa (sal, aceite…)?"); write the answers in `food/recipes/preferences.md`. Then continue with the request.
-4. Every path below is relative to the root and confirmed in `_domains.json` (`food` group, domains `recipes`, `ingredients`, `pantry`, `reviews`, `plan`). Read in one go: `food/_system/schema.md` (the contract: the user's copy wins over anything here), `food/_system/units.yaml`, `food/recipes/_system/categories.yaml`, `food/recipes/_system/tags.yaml`, `food/ingredients/items.yaml`, `food/ingredients/_system/families.yaml`, `food/recipes/preferences.md`. For favorites and ratings, also `food/reviews/<user>.yaml` (`<user>` = `_profile.yaml` → `user`, or another id listed in `household` when that person is the one talking).
+4. Every path below is relative to the root and confirmed in `_domains.json` (`food` group, domains `recipes`, `ingredients`, `pantry`, `reviews`, `plan`). Read in one go: `food/_system/schema.md` (the contract: the user's copy wins over anything here), `food/_system/units.yaml`, `food/_system/stores.yaml` (missing in groups set up before pantry schema 3: create it as in `assets/scaffold/` when a store is first needed), `food/recipes/_system/categories.yaml`, `food/recipes/_system/tags.yaml`, `food/ingredients/items.yaml`, `food/ingredients/_system/families.yaml`, `food/recipes/preferences.md`. For favorites and ratings, also `food/reviews/<user>.yaml` (`<user>` = `_profile.yaml` → `user`, or another id listed in `household` when that person is the one talking).
 5. No filesystem (plain chat): do the same work, but return the resulting files in the reply for the user to save, and say so in one line.
 
 ## 1. Where to read and where to write
@@ -38,7 +38,8 @@ Takes recipe input in any form and leaves it as correctly formatted files in the
 | "cambia…", "corrige…", "quita…", "añade… a la receta" | **Edit** (section 5) | Always, before acting |
 | Stars, comment, favorite | **Reviews** (section 6) | Always, before acting |
 | "da por buena / curada la receta X" | **Curate** (section 6) | Always, before acting |
-| "compré…", "se acabó…", "apunta para comprar…" | **Pantry** (section 7) | Always, before acting |
+| "compré…", "se acabó…", "apunta para comprar…", "X lo compro en…" | **Pantry** (section 7) | Always, before acting |
+| "qué compro en D1", "lista de la compra de Éxito" | **Report**: pantry items with `to_buy: true` that list that store (or no store, for "sin centro") | None |
 | "qué recetas faltan por curar" | **Report**: recipes with non-empty `missing` or `doubts`, or `curated: false` | None |
 
 Confirmations happen where the user is talking: in the chat or Cowork session, or — for requests that arrived through Telegram — in the same Telegram chat (see section 10). Scheduled runs with no request from the user only Process; they never edit, rate or touch the pantry.
@@ -49,7 +50,7 @@ Confirmations happen where the user is talking: in the chat or Cowork session, o
 2. **Split**: one recipe per item; several recipes in one input → several items (section 4).
 3. **Translate** to Spanish (Spain) if needed; add "Traducida del <idioma>" to `doubts`.
 4. **Normalize ingredients**, line by line:
-   - Match the catalog by id, `name` and `synonyms`, accent- and case-insensitive, singular.
+   - Match the catalog by id, `name` and `synonyms`, accent- and case-insensitive, singular. Skip non-food items (their family has `food: false`): they never go in a recipe.
    - Not found → add to `food/ingredients/items.yaml` first: Spanish (Spain) id and name, source wording as a synonym if it differs, a `family`, `staple: false` (staples are only what `schema.md` and `preferences.md` say).
    - Keep the original unit (map to a `units.yaml` id), never convert. Fractions → decimals. Ranges ("2-3 dientes") → lower bound in `qty`, the range in `note`.
    - Vague amounts ("un chorrito", "un puñado") → closest unit, explained in `doubts`.
@@ -101,9 +102,14 @@ Process them; never drop information. What needs the user's eyes goes in `doubts
 
 ## 7. Pantry
 
-`food/pantry/pantry.yaml`: `have` and `to_buy` (ingredient ids). Map names through the catalog (synonyms included); unknown ingredients are added to the catalog first. Confirm before writing:
-> Despensa: añado **nata** a lo que tienes y la quito de la compra; quito **arroz**. ¿Vale?
-"compré X" → add to `have`, remove from `to_buy`. "se acabó X" → remove from `have`. "apunta X" → add to `to_buy`. Staples are never listed. Set `updated`.
+`food/pantry/pantry.yaml` (schema 3): `items` is a map `<ingredient-id>: { have, to_buy, stores }`, one entry per non-staple ingredient of the catalog. Map names through the catalog (synonyms included); unknown ingredients are added to the catalog first, and to the pantry with `{ have: false, to_buy: false }`. Household products (paper, cleaning, personal care) live in the same catalog and pantry, with a non-food family (`food: false` in `families.yaml`: `household-paper`, `cleaning`, `personal-care`); a product that fits none of them gets a new non-food family, added to the vocabulary first and named in the confirmation. Confirm before writing:
+> Despensa: marco **nata** como en casa y la quito de la compra; **arroz** se acabó. ¿Vale?
+
+- "compré X" → `have: true, to_buy: false`. "se acabó X" → `have: false`. "apunta X" → `to_buy: true`. Staples are never listed.
+- **Stores** ("el arroz lo compro en D1 y en Éxito"): set `stores` to those store ids (replace the list when the user says where they buy it; add or remove one when they say "también en…" / "ya no en…"). Map store names through `food/_system/stores.yaml` by id and `label`, accent- and case-insensitive. A store that isn't there is added first (`<kebab-case-id>: { label: <nombre> }`); say so in the confirmation:
+  > Despensa: **arroz** → D1, Éxito (centro nuevo: **D1**). ¿Vale?
+- Entries without `stores` are valid ("sin centro"); never add an empty `stores` just to fill it, and never assign stores the user didn't name.
+- Set `updated`, then run `scripts/check.py <root>`.
 
 ## 8. Summaries and notification
 

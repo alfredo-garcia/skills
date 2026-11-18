@@ -6,11 +6,11 @@ Group-specific rules on top of the `personal-knowledge-base` standard (v2). Scaf
 | --- | --- | --- | --- |
 | recipes | collection | 4 | `recipes/items/NN-<category>/<id>.md` |
 | ingredients | catalog | 1 | `ingredients/items.yaml` |
-| pantry | state | 2 | `pantry/pantry.yaml` |
+| pantry | state | 3 | `pantry/pantry.yaml` |
 | reviews | state, per user | 1 | `reviews/<user>.yaml` |
 | plan | state | 1 | `plan/plan.yaml` |
 
-Shared vocabulary: `_system/units.yaml`.
+Shared vocabularies: `_system/units.yaml`, `_system/stores.yaml`.
 
 ## Who writes what
 
@@ -82,12 +82,21 @@ The skill adds photos: those the user sends through Claude, the video thumbnail 
 - `name`: Spanish (Spain) display name. `synonyms`: other regional or language variants (`papa`, `choclo`, `crema de leche`, `potato`).
 - Fresh meat names the concrete cut and the animal: id `<corte>-de-<animal>`, name `<corte> (<animal>)` (`espaldilla-de-ternera` → "espaldilla (ternera)", `pechuga-de-pollo` → "pechuga (pollo)"). No generic meat ingredients (`ternera`, `pollo`, `carne-picada`); if the source doesn't say the cut, pick the usual one for the dish and note it in `doubts`. Cured and processed meats (beicon, jamón, chorizo, morcilla) keep their product name.
 - State goes in the recipe line's `note`, not in the id (`ajo` + `note: picado`), except products bought that way (`tomate-triturado`, `caldo-de-pollo`).
-- `family`: id from `ingredients/_system/families.yaml`.
+- `family`: id from `ingredients/_system/families.yaml`. Families with `food: false` are non-food (below); absent = food.
+- **Non-food items** (household products tracked in the pantry: paper, cleaning, personal care): same catalog, with a `family` marked `food: false` in `families.yaml`. They are never used in recipe lines, never created from a recipe, never staples, and get a pantry entry like any other item. Names follow the same rules (Spanish (Spain), singular, the user's wording as a synonym). Clients show them only in Despensa and the shopping list, never in recipe editors or ingredient pickers.
 - `staple: true`: assumed always available; ignored by "what am I missing". Which ingredients are staples is the user's decision (default: only water, `agua`); record it in `recipes/preferences.md`.
 
-## pantry (schema 2)
+## pantry (schema 3)
 
-`pantry.yaml`: `updated` and `items`, a map with one entry per non-staple ingredient of the catalog: `<ingredient-id>: { have, to_buy }` (booleans). `have: true` = at home; `to_buy: true` = on the shopping list. Anything with `have: false` is considered missing; staples are never listed and always available. No quantities.
+`pantry.yaml`: `updated` and `items`, a map with one entry per non-staple ingredient of the catalog: `<ingredient-id>: { have, to_buy, stores }`. `have: true` = at home; `to_buy: true` = on the shopping list. Anything with `have: false` is considered missing; staples are never listed and always available. No quantities.
+
+- `stores` (optional, schema 3): list of store ids from `_system/stores.yaml` ("centros de compra") where the user buys that ingredient. An item can have several. Absent or empty = no store assigned yet. The user writes it (app, Claude or Telegram: "el arroz lo compro en D1 y en Éxito"); order is irrelevant, no duplicates. Schema 2 files (no `stores`) are valid as they are; no migration.
+- The app's Despensa filters by store: choosing a centro shows the items that list it (an item with two stores appears under both); with `to_buy: true` that is the shopping list for that store. A "Sin centro" filter shows items with no store.
+- Adding a store: if the user names one that isn't in `stores.yaml`, add it there first (id = Spanish kebab-case slug of the name, `label` = the name as the user writes it), then reference it. Renaming only changes `label`; the id never changes. Removing a store from the vocabulary removes its id from every pantry item.
+
+```yaml
+arroz: { have: true, to_buy: false, stores: [exito, d1] }
+```
 
 - When an ingredient is added to the catalog (non-staple), add it here too with `{ have: false, to_buy: false }`.
 - "compré X" → `have: true, to_buy: false`. "se acabó X" → `have: false`. "apunta X" → `to_buy: true`.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate recipe and reviews files against the food contract.
+"""Validate recipe, reviews and pantry files against the food contract.
 
 Usage: check.py <knowledge-base-root> [recipe.md ...]
 With no files, checks every recipe. Exit code 1 if any error.
@@ -50,9 +50,12 @@ def main():
         errors += 1
         print(f"ERROR {os.path.relpath(f, root)}: {msg}")
 
+    nonfood = {k for k, v in fams.items() if (v or {}).get("food") is False}
     for k, v in ings.items():
         if v.get("family") not in fams:
-            err("food/ingredients/items.yaml", f"ingredient '{k}' has unknown family '{v.get('family')}'")
+            err(os.path.join(food, "ingredients/items.yaml"), f"ingredient '{k}' has unknown family '{v.get('family')}'")
+        elif v.get("family") in nonfood and v.get("staple"):
+            err(os.path.join(food, "ingredients/items.yaml"), f"non-food item '{k}' can't be a staple")
 
     ids = {}
     for f in all_files:
@@ -106,6 +109,8 @@ def main():
         for ln in lines:
             if ln.get("ing") not in ings:
                 err(f, f"ingredient '{ln.get('ing')}' not in catalog")
+            elif ings[ln["ing"]].get("family") in nonfood:
+                err(f, f"'{ln['ing']}' is a non-food item; it can't be a recipe ingredient")
             if ln.get("unit") and ln["unit"] not in units:
                 err(f, f"unit '{ln['unit']}' not in units.yaml")
             if ln.get("recipe") and ln["recipe"] not in ids:
@@ -147,6 +152,44 @@ def main():
             st = (r or {}).get("stars")
             if not isinstance(st, int) or not 1 <= st <= 5:
                 err(rf, f"'{rid}': stars must be an integer 1-5")
+
+    # pantry (schema 3): items.<ing>: { have, to_buy, stores }
+    pp = os.path.join(food, "pantry", "pantry.yaml")
+    if os.path.exists(pp):
+        pantry = load(pp)
+        sp = os.path.join(food, "_system", "stores.yaml")
+        stores = (load(sp) if os.path.exists(sp) else {}) or {}
+        for sid, sv in stores.items():
+            if not re.fullmatch(r"[a-z0-9]+(-[a-z0-9]+)*", str(sid)):
+                err(sp, f"store id '{sid}' must be kebab-case")
+            if not (sv or {}).get("label"):
+                err(sp, f"store '{sid}' needs a label")
+        for k in pantry:
+            if k not in ("updated", "items"):
+                print(f"WARN food/pantry/pantry.yaml: top-level '{k}' is not in the contract (only 'updated' and 'items')")
+        items = pantry.get("items") or {}
+        for ing, e in items.items():
+            if ing not in ings:
+                err(pp, f"'{ing}' is not in the ingredient catalog")
+            elif ings[ing].get("staple"):
+                err(pp, f"'{ing}' is a staple; staples are never listed")
+            e = e or {}
+            for b in ("have", "to_buy"):
+                if not isinstance(e.get(b), bool):
+                    err(pp, f"'{ing}': {b} must be true or false")
+            st = e.get("stores")
+            if st is None:
+                continue
+            if not isinstance(st, list):
+                err(pp, f"'{ing}': stores must be a list of store ids"); continue
+            if len(st) != len(set(st)):
+                err(pp, f"'{ing}': duplicate store in {st}")
+            for sid in st:
+                if sid not in stores:
+                    err(pp, f"'{ing}': store '{sid}' not in food/_system/stores.yaml")
+        for ing, v in ings.items():
+            if not v.get("staple") and ing not in items:
+                print(f"WARN food/pantry/pantry.yaml: catalog ingredient '{ing}' has no pantry entry")
 
     print("OK" if errors == 0 else f"{errors} error(s)")
     sys.exit(1 if errors else 0)
