@@ -1,4 +1,5 @@
 # What's at home and what to buy. One entry per non-staple ingredient of food/ingredients/items.yaml, added with the ingredient.
 # have: true = lo tengo en casa · to_buy: true = está en la lista de la compra.
+# stores (opcional): ids de food/_system/stores.yaml donde se compra, p. ej. arroz: { have: true, to_buy: false, stores: [exito, d1] }
 updated: {{now}}
 items: {}

@@ -1,0 +1,6 @@
+# Centros de compra (supermercados, tiendas, plazas) donde compra la casa. id: { label }
+# id: slug en kebab-case del nombre, inmutable. label: nombre para mostrar.
+# Se referencia desde food/pantry/pantry.yaml → items.<ingrediente>.stores
+# Ejemplo:
+# exito: { label: Éxito }
+{}

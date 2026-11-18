@@ -1,4 +1,5 @@
-# Ingredient families (shopping aisles). id: { label }
+# Ingredient families (shopping aisles). id: { label, food }
+# food: false = non-food household products (pantry and shopping list only, never in recipes). Absent = food.
 vegetables:       { label: Verduras y hortalizas }
 fruits:           { label: Frutas }
 meat:             { label: Carnes }
@@ -11,3 +12,6 @@ oils-and-fats:    { label: Aceites y grasas }
 spices-and-herbs: { label: Especias y hierbas }
 canned:           { label: Conservas }
 other:            { label: Otros }
+household-paper:  { label: Papel y envoltorios,  food: false }
+cleaning:         { label: Limpieza,             food: false }
+personal-care:    { label: Higiene personal,     food: false }

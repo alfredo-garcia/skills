@@ -10,7 +10,7 @@ plugins/
   sdlc-suite/            (v3.6.0) roles del ciclo de vida: product-manager, tech-lead, qa-engineer,
                          engineering-lead, ux-designer, platform-engineer, release-manager,
                          document-manager + document-templates
-  knowledge-base-suite/  (v2.1.0) personal-knowledge-base, inbox-router, personal-notifications,
+  knowledge-base-suite/  (v2.4.0) personal-knowledge-base, inbox-router, personal-notifications,
                          food-manager, plan-manager, fitness-manager (dependen entre sí,
                          por eso van juntas)
   finance-advisor/       asesor de inversiones (grupo finance del knowledge base)

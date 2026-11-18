@@ -57,7 +57,7 @@ Compare what the input is about with each destination's `purpose`.
 | Case | Action |
 | --- | --- |
 | Clearly one destination | Route it (section 4) |
-| A recipe, dish, cooking post or video, ingredient or shopping note | Destination `food` → `food-manager` |
+| A recipe, dish, cooking post or video, ingredient, shopping note or household product to buy or track (paper, cleaning, personal care) | Destination `food` → `food-manager` |
 | Training: a session done or skipped, how the body feels afterwards, an exercise (video, screenshot, physio advice) or a routine | Destination `fitness` → `fitness-manager` |
 | A medical report, lab result, prescription or health note | Destination `health` → `health-advisor` |
 | A broker or portfolio statement, a fund factsheet | Destination `finance` → `finance-advisor` |

@@ -70,6 +70,7 @@ neighborhood: Santa Fe
     _system/
       schema.md          field contract for the group
       units.yaml         shared by recipes (and future domains)
+      stores.yaml        centros de compra, referenced by the pantry
     _inbox/
       processed/
     recipes/             collection
@@ -89,7 +90,7 @@ neighborhood: Santa Fe
 Inside the group, references are inline by id:
 
 - a recipe line `{ ing: patata, qty: 800, unit: g }` → key `patata` in `food/ingredients/items.yaml`;
-- `pantry.yaml` → `have: [patata, huevo]`, same keys;
+- `pantry.yaml` → `items.patata: { have: true, to_buy: false, stores: [exito] }`, same keys (`stores` ids from `food/_system/stores.yaml`);
 - `reviews/<user>.yaml` → `favorites: [tortilla-de-patatas]` and `ratings.tortilla-de-patatas.stars: 4`, keyed by recipe id (opinions never live inside the recipe);
 - a recipe line `{ ing: sofrito, recipe: sofrito }` → `food/recipes/items/**/sofrito.md`.
 

@@ -1,6 +1,6 @@
 {
   "name": "knowledge-base-suite",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "Knowledge base personal multiusuario (carpeta local sincronizada con Google Drive): convenciones de almacenamiento, arranque desde cero con perfil del dueño (_profile.yaml), cada skill monta su propio grupo, enrutado del inbox, notificaciones por Telegram opcionales, recetas/despensa, planes y entrenamiento.",
   "author": {
     "name": "Al"
