@@ -21,8 +21,13 @@
 ```text
 Prototipo para [project name] · [project_id]/[id] · [Feature name]
 
+DÓNDE
+Trabaja en el lienzo "[App] · Screens". Crea una página nueva: "Propuesta [id] · [título]".
+Parte de copias de estos artboards actuales y modifícalos: [página › artboard, …] (o "pantallas nuevas").
+No toques las demás páginas.
+
 DESIGN SYSTEM
-Usa el design system "[claude_design_system]". Solo sus componentes, tokens e iconos.
+Usa el design system "[claude_design_system]" (sobre "[claude_design_shared_system]"). Solo sus componentes, tokens e iconos.
 Si necesitas algo que no existe, no lo improvises: márcalo en el lienzo como "COMPONENTE NUEVO" con una nota de qué hace.
 Componentes nuevos ya aprobados para esta feature (puedes crearlos, con este nombre):
 - TmpXxx: [qué hace, en una línea]
@@ -55,8 +60,8 @@ ENTREGA
 
 Before the block, one line: what it is. After it, the steps, in `docs_language`:
 
-1. Abre Claude Design y crea un proyecto nuevo con el design system "[claude_design_system]" ([link]).
-2. Pega el prompt tal cual.
+1. Abre el lienzo "[App] · Screens" ([claude_design_screens]). Si aún no existe: crea un lienzo de tipo Design con ese nombre, instala "[claude_design_shared_system]" y "[claude_design_system]", y pásame su URL para registrarla en `SDLC.md`.
+2. Pega el prompt tal cual (crea la página de propuesta).
 3. Itera allí lo que quieras; si quieres, tráeme los comentarios y te preparo el prompt de ajuste.
 4. Cuando te guste, tráeme el resultado: link de compartir, export (HTML/PDF) o capturas.
 
@@ -68,5 +73,16 @@ When the user brings feedback to apply in Claude Design, check it first (SKILL.m
 Cambios sobre el prototipo de [project_id]/[id]:
 1. [Pantalla › elemento]: [cambio concreto, con el copy exacto si cambia].
 2. …
-Mantén el design system "[claude_design_system]"; no cambies nada más.
+Solo en la página "Propuesta [id] · [título]". Mantén el design system "[claude_design_system]"; no cambies nada más.
+```
+
+## Integration prompt (Stage 4, after merge)
+
+```text
+Integra la feature [project_id]/[id] en el lienzo "[App] · Screens":
+1. Página "[Pantalla]": sustituye el artboard "[x]" por "[y]" de "Propuesta [id] · [título]"; añade "[z]".
+2. Página nueva "[Pantalla nueva]" (si hay): con sus artboards en todos los estados y formatos, como las demás páginas.
+3. Aplica estos cambios hechos durante la implementación: [desviaciones aprobadas, o "ninguno"].
+4. Borra la página "Propuesta [id] · [título]".
+No cambies nada más.
 ```

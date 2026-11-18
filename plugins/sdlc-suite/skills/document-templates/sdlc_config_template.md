@@ -83,8 +83,12 @@
 
 ## Design
 - claude_design: unknown              # available | unavailable | unknown — ux-designer asks once and records it
-- claude_design_system: none          # name/link of this project's design system in Claude Design (a working copy of
-                                      # ui_standards.md + the UI kit; the repo files are the source of truth)
+- claude_design_shared_system: none   # name + URL of the shared design system of the app family (a shared UI kit), if any
+- claude_design_system: none          # name + URL of THIS app's design system: only what's specific to the app, built on
+                                      # the shared one (a working copy of ui_standards.md + the UI kit; the repo files win)
+- claude_design_screens: none         # URL of the "<App> · Screens" canvas: one Design canvas per app, one page per
+                                      # screen/flow (current shipped state), temporary "Propuesta <id> · <title>" pages
+                                      # per feature. Created and recorded by the first feature with UI if missing
 
 ## Work tracking
 - work_tracker: github                # github | none — see work_tracking_guide.md

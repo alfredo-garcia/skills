@@ -25,7 +25,7 @@ People react much better to a real thing than to a description, so the deliverab
 3. Read in full: `SDLC.md`, core `tech_standards.md` (§1 stack overview, §13 i18n/accessibility/analytics) and the surface file for every UI surface (`tech_standards/<surface>.md`: stack, UI toolkit, how core rules apply), `product_vision.md` (or `shared_charter.md` for `type: shared`), the `public_docs` of each shared dependency (for a shared UI kit, typically its `ui_standards.md` and `ui_kit_registry.md`), and, if they exist, this project's own `ui_standards.md` and `ui_kit_registry.md`.
 4. **UI surfaces** come only from `SDLC.md` (`surfaces`: `web`, `android`, `ios`). Design only for those. Apply the cross-surface parity rules only when two or more are targeted. If there's no UI surface, this skill has nothing to do; say so. (A legacy `platforms: mobile` means android + ios.)
 5. **Code locations** come only from `SDLC.md` (`web_app`, `web_components`, `mobile_app`, `mobile_components`, `prototypes`). Don't search the disk for other frontends.
-6. **Design tool:** read `claude_design` and `claude_design_system` from `SDLC.md` (`## Design`). If `claude_design` is `unknown` or missing, ask once whether the user has Claude Design available, and record the answer in `SDLC.md` (shown, approved). Don't ask again in later sessions.
+6. **Design tool:** read `claude_design`, `claude_design_shared_system`, `claude_design_system` and `claude_design_screens` from `SDLC.md` (`## Design`). If `claude_design` is `unknown` or missing, ask once whether the user has Claude Design available, and record the answer in `SDLC.md` (shown, approved). Don't ask again in later sessions.
 7. **Isolation:** project facts only from these files and this session (protocol §6). Never reuse another project's brand, tokens or components.
 8. **Gates:**
    - Mode 0 requires `product_vision` and `tech_foundations` approved (or explicitly waived). The UI library and styling approach are tech decisions; you build the standards on top of them.
@@ -59,7 +59,12 @@ Read `TEMPLATES/project_context_protocol.md` §10. In short:
 **Source of truth.** `ui_standards.md` is the source of truth for the visual language, and `ui_kit_registry.md` for which components exist and their names, props and import paths (plus the public docs of a shared UI kit, if the project uses one). The design system in Claude Design is a *working copy* built from them, never the other way around:
 - If Claude Design's design system disagrees with `ui_standards.md` or the registry, **the repo files win**. Tell the user exactly what differs and that the Claude Design design system needs re-syncing.
 - If working in Claude Design produces something the user wants to keep that the standards don't cover (a new token, pattern or variant), it's a **proposed change to `ui_standards.md`**: a before/after diff the user must approve before it counts. Never adopt it silently.
-- After any approved change to `ui_standards.md` or the registry, remind the user to update the Claude Design design system (`claude_design_system` in `SDLC.md`).
+- After any approved change to `ui_standards.md` or the registry, remind the user to update the Claude Design design system (`claude_design_system` in `SDLC.md`; `claude_design_shared_system` when the change belongs to the shared UI kit).
+
+**How Claude Design is organized** (Path A; detail in `claude_design_handoff.md` §1):
+- **Design systems:** one **shared** design system per family of apps when they share a UI kit (`claude_design_shared_system`, built from the shared kit), plus one **per app** (`claude_design_system`) that builds on the shared one and holds only what is specific to the app. A single app with no shared kit has only its own.
+- **Screens:** one Design canvas per app, `<App> · Screens` (`claude_design_screens`), with both design systems installed. One page per screen or flow, each with that screen's artboards in all its states and formats; the pages always show the app's **current shipped state**.
+- **Features never get their own canvas.** A feature's prototype is a temporary page `Propuesta <id> · <title>` in the app's Screens canvas, integrated into the screen pages after merge (Stage 4) and then deleted.
 
 **Design tool selection** (Mode 0 and Stage 1):
 - `claude_design: available` → **Path A, Claude Design, by default**, using the project's design system (`claude_design_system`). Use Path B only if the user asks, or if the prototype needs real logic or state that a canvas can't show convincingly (say why in one line).
@@ -80,7 +85,7 @@ Read `SKILL_DIR/references/ui_foundations_guide.md` first. In short:
 3. **Start from the chosen library, don't invent a design system.** Use its defaults as the base and customize only tokens (color, type, radius, spacing) and voice. Mark every choice as `[PROPOSED]` with its rationale.
 4. **Write `ui_standards.md` and `ui_kit_registry.md` first, as drafts.** They are the source of truth, so they come first and the visual work is built from them.
 5. **Show it, don't describe it:**
-   - **Path A (Claude Design available):** guide the user to set up the project's design system in Claude Design *from these drafts and the UI kit code* (`SKILL_DIR/references/claude_design_handoff.md` §1). Iterate on its style guide there. Record its name in `SDLC.md` (`claude_design_system`).
+   - **Path A (Claude Design available):** guide the user to set up the project's design system in Claude Design *from these drafts and the UI kit code* (`SKILL_DIR/references/claude_design_handoff.md` §1). Iterate on its style guide there. If the app belongs to a family with a shared UI kit, the app's design system builds on the shared one and holds only what's specific to the app. Record names and URLs in `SDLC.md` (`claude_design_shared_system`, `claude_design_system`; shown, approved).
    - **Path B:** build a rendered, clickable style guide (palette, type scale, spacing, the core components in their states, a sample screen) with the project's stack or the sandbox scaffold, and open it.
 6. **Iterate** until the user explicitly approves. Fold every approved change back into the drafts (the repo files stay the source of truth), stamp both files with `Project: <project_id>`, remove the `[PROPOSED]` tags, and save (protocol §9). The registry lists only the components the project will actually use (plus any project wrappers), not the whole library.
 7. Apply `ui_foundations: approved (YYYY-MM-DD)` in `SDLC.md` (status bookkeeping, protocol §6: no second confirmation). If Path A was used, confirm that the Claude Design design system matches the approved files. Next step: feature work (`product-manager` Mode A → B, then Stage 1 here).
@@ -94,7 +99,7 @@ After a PRD is approved (and, when `rigor: production`, its technical review has
 **Inputs:** the PRD (`<FEATURES_ROOT>/<id>_<slug>_prd.md`, with the ID from `bash "$TEMPLATES/scripts/next_feature_id.sh" "<FEATURES_ROOT>" <slug>` if you only have a name; never mint one), plus everything loaded in Step 0. Never invent PRD content.
 
 ### Choose the path (see "Design tool selection" above)
-- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built on the project's design system in Claude Design. **Right after scoping, deliver the Claude Design prompt** (`SKILL_DIR/assets/claude_design_prompt_template.md`): self-contained, in `docs_language`, saved at `<prototypes>/<id>_<slug>_claude_design_prompt.md`, and shown in chat inside a single fenced code block with nothing else in it, followed by the short steps to use it. This is the Stage 1 deliverable on Path A; never just describe what to do in Claude Design.
+- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built as a new page `Propuesta <id> · <title>` in the app's Screens canvas (`claude_design_screens`), which may copy artboards from the current screen pages and modify them. If `claude_design_screens` is `none`, this feature creates the canvas `<App> · Screens` first (handoff §2) and you record its URL in `SDLC.md` (shown, approved). **Right after scoping, deliver the Claude Design prompt** (`SKILL_DIR/assets/claude_design_prompt_template.md`): self-contained, in `docs_language`, saved at `<prototypes>/<id>_<slug>_claude_design_prompt.md`, and shown in chat inside a single fenced code block with nothing else in it, followed by the short steps to use it. This is the Stage 1 deliverable on Path A; never just describe what to do in Claude Design.
 - **Path B, code-first or another tool** (when Claude Design is unavailable, or by exception): read `SKILL_DIR/references/prototype_guidelines.md`.
 
 ### Scope first (both paths)
@@ -125,9 +130,18 @@ Only after explicit sign-off. Fill `TEMPLATES/ux_flow_template.md` section by se
 - Every component is marked as reused (registry name and import path from the project's real component paths) or as a new `Tmp` component.
 - Every UI state and edge case in the PRD (§9, §10) has a row, or is explicitly listed as an open item.
 - Approved deviations from the PRD go in the deviations section.
-- For Path A output, reconcile against the registry as `claude_design_handoff.md` §3-4 describes. Never guess prop names.
+- For Path A output, reconcile against the registry as `claude_design_handoff.md` §3-4 describes. Never guess prop names. Record the Screens canvas URL, the proposal page, and the screen pages the feature will touch in the UX Flow header.
 
 Name interactive elements consistently across the UX Flow (one name per element, reused in every state), so tests can reference them using the test-identifier convention in the tech standards. Save as `<id>_<slug>_ux_flow.md` in `FEATURES_ROOT` (protocol §9). Briefly confirm the screen list and component legend, and list the new `Tmp` components again, with the offer to add them to the registry (or to the shared kit) once the feature is implemented. With `flow: autopilot` (protocol §8 Fast lane), invoke `qa-engineer` Mode C yourself instead of listing next steps. Otherwise, next steps: `qa-engineer` adds the UI tests to the test plan and writes the acceptance tests first (Modes B and C); then `engineering-lead` plans and builds it from the PRD + UX Flow (its independent review checks that only registry or announced `Tmp` components are used); documentation comes after merge (`document-manager`).
+
+## Stage 4: Integrate into the Screens canvas (Path A, after merge)
+
+When the feature is merged into `base_branch` (engineering-lead invokes this stage after the merge, or the user asks), bring the app's Screens canvas up to date, so its pages keep showing the shipped app:
+1. Take the final approved version: the proposal page plus any deviations approved during implementation (UX Flow deviations section, impl plan §8).
+2. Give the user an **integration prompt** (one copy-pasteable block, `claude_design_prompt_template.md` "Integration prompt"): for each screen page the feature touches, which artboards to replace or add, from which proposal artboards; then delete the proposal page.
+3. When the user confirms it's done, update the UX Flow header (`Integrated into Screens: YYYY-MM-DD`).
+
+A feature that's abandoned or deferred keeps no proposal page: ask the user to delete it, and note it in the UX Flow if one exists.
 
 ## Collaboration with other roles (protocol §11)
 
@@ -159,6 +173,6 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 - `SKILL_DIR/references/ui_foundations_guide.md`: how to build UI standards on the chosen stack.
 - `SKILL_DIR/references/prototype_guidelines.md`: code-first path, Tmp convention, parity checklist, presenting.
 - `SKILL_DIR/references/claude_design_handoff.md`: the Claude Design path and reconciliation.
-- `SKILL_DIR/assets/claude_design_prompt_template.md`: the copy-pasteable Claude Design prompt (Stage 1) and follow-up prompts (Stage 2).
+- `SKILL_DIR/assets/claude_design_prompt_template.md`: the copy-pasteable Claude Design prompts: prototype (Stage 1), follow-up (Stage 2), integration (Stage 4).
 - `SKILL_DIR/assets/prototype_scaffold.html`: sandboxed React starting point with a design-token hook.
 - `TEMPLATES/work_tracking_guide.md`: GitHub Issues hierarchy, labels, issue bodies, checkpoints (protocol §13).
