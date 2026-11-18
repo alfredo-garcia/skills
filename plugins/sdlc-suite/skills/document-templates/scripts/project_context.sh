@@ -313,9 +313,11 @@ echo
 
 # ---------- 6a. Design tool ----------
 echo "--- Design tool ---"
-CD="$(get claude_design)"; CDS="$(get claude_design_system)"
+CD="$(get claude_design)"; CDS="$(get claude_design_system)"; CDSS="$(get claude_design_shared_system)"; CDSC="$(get claude_design_screens)"
 echo "claude_design:        ${CD:-unknown (ux-designer asks once and records it)}"
+echo "claude_design_shared_system: ${CDSS:-none}"
 echo "claude_design_system: ${CDS:-none}"
+echo "claude_design_screens: ${CDSC:-none (the first feature with UI creates \"<App> · Screens\" and records it)}"
 echo
 
 # ---------- 6a2. Work tracking ----------

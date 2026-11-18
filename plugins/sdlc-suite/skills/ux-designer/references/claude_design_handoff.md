@@ -8,7 +8,19 @@ Claude Design is in research preview. Treat the specifics below as "how it works
 
 **`ui_standards.md` (visual language) and `ui_kit_registry.md` (components) in the repo are the source of truth.** The design system in Claude Design is a working copy built from them. When they disagree, the repo wins. A change discovered in Claude Design becomes a proposed diff to the repo files, and only counts once the user approves it.
 
-## 1. Setting up the project's design system (Mode 0, or the first time a project uses Claude Design)
+## 1. How Claude Design is organized, and setting it up (Mode 0, or the first time a project uses Claude Design)
+
+**Structure** (recorded in `SDLC.md`, `## Design`):
+
+| Piece | How many | What it holds | `SDLC.md` key |
+|---|---|---|---|
+| Shared design system | One per family of apps that share a UI kit (none for a standalone app) | The shared kit: tokens, components, patterns, voice. Source of truth: the shared kit's `ui_standards.md`, registry and code | `claude_design_shared_system` |
+| App design system | One per app | Only what's specific to the app (its theme or overrides, its own components), built on the shared one | `claude_design_system` |
+| Screens canvas `<App> · Screens` | One per app (a Design canvas with both design systems installed) | One page per screen or flow; each page has the screen's artboards in all its states and formats (sizes, light/dark). Always the **current shipped state**. Temporary `Propuesta <id> · <title>` pages while a feature is in progress | `claude_design_screens` |
+
+Never create a canvas per feature. Each design system's README links its app's Screens canvas (or, for the shared one, says the rule: one Screens canvas per app, pages per screen, temporary proposal pages per feature).
+
+**Setting up the design systems:**
 
 1. Prepare the inputs for the user:
    - `ui_standards.md` (tokens, typography, spacing, voice, platform conventions), as the main reference;
@@ -16,11 +28,14 @@ Claude Design is in research preview. Treat the specifics below as "how it works
    - `ui_kit_registry.md`, so names match the kit;
    - brand assets (logo, fonts) if any.
 2. The user creates or updates the design system in Claude Design from those inputs.
-3. Record its name or link in `SDLC.md` as `claude_design_system` (shown, approved). Several projects may point to the same one, e.g. the apps that consume the same shared UI kit.
+   With a shared UI kit, set up (or reuse) the shared design system from the kit first, then the app's design system on top of it with only the app's own tokens, overrides and components.
+3. Record names and URLs in `SDLC.md`: `claude_design_shared_system` (several apps point to the same one) and `claude_design_system` (shown, approved).
 4. **Verify alignment:** compare the design system's tokens and components with `ui_standards.md` and the registry. Report any difference; the repo files win, and the design system gets corrected.
 5. **Re-sync triggers:** any approved change to `ui_standards.md` or the registry, or a breaking change in a shared UI kit. When one happens, remind the user to update the design system.
 
 ## 2. Handing off a feature's prototype (Stage 1)
+
+The prototype lives in a new page `Propuesta <id> · <title>` of the app's Screens canvas (`claude_design_screens`). It may start from copies of artboards in the current screen pages, then modify them. If the canvas doesn't exist yet, the prompt first tells the user to create it: a Design canvas named `<App> · Screens` with the shared and the app design systems installed; once it exists, record its URL in `SDLC.md` (shown, approved).
 
 Hand the user **one ready-to-paste prompt**, built with `SKILL_DIR/assets/claude_design_prompt_template.md`. It must be self-contained (Claude Design hasn't seen the PRD) and carry:
 - the PRD content in scope (goal, what's out of scope, the screens and flows, every UI state and edge case, real copy and example data);
@@ -45,4 +60,8 @@ Accept whatever the user has: a share link, an export (HTML, PDF, PPTX), screens
 
 ## 5. Feeding Stage 3
 
-The UX Flow needs real component names and import paths, not visual descriptions. Use registry names for matched components and `Tmp` names for the announced new ones. Anything you couldn't reconcile with confidence goes in as an open item (UX Flow §7) rather than a guessed name, because an implementation agent trusting a wrong guess is worse than an explicit "confirm this component" flag.
+The UX Flow needs real component names and import paths, not visual descriptions. Use registry names for matched components and `Tmp` names for the announced new ones. Anything you couldn't reconcile with confidence goes in as an open item (UX Flow §7) rather than a guessed name, because an implementation agent trusting a wrong guess is worse than an explicit "confirm this component" flag. The UX Flow header records the Screens canvas URL, the proposal page and the screen pages the feature touches.
+
+## 6. Integrating into the Screens canvas (Stage 4, after merge)
+
+The screen pages show the shipped app, so a feature's screens move there only once it's merged: from the proposal page plus any deviations approved during implementation. Hand the user the integration prompt (template), listing per screen page which artboards are replaced or added; then the proposal page is deleted. Pages for new screens or flows are created with the same structure as the others (all states, all formats).
