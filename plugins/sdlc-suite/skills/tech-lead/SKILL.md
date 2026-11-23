@@ -115,7 +115,7 @@ Compare the changed drivers with the current documents. Propose changes only whe
 
 **Every ADR that adds or changes a rule includes its enforcement** (the ADR's Enforcement section and a §17 row): an automated check, or review-only with the reason. On acceptance, implement or update the check in the same change.
 
-ADR numbering: highest existing `NNN` in `<docs_root>/architecture/adr/` + 1, starting at `001`.
+ADR numbering: `bash "$TEMPLATES/scripts/next_adr_id.sh" "<docs_root>/architecture/adr"` (after `git fetch -q` if there's a remote): the highest `NNN` across this working tree and every branch, + 1, starting at `001`. In a feature branch the new ADR file is allowed; changes to the standards it implies go to `base_branch` separately (protocol §15).
 
 ## Mode C: PRD Technical Review
 

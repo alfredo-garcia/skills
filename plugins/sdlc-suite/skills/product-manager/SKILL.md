@@ -73,8 +73,8 @@ Feature definition and PRD in one pass (protocol §8, Fast lane). Same disciplin
 2. **Challenge, one round.** Combine Mode A step 2's checks (MVP fit, outcome vs mechanic, persona, overlap with the master doc, shared-dependency fit) with Mode B step 1's foundational gaps (data semantics, scope boundaries, business-logic math, stack conflicts) into **one** message with only the questions that change what the feature means. Never zero questions; rarely more than five. Everything else becomes a `[PROPOSED]` default in the draft.
 3. **Draft** with the **Lite variant** of `TEMPLATES/feature_name_prd_template.md`, stamped, with every proposable default tagged `**[PROPOSED]**` (one-line rationale). ACs keep their IDs and Given/When/Then form, including negative paths: tests are written straight from them.
 4. **One review pass.** Show the draft with the proposals visible; the user approves the whole thing (possibly overriding some proposals) in one reply. "Looks fine" accepts every proposal.
-5. **Mint and save.** Mint the ID (`next_feature_id.sh`, as in Mode A step 5), fold the proposals into plain text, run the light quality check (no `[PROPOSED]` left, open items in the last section, nothing outside `tech_standards.md`), and save `<id>_<feature-slug>_prd.md` with `Status: Approved` and `Source feature doc: n/a (PRD lite)`. No separate feature doc. State the qualified ID and the branch name.
-6. **Route.** `flow: autopilot`: invoke the next skill yourself (protocol §8 Fast lane): `ux-designer` if the feature touches a UI surface, otherwise `qa-engineer` Mode C. `flow: step`: name that next step and stop.
+5. **Mint and save.** Mint the ID and create the feature's branch and worktree (as in Mode A step 5, protocol §15), fold the proposals into plain text, run the light quality check (no `[PROPOSED]` left, open items in the last section, nothing outside `tech_standards.md`), and save `<id>_<feature-slug>_prd.md` with `Status: Approved` and `Source feature doc: n/a (PRD lite)`. No separate feature doc. State the qualified ID and the branch name.
+6. **Route.** A feature with UI: `ux-designer` next (invoke it yourself with `flow: autopilot`). A feature without UI: with a handoff (`handoff: after_design`, or the user asked for product work only), do the handoff yourself (protocol §15: handoff note, `Handoff: ready for development`, commit and push, stop); otherwise `qa-engineer` Mode C. `flow: step`: name that next step and stop.
 
 ## Mode A: Feature Definition
 
@@ -101,9 +101,9 @@ Show the draft. Flag anything inferred, and anything from the master doc or visi
 
 ### 5. Mint the Feature ID, then save
 This and Mode L step 5 are the **only** places an ID gets minted.
-1. `bash "$TEMPLATES/scripts/next_feature_id.sh" "<FEATURES_ROOT from Step 0>"` gives `NEXT_ID`.
+1. `git fetch -q` if there's a remote, then `bash "$TEMPLATES/scripts/next_feature_id.sh" "<FEATURES_ROOT from Step 0>"` gives `NEXT_ID` (counted across every branch).
 2. Filename `<id>_<feature-slug>.md`, slug in `SDLC.md`'s `slug_case` (default kebab-case).
-3. Save under `FEATURES_ROOT` (protocol §9). State the ID plainly and qualified: "Guardado como Feature `recetas/007`: `007_guest-checkout.md`". Remind the user of the branch name from `branch_pattern` in `SDLC.md`.
+3. Save under `FEATURES_ROOT` (protocol §9). State the ID plainly and qualified: "Guardado como Feature `recetas/007`: `007_guest-checkout.md`". **Right away, create the feature's branch and worktree** (protocol §15: `git worktree add <worktree_pattern path> -b <branch> <base_branch>`, or `git switch -c` if this session's worktree was made for it), save the documents there and commit them; that reserves the ID for parallel work. Tell the user the branch and the worktree path.
 
 ## Mode B: PRD Generation
 

@@ -32,6 +32,9 @@
 - flow: autopilot                   # autopilot | step. autopilot = skills chain on their own and stop only at PRD approval,
                                     # prototype sign-off and merge (protocol §8 Fast lane). Omit for the default:
                                     # autopilot when rigor is personal, step when production
+- handoff: none                     # none | after_design. after_design = product work (PRD + prototype + UX Flow) ends in a
+                                    # handoff: docs committed and pushed on the feature branch, marked ready for development;
+                                    # technical sessions pick features up later, in parallel (protocol §15)
 - surfaces: web                     # comma-separated, any of: backend, web, android, ios, cli, worker  (or: none)
                                     # these are TARGETS. Native vs cross-platform etc. is decided by tech-lead
 
@@ -56,6 +59,7 @@
 - base_branch: main                 # "merged" means merged into this branch
 - branch_pattern: <project_id>/<id>-<slug>     # e.g. recetas/004-shopping-list
 - commit_tag: [<project_id>/<id>]              # prefix for feature commits, e.g. [recetas/004] add list model
+- worktree_pattern: ../<repo>-<project_id>-<id>   # one git worktree per feature, relative to the repo root (protocol §15)
 - code_gate: enforce                # enforce | warn | off. The plugin's hook blocks writing source code unless Phase 0 vision and
                                     # tech foundations are approved/waived/n/a, the branch names a feature, and its PRD is "Status: Approved".
                                     # Omit it for the default: enforce when rigor is production, warn when personal. Only the user sets "off".
@@ -152,6 +156,9 @@ Rules:
   announce it first. docs/context/ui_standards.md is the source of truth for visual decisions.
 - Documentation (functional spec, changelog) is updated only after the feature is merged into
   the base branch, via the document-manager skill.
+- One feature = one branch = one worktree (`worktree_pattern` in SDLC.md). Never work two features in the
+  same folder, and don't edit SDLC.md or shared docs (standards, registry, vision, master doc) from a
+  feature branch: those changes go to the base branch separately. Merge one feature at a time.
 - Feature branches follow `branch_pattern` and feature commits start with `commit_tag` from SDLC.md
   (e.g. `recetas/004-shopping-list`, `[recetas/004] …`). Feature IDs repeat across projects in
   this repo, so always qualify them with the project_id.
