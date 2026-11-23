@@ -38,6 +38,7 @@ Fifteen sections, in this order. Every section should have real content, or expl
 >   (exempt only by the user's explicit decision; required by default for any feature touching a UI surface)
 > Source feature doc: `<feature-id>_<feature-slug>.md`
 > Master doc referenced: `[path to functional spec found in repo]`
+> Handoff: n/a / ready for development (YYYY-MM-DD) · picked up (YYYY-MM-DD)   (protocol §15)
 > Status: Draft / Reviewed / Approved
 
 ## 1. Summary
@@ -144,6 +145,7 @@ One document that replaces the feature doc + PRD pair. Aim for one or two screen
 > Surfaces touched: [from SDLC.md surfaces]
 > Prototype (ux-designer): required / signed off (YYYY-MM-DD) / exempt (YYYY-MM-DD): reason / n/a (no UI surface)
 > Source feature doc: n/a (PRD lite)
+> Handoff: n/a / ready for development (YYYY-MM-DD) · picked up (YYYY-MM-DD)   (protocol §15)
 > Status: Draft / Approved
 
 ## 1. Goal & Delta

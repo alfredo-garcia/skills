@@ -97,6 +97,7 @@ echo "name:          ${NAME:-<MISSING>}"
 echo "docs_language: ${LANG_:-<MISSING>}"
 echo "rigor:         $RIGOR"
 echo "flow:          $FLOW"
+HANDOFF="$(get handoff)"; echo "handoff:       ${HANDOFF:-none}"
 echo "technical_decisions: $TECHDEC${TECHDEC_NOTE}"
 echo "surfaces:      ${SURFACES:-<MISSING>}${SURF_NOTE:-}"
 echo "base_branch:   $BASE"
@@ -105,6 +106,7 @@ ERR=0
 [ -z "$PROJECT_ID" ] && { echo "CONFIG_ERROR: project_id missing in SDLC.md"; ERR=1; }
 case "$TYPE" in app|shared) ;; *) echo "CONFIG_ERROR: type must be 'app' or 'shared' (got '$TYPE')"; ERR=1 ;; esac
 case "$RIGOR" in personal|production) ;; *) echo "CONFIG_ERROR: rigor must be 'personal' or 'production' (got '$RIGOR')"; ERR=1 ;; esac
+case "$(get handoff)" in ""|none|after_design) ;; *) echo "CONFIG_ERROR: handoff must be 'none' or 'after_design' (got '$(get handoff)')"; ERR=1 ;; esac
 case "$FLOW" in autopilot|step) ;; *) echo "CONFIG_ERROR: flow must be 'autopilot' or 'step' (got '$FLOW')"; ERR=1 ;; esac
 case "$(get technical_decisions)" in ""|user|auto) ;; *) echo "CONFIG_ERROR: technical_decisions must be 'user' or 'auto' (got '$(get technical_decisions)')"; ERR=1 ;; esac
 while IFS= read -r sf; do

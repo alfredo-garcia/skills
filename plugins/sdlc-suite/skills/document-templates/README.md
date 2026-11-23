@@ -3,7 +3,7 @@
 This folder isn't a workflow. It carries an inert `SKILL.md` (`disable-model-invocation: true`, `user-invocable: false`) only so it installs next to the real skills: `product-manager`, `tech-lead`, `qa-engineer`, `engineering-lead`, `ux-designer`, `platform-engineer`, `release-manager` and `document-manager`. It holds everything those skills share, defined once:
 
 1. **The Project Context Protocol** (`project_context_protocol.md`): how every skill finds the current project, what it must read and respect, how projects stay isolated from each other, the Phase 0 order, and the gates. **Every skill runs this as its Step 0.**
-2. **Shared scripts** (`scripts/`): `project_context.sh` resolves the project and inventories it; `next_feature_id.sh` mints or looks up Feature IDs (both read-only); `gh_labels.sh` prints, or with `--apply` creates, the SDLC's GitHub labels (only after the user approves).
+2. **Shared scripts** (`scripts/`): `project_context.sh` resolves the project and inventories it; `next_feature_id.sh` mints or looks up Feature IDs and `next_adr_id.sh` numbers ADRs, both counting every branch; `list_handoffs.sh` lists the features ready for development across branches (all read-only); `gh_labels.sh` prints, or with `--apply` creates, the SDLC's GitHub labels (only after the user approves).
 3. **Document templates**: the structure of every document type the suite produces.
 
 ## The one rule
