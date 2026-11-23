@@ -1,19 +1,20 @@
-# Plan categories. id: { label }
-restaurant: { label: Restaurante }
-bar-cafe: { label: Bar o café }
-activity: { label: Actividad }        # bolos, paintball, minigolf, rocódromo…
-outdoor: { label: Naturaleza y excursión }
-cinema: { label: Cine }
-theater: { label: Teatro }
-concert: { label: Concierto }
-festival: { label: Festival }
-fair: { label: Feria }                # ferias de emprendimiento, comerciales…
-exhibition: { label: Exposición o museo }
-workshop: { label: Taller o curso }
-sport-event: { label: Evento deportivo }
-trip-day: { label: Escapada de un día }
-other: { label: Otro }
-nightlife: { label: Fiesta y rumba }   # bares de noche, discotecas, salidas de fiesta
-game-night: { label: Noche de juegos }   # póker, juegos de mesa, videojuegos en casa
-comedy: { label: Comedia y stand-up }
-running-race: { label: Carrera de running }   # carreras en las que Al participa (5K, 10K, media maratón…)
+# Plan categories. id: { label, type }
+# type: one id from types.yaml. Every new category needs its type.
+restaurant: { label: Restaurante, type: food }
+bar-cafe: { label: Bar o café, type: food }
+activity: { label: Actividad, type: adventure }        # bolos, paintball, minigolf, rocódromo…
+outdoor: { label: Naturaleza y excursión, type: adventure }
+cinema: { label: Cine, type: culture }
+theater: { label: Teatro, type: culture }
+concert: { label: Concierto, type: music }
+festival: { label: Festival, type: music }
+fair: { label: Feria, type: other }                # ferias de emprendimiento, comerciales…
+exhibition: { label: Exposición o museo, type: culture }
+workshop: { label: Taller o curso, type: culture }
+sport-event: { label: Evento deportivo, type: sport }
+trip-day: { label: Escapada de un día, type: adventure }
+other: { label: Otro, type: other }
+nightlife: { label: Fiesta y rumba, type: music }   # bares de noche, discotecas, salidas de fiesta
+game-night: { label: Noche de juegos, type: home }   # póker, juegos de mesa, videojuegos en casa
+comedy: { label: Comedia y stand-up, type: culture }
+running-race: { label: Carrera de running, type: sport }   # carreras populares en las que participar (5K, 10K, media maratón…)

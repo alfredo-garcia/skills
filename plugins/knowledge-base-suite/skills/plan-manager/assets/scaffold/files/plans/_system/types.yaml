@@ -1,0 +1,9 @@
+# Plan types: broad families that group the categories. id: { label }
+# A plan's type is never stored in the plan: it is derived from its category (categories.yaml → type).
+food: { label: Comida }
+culture: { label: Cultura }
+music: { label: Música y fiesta }
+adventure: { label: Aventura }
+sport: { label: Deporte }
+home: { label: En casa }
+other: { label: Otros }

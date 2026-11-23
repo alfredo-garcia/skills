@@ -12,7 +12,8 @@ Keeps the user's leisure plans in the `plans` group, exactly as the contract say
 1. Read the `personal-knowledge-base` skill (dedup, optimistic writes, timestamps, tracked domains).
 2. **Knowledge base**: find it as the `personal-knowledge-base` skill says (the folder the user chose; in Cowork, the connected folder that contains `_domains.json`). None found → ask the user which folder to use. No `_profile.yaml` → tell the user and create it with the root setup of `personal-knowledge-base`. Then read `_profile.yaml` (user, home city, timezone, Telegram) and `_domains.json`.
 3. **First use — no `plans` group in `_domains.json`**: set it up yourself with `python3 scripts/scaffold.py <root>` (run from this skill's folder; it never overwrites; without a shell, copy `assets/scaffold/files/` into the root and merge `assets/scaffold/registry.json` into `_domains.json` by hand). Then ask, in one message: the home city (default `_profile.yaml` → `home.city`; scope `everyday`), other cities worth watching only for big events (`big-only`), any upcoming trips, and anything they never want proposed. Write the cities in `plans/_system/cities.yaml` (`<id>: { label, country, scope }`), trips in `trips/trips.yaml`, and the rest in `ideas/preferences.md`. Optionally seed `sources/items.yaml` with a few agendas of the home city found on the web (`checked: false`).
-4. Confirm the `plans` group and its domains `ideas`, `trips`, `sources` in `_domains.json`. Read in one go: `plans/_system/schema.md`, `plans/_system/categories.yaml`, `audiences.yaml`, `tags.yaml`, `cities.yaml`, `plans/ideas/preferences.md`, `plans/ideas/index.json`, `plans/trips/trips.yaml`. For the weekly search also `plans/sources/items.yaml` and `plans/ideas/_digest.yaml`.
+4. Confirm the `plans` group and its domains `ideas`, `trips`, `sources` in `_domains.json`. Read in one go: `plans/_system/schema.md`, `plans/_system/types.yaml`, `plans/_system/categories.yaml`, `audiences.yaml`, `tags.yaml`, `cities.yaml`, `plans/ideas/preferences.md`, `plans/ideas/index.json`, `plans/trips/trips.yaml`. For the weekly search also `plans/sources/items.yaml` and `plans/ideas/_digest.yaml`.
+   - **Types** (global, not per user): `types.yaml` and the `type` of each category ship with the scaffold. No `plans/_system/types.yaml` (group set up before types existed) → run the scaffold again (it only adds what is missing) or copy the file from `assets/scaffold/files/plans/_system/`. A category in `categories.yaml` without `type` → take it from the scaffold's `categories.yaml` for the same id; a category of the user's own with no match → ask which type it belongs to (or `other`). Tell the user what was added.
 5. No filesystem (plain chat): do the same work, return the resulting files in the reply for the user to save, and say so in one line.
 
 ## 1. Where to read and where to write
@@ -27,7 +28,7 @@ Keeps the user's leisure plans in the `plans` group, exactly as the contract say
 | Write: trips | `plans/trips/trips.yaml` | |
 | Write: sources | `plans/sources/items.yaml` | Weekly search only |
 | Write: digest map | `plans/ideas/_digest.yaml` | Weekly search only |
-| Write: vocabularies | `plans/_system/*.yaml` | Only to add a value that is clearly missing, before using it |
+| Write: vocabularies | `plans/_system/*.yaml` | Only to add a value that is clearly missing, before using it. A new category always gets its `type` (from `types.yaml`) |
 | Never write | `_domains.json`, other groups, `_links/`, `_notification-config.json` | |
 
 ## 2. Modes
@@ -51,7 +52,7 @@ Scheduled runs only do Weekly search (and Capture of inbox entries); they never 
 2. **Split**: one plan per item. A poster with several dates of the same show = one item with several `sessions`. A list of different restaurants = several items.
 3. **Classify**:
    - `timing`: `dated` if it happens on specific dates or for a limited window (concert, movie in cinemas, play, fair, festival, temporary exhibition, one-off workshop); `timeless` if it can be done any day and repeated (restaurant, bar, bowling, paintball, minigolf, climbing gym, a hike, a permanent museum). If a timeless place has a one-off event (a restaurant's wine night), the event is a separate `dated` item.
-   - `category`, `tags` (vocabulary ids only), `city` (add a city to `cities.yaml` with `scope: trip-only` if it is new and the user is clearly travelling there).
+   - `category` (its type is derived from `categories.yaml`; never write `type` in the plan), `tags` (vocabulary ids only), `city` (add a city to `cities.yaml` with `scope: trip-only` if it is new and the user is clearly travelling there).
    - `audience`: every audience the plan suits, from `solo`, `couple`, `friends`, `family`. Use the obvious ones (a romantic dinner → `couple`; paintball → `friends`, `family`); when the user says "para ir con mi familia", include it. Never record who actually goes.
    - `priority`: `normal` unless the user shows urgency or excitement ("tengo muchas ganas" → `high`).
 4. **Status**: a plan the user shares starts as `wishlist` (or `scheduled` if they give a date they're committed to), with `report_status: notified`. Items created by the weekly search start as `proposed` / `pending`.
