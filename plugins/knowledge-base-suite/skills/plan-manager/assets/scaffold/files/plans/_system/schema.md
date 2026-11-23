@@ -8,7 +8,7 @@ Group-specific rules on top of the `personal-knowledge-base` standard (v2). Scaf
 | trips | state | 1 | `trips/trips.yaml` |
 | sources | catalog | 1 | `sources/items.yaml` |
 
-Shared vocabularies in `_system/`: `categories.yaml`, `audiences.yaml`, `tags.yaml`, `cities.yaml`, `statuses.yaml`.
+Shared vocabularies in `_system/`: `types.yaml`, `categories.yaml`, `audiences.yaml`, `tags.yaml`, `cities.yaml`, `statuses.yaml`.
 
 ## Who writes what
 
@@ -66,6 +66,7 @@ The user controls their plans with three actions. **None deletes anything**: fil
 | --- | --- |
 | title | Spanish, with accents |
 | category | One id from `_system/categories.yaml` |
+| type | Never stored. Derived from `category` → `type` in `_system/categories.yaml` (ids and labels in `_system/types.yaml`) |
 | timing | `dated` or `timeless` |
 | audience | List of ids from `_system/audiences.yaml` (`solo`, `couple`, `friends`, `family`); several allowed. Who the plan suits, not who goes |
 | tags | List of ids from `_system/tags.yaml` |
@@ -87,6 +88,13 @@ The user controls their plans with three actions. **None deletes anything**: fil
 | photo | `plans/ideas/_attachments/<id>.<ext>` |
 
 Body: free Spanish notes.
+
+### type — derived from category
+
+Every category belongs to exactly one type (`food`, `culture`, `music`, `adventure`, `sport`, `home`, `other`; labels in `_system/types.yaml`). Apps, Telegram and chat filter and group plans by type by reading `categories.yaml`; the plan file only stores `category`.
+
+- Never write `type` in a plan. Changing a plan's category changes its type.
+- Every new category added to `categories.yaml` needs its `type`; if none fits, use `other` or add a type to `types.yaml` first.
 
 ### Example (dated)
 
