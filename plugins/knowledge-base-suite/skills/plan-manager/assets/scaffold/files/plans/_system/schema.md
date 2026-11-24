@@ -12,8 +12,9 @@ Shared vocabularies in `_system/`: `types.yaml`, `categories.yaml`, `audiences.y
 
 ## Who writes what
 
-- The group skill (or a scheduled search) creates items, maintains vocabularies, `sources` and `index.json`.
+- The group skill (or a scheduled search) creates items, maintains vocabularies, `sources` and `index.json` (it adds the entries).
 - The user (app, Claude or Telegram) changes `status`, `priority`, `scheduled`, `history`, `audience`, `tickets.state` and notes, and edits `trips`.
+- An app that applies the user's three actions (e.g. My Plans) also changes `report_status` and `updated` of that plan's entry in `ideas/index.json`; it never creates or removes entries. If the plan has no entry, it writes only the item file.
 - Every writer follows the optimistic write rule and sets `updated`.
 
 ## ideas (schema 1)
@@ -77,7 +78,7 @@ The user controls their plans with three actions. **None deletes anything**: fil
 | sessions | dated only. List of `{ start, end, note }` ISO timestamps |
 | available_from / available_until | dated only. Dates (`YYYY-MM-DD`) for windows: cartelera, exposición, temporada |
 | series | dated only, optional. Slug shared by every edition of a recurring event (`feria-del-libro`); edition ids add the year (`feria-del-libro-2027`) |
-| scheduled | `{ start, end }` when status is `scheduled` (dated: also kept after `done` as the record) |
+| scheduled | `{ start, end }` when status is `scheduled` (dated: also kept after `done` as the record). `start` is a timestamp, or a date `YYYY-MM-DD` when only the day is known (no time) |
 | history | timeless only. List of `{ date, note }`, oldest first |
 | tickets | `{ required, url, on_sale, state }`; state `none`, `to-buy`, `bought` |
 | price_amount / price_currency | Price "from" (tickets, entry fee), e.g. `250000` / `COP` |
