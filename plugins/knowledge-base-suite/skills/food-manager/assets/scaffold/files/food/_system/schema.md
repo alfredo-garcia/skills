@@ -4,8 +4,8 @@ Group-specific rules on top of the `personal-knowledge-base` standard (v2). Scaf
 
 | Domain | Type | Schema | Storage |
 | --- | --- | --- | --- |
-| recipes | collection | 4 | `recipes/items/NN-<category>/<id>.md` |
-| ingredients | catalog | 1 | `ingredients/items.yaml` |
+| recipes | collection | 5 | `recipes/items/NN-<category>/<id>.md` |
+| ingredients | catalog | 2 | `ingredients/items.yaml` |
 | pantry | state | 3 | `pantry/pantry.yaml` |
 | reviews | state, per user | 1 | `reviews/<user>.yaml` |
 | plan | state | 1 | `plan/plan.yaml` |
@@ -17,9 +17,9 @@ Shared vocabularies: `_system/units.yaml`, `_system/stores.yaml`.
 - The food-manager skill writes recipes, the ingredient catalog and every vocabulary.
 - The user (through the app, Claude or Telegram) writes `curated` and `status` on recipes, the pantry, the plan and their own reviews file. Opinions (stars, comments, favorites) never live in the recipe.
 - Every writer follows the optimistic write rule and sets `updated`.
-- The user never maintains metadata by hand: `id`, `category`, `tags`, normalized ingredients, `missing` and `doubts` belong to the skill.
+- The user never maintains metadata by hand: `id`, `category`, `tags`, normalized ingredients, `health`, `missing` and `doubts` belong to the skill.
 
-## recipes (schema 4)
+## recipes (schema 5)
 
 Only `id`, `domain`, `created`, `updated` and `title` are required. Unknown values are left empty and declared in `missing`.
 
@@ -39,6 +39,7 @@ Only `id`, `domain`, `created`, `updated` and `title` are required. Unknown valu
 | photo | skill | `food/recipes/_attachments/<id>.jpg` (path from the root) |
 | curated | user | Boolean: the user has checked the recipe's data; when set to true the skill clears `doubts` |
 | status | skill, user | `to-try`, `tried` or `discarded` (below). Absent = `tried` |
+| health | skill | Healthiness indicator `{ score, base, cooking, estimated }` (section Healthiness). `score` 1–5 is computed by `scripts/health.py`, never by hand |
 | missing | skill | Recomputed on every write; empty = complete. Values: `category`, `time`, `servings`, `quantities`, `ingredients`, `steps`, `tags`, `photo` |
 | doubts | skill | Free text (Spanish) about interpretations it wasn't sure of |
 
@@ -74,9 +75,9 @@ Fixed sections, in this order: `## Steps` (required, numbered), `## Notes`, `## 
 
 The skill adds photos: those the user sends through Claude, the video thumbnail for YouTube, and for Instagram the screenshot the user shared or a capture from Cowork's browser. If none is available, `photo` goes into `missing`.
 
-## ingredients (schema 1)
+## ingredients (schema 2)
 
-`items.yaml` is a map: `<id>: { name, synonyms, family, staple }`.
+`items.yaml` is a map: `<id>: { name, synonyms, family, staple, health, unit_g }`.
 
 - `id`: Spanish (Spain) kebab-case, singular, the most specific form that matters when shopping (`pimiento-rojo` ≠ `pimiento-verde`; `tomate` = `tomates`).
 - `name`: Spanish (Spain) display name. `synonyms`: other regional or language variants (`papa`, `choclo`, `crema de leche`, `potato`).
@@ -84,7 +85,40 @@ The skill adds photos: those the user sends through Claude, the video thumbnail 
 - State goes in the recipe line's `note`, not in the id (`ajo` + `note: picado`), except products bought that way (`tomate-triturado`, `caldo-de-pollo`).
 - `family`: id from `ingredients/_system/families.yaml`. Families with `food: false` are non-food (below); absent = food.
 - **Non-food items** (household products tracked in the pantry: paper, cleaning, personal care): same catalog, with a `family` marked `food: false` in `families.yaml`. They are never used in recipe lines, never created from a recipe, never staples, and get a pantry entry like any other item. Names follow the same rules (Spanish (Spain), singular, the user's wording as a synonym). Clients show them only in Despensa and the shopping list, never in recipe editors or ingredient pickers.
+- `health` (schema 2, food items only): `{ score, nova }`. `score` 1–5 is how healthy the ingredient is in itself; `nova` 1–4 is its processing level (NOVA: 1 unprocessed or minimally processed, 2 processed culinary ingredient, 3 processed food, 4 ultra-processed). Water and ice are `{ exclude: true }` (they don't count). Rubric in section Healthiness. Non-food items have no `health`.
+- `unit_g` (optional): grams of one piece (`unit`) of the ingredient, so a line like "2 huevos" has a weight (`huevo: … unit_g: 55`). Set it for every ingredient that recipes count in pieces.
 - `staple: true`: assumed always available; ignored by "what am I missing". Which ingredients are staples is the user's decision (default: only water, `agua`); record it in `recipes/preferences.md`.
+
+## Healthiness
+
+An indicator from 1 (least healthy) to 5 (healthiest) for each recipe, built from its ingredients, their quantities and how the dish is cooked. Clients show it on recipe cards, in the recipe detail and as a filter (1–5).
+
+**Ingredient score** (`health.score`, judgment of the skill, set when the ingredient enters the catalog):
+
+| Score | Typical ingredients |
+| --- | --- |
+| 5 | Vegetables, fruit, legumes, fish, whole grains, nuts and seeds, herbs and spices |
+| 4 | Eggs, plain yogurt, poultry, extra virgin olive oil, whole-grain bread and pasta, tinned fish in water or olive oil |
+| 3 | Refined grains (white rice, pasta, white flour, bread), red meat, milk, cheese, other vegetable oils, broth |
+| 2 | Butter, cream, cured and processed meats (beicon, chorizo, jamón), salt, sauces and condiments with added sugar or fat, honey |
+| 1 | Sugar and syrups, sweets, soft drinks, pastries and other ultra-processed sweets or snacks |
+
+Processing caps the score: `nova: 4` (ultra-processed) → 2 at most; `nova: 3` → 4 at most.
+
+**Recipe score** (`health` in the recipe, computed by `scripts/health.py`):
+- **Base version only**: lines with `optional: true` don't count, and `## Variations` never counts. An alternative written in a line's `note` ("o jamón") doesn't count either: the line's `ing` does.
+- Each counted line weighs its grams: `g`, `kg`, `ml`, `l` as is (1 ml = 1 g); `cup` 240, `tbsp` 15, `tsp` 5, `oz` 30, `clove` 5, `sprig` 2, `leaf` 1, `can` 400, `packet` 10, `bunch` 50; pieces (`unit`) × the ingredient's `unit_g`; `pinch` 1, `to-taste` 2, `as-needed` 10. A line without quantity counts 50 g, a piece without `unit_g` 100 g; both are listed in `health.estimated`.
+- Ingredients scoring 1 or 2 weigh **double** (sugar, fats and processed meats matter more than their mass). `exclude` ingredients (water) don't count.
+- A sub-recipe line (`recipe: <id>`) counts with that recipe's `base`, weighing its quantity if it is in a mass or volume unit, otherwise 150 g per portion.
+- `base` = weighted mean of the counted scores (one decimal).
+- `cooking`: the main cooking method of the dish, one of `raw`, `steam`, `boil` (+0.25), `stew`, `bake`, `grill`, `saute` (0), `fry` (−0.5, shallow frying), `deep-fry` (−1). Set by the skill from the steps; the method of the main component wins.
+- `score` = `base` + the cooking modifier, rounded half up and kept within 1–5.
+
+```yaml
+health: { score: 4, base: 3.8, cooking: bake, estimated: [huevo] }
+```
+
+**Recalculation.** `health` is recomputed with `scripts/health.py <root> --write` whenever anything it depends on changes: an ingredient line of the recipe (ingredient, quantity, unit, `optional`, a sub-recipe), its cooking method, or an ingredient's `health` or `unit_g` in the catalog (every recipe that uses it, and the recipes that use those as sub-recipes). A change in `health` sets the recipe's `updated`. Nothing else in the recipe changes.
 
 ## pantry (schema 3)
 
