@@ -177,16 +177,18 @@ def main():
             continue
         try:
             res = calc.compute(rid)
-        except H.NoIngredients:
-            continue
         except ValueError as e:
             err(f, f"health can't be computed: {e}")
             continue
-        stored = calc.front(rid).get("health")
+        stored = calc.front(rid).get("health") or {}
+        if res["score"] is None:
+            # incomplete data: no score is expected, and pending is never an error
+            if stored.get("score") is not None or stored.get("base") is not None:
+                err(f, f"health has a score but the recipe is incomplete ({', '.join(res['pending'])}): "
+                       "run scripts/health.py <root> --write to set it back to pending")
+            continue
         if not H.same(stored, res):
             err(f, f"health out of date (should be score {res['score']}, base {res['base']}): run scripts/health.py <root> --write")
-        if res["cooking"] is None:
-            err(f, f"health.cooking empty: set the main cooking method ({', '.join(H.COOKING)})")
 
     # reviews files (one per user)
     for rf in sorted(glob.glob(os.path.join(food, "reviews", "*.yaml"))):

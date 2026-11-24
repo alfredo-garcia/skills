@@ -42,7 +42,7 @@ Takes recipe input in any form and leaves it as correctly formatted files in the
 | "compré…", "se acabó…", "apunta para comprar…", "X lo compro en…" | **Pantry** (section 7) | Always, before acting |
 | "qué compro en D1", "lista de la compra de Éxito" | **Report**: pantry items with `to_buy: true` that list that store (or no store, for "sin centro") | None |
 | "qué recetas faltan por curar" | **Report**: recipes with non-empty `missing` or `doubts`, or `curated: false` | None |
-| "¿qué tan sana es X?", "recetas más sanas" | **Report**: `health.score` and what drives it (the heaviest low-scoring ingredients, the cooking method, `estimated` lines) | None |
+| "¿qué tan sana es X?", "recetas más sanas" | **Report**: `health.score` and what drives it (the heaviest low-scoring ingredients, the cooking method). Pending → say it has no score yet and what it lacks (`health.pending`: "le faltan las cantidades") | None |
 | "el aceite debería contar como 4", "recalcula la salud" | **Edit** the catalog (section 5) or just run `scripts/health.py --write` | Catalog changes: always |
 
 Confirmations happen where the user is talking: in the chat or Cowork session, or — for requests that arrived through Telegram — in the same Telegram chat (see section 10). Scheduled runs with no request from the user only Process; they never edit, rate or touch the pantry.
@@ -65,8 +65,8 @@ Confirmations happen where the user is talking: in the chat or Cowork session, o
 7. **Photo**: image the user sent > Instagram/YouTube thumbnail > a capture of the post > a dish photo inside the source. None → `photo` empty.
 8. **Fill**: `id`, `domain: recipes`, `created`/`updated` now (ISO with the profile timezone offset), `source`, `curated: false`. Body: `## Steps` numbered (Spanish, imperative, one action per step); `## Notes`, `## Variations` only with content.
 9. **Compute `missing`** with the rules in `schema.md` (`ingredients` and `steps` are judgment; the rest are mechanical).
-10. **Healthiness:** set `health.cooking` (the main cooking method, from the steps; `schema.md` → Healthiness). The score itself is never written by hand.
-11. **Write** the file, then run `python3 scripts/health.py <root> --write <file>` (computes `health`) and `python3 scripts/check.py <root> <file>`, and fix everything they report.
+10. **Healthiness:** set `health.cooking` (the main cooking method, from the steps; `schema.md` → Healthiness; no steps to tell → leave it empty). The score itself is never written by hand, and it's optional: a recipe without all its data (ingredients, quantities, grams per piece, cooking method) stays pending with no score. **Never invent or assume quantities to get a score**; if the source has none, the recipe is pending until the user gives them. Pending is not an error and needs no fixing. When pieces are the only gap (`pending: [unit_g]`), set the ingredient's `unit_g` in the catalog (judgment of a typical piece) and recompute.
+11. **Write** the file, then run `python3 scripts/health.py <root> --write <file>` (computes `health`, or writes it as pending) and `python3 scripts/check.py <root> <file>`, and fix every ERROR they report.
 12. **Move the original** to `processed/` and set `source.original`.
 13. Add it to the summary (section 8).
 
@@ -90,7 +90,7 @@ Process them; never drop information. What needs the user's eyes goes in `doubts
    > ¿Es esta? **Lentejas estofadas** (`food/recipes/items/03-soups/lentejas-estofadas.md`). Cambio: 3 → 4 zanahorias.
    Several candidates → list them numbered and ask which. None → say so and ask.
 3. Apply only what was confirmed. Re-normalize any ingredient line you touch. `category` changed → move the file; `id` never changes, even if the title does.
-4. Recompute `missing`, set `updated`. If the change touches anything the healthiness depends on (an ingredient line: ingredient, quantity, unit, `optional`, sub-recipe; or the cooking method), run `python3 scripts/health.py <root> --write <file>`: it recomputes this recipe and every recipe that uses it as a sub-recipe. Run `scripts/check.py`, and reply with what changed (before → after), including the health score when it moved ("Salud: 3 → 4").
+4. Recompute `missing`, set `updated`. If the change touches anything the healthiness depends on (an ingredient line: ingredient, quantity, unit, `optional`, sub-recipe; or the cooking method), run `python3 scripts/health.py <root> --write <file>`: it recomputes this recipe and every recipe that uses it as a sub-recipe. Run `scripts/check.py`, and reply with what changed (before → after), including the health score when it moved ("Salud: 3 → 4", "Salud: pendiente → 4" when the change completed the data).
 
 **Ingredient healthiness** ("el aceite de oliva debería contar como 4", "el huevo pesa unos 60 g"): same confirmation, naming how many recipes use the ingredient. Change its `health` or `unit_g` in the catalog, run `python3 scripts/health.py <root> --write` (every recipe whose score changes is rewritten), and list the recipes whose score moved.
 
