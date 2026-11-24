@@ -59,6 +59,9 @@ Run the script with `bash "$TEMPLATES/scripts/project_context.sh" <dir>` to reso
 | Master Functional Doc | `<docs_root>/functional-spec.md` (+ `<docs_root>/functional/…`) | document-manager |
 | Changelogs | `<docs_root>/changelog/<id>_<slug>_changelog.md` | document-manager |
 | Feature doc / PRD / UX Flow | `<features_root>/<id>_<slug>.md`, `_prd.md`, `_ux_flow.md` | product-manager / ux-designer |
+| Claude Design prompt | `<features_root>/<id>_<slug>_claude_design_prompt.md` | ux-designer |
+| Approved design snapshot (`rigor: production`) | `<features_root>/<id>_<slug>_design/` | ux-designer |
+| Screens snapshot, shipped app (`rigor: production`) | `<docs_root>/design/screens/` (base branch only) | ux-designer (Stage 4) |
 
 A skill writes only the documents it owns. It may read any of them.
 
@@ -240,6 +243,7 @@ Eight roles, one owner per kind of decision. When a skill hits a question outsid
 | Flow between roles | `autopilot`: skills chain on their own, 3 stops (PRD, prototype, merge) | `step`: the user invokes each step |
 | Implementation plan & independent review | Lite checklist, no separate approval; independent review per slice | Full plan per feature; small PRs; review per PR; review record; author never approves |
 | Test plan, tests first, verification | No test plan by default; acceptance tests for main flows from the PRD's ACs; light check before merge | Test plan per feature, acceptance tests before code, `Verified` verdict required to merge |
+| Claude Design snapshots in the repo (approved proposal, Screens) | Not taken (reading the canvas costs tokens); the UX Flow keeps the canvas URL. Only if the user asks | Taken at sign-off and after each integration |
 | Platform Foundations (0.4) | Optional, minimal | Required, complete |
 | Release Process (0.5) | Optional | Required |
 | Subagents (Mode D) | `<id>-pr-reviewer` always; others only if the user asks | `<id>-pr-reviewer` always; others recommended when 2+ code surfaces, a team, or heavy cross-cutting rules, created with the user's approval |
@@ -292,7 +296,7 @@ Several features can be in flight at once (some in product work, others being bu
 **One feature = one branch = one worktree.**
 - Every new feature gets its branch (`branch_pattern`) from an up-to-date `base_branch`, in its own git worktree at `worktree_pattern` (`SDLC.md`; default `../<repo>-<project_id>-<id>`, relative to the repo root). Its documents and its code live only there until it's merged. Never work two features in the same folder, and never switch a feature's worktree to another branch.
 - **Starting a feature** (product-manager, when it mints the ID): `git fetch` if there's a remote → mint the ID with `next_feature_id.sh` (it counts every branch, and a feature branch reserves its ID as soon as it exists) → create the branch and the worktree at once: `git worktree add <path> -b <branch> <base_branch>` → save and commit the feature's documents there. If the session already runs in a worktree made for this work (e.g. a Claude Code session worktree), create the branch there instead (`git switch -c <branch> <base_branch>`).
-- **Shared files stay out of feature branches:** `SDLC.md`, the Phase 0 documents (vision, tech and UI standards, UI kit registry, architecture, platform, release), the master functional doc. A feature that needs one of them changed gets that change as a small separate change on `base_branch` (its own short branch, merged first), and the feature branch then brings `base_branch` in. Allowed in a feature branch: the feature's own documents, new ADR files (numbered with `next_adr_id.sh`, which also counts every branch), and code. Anything else that can't wait is listed in the handoff note under "Shared docs touched", so the merge order accounts for it.
+- **Shared files stay out of feature branches:** `SDLC.md`, the Phase 0 documents (vision, tech and UI standards, UI kit registry, architecture, platform, release), the master functional doc, the Screens snapshot (`<docs_root>/design/screens/`, written only by ux-designer Stage 4 after each merge). A feature that needs one of them changed gets that change as a small separate change on `base_branch` (its own short branch, merged first), and the feature branch then brings `base_branch` in. Allowed in a feature branch: the feature's own documents, new ADR files (numbered with `next_adr_id.sh`, which also counts every branch), and code. Anything else that can't wait is listed in the handoff note under "Shared docs touched", so the merge order accounts for it.
 - **Stay current:** bring `base_branch` into the feature branch (a merge, not a rebase, once the branch is pushed) when a technical session picks it up, before the final review, and before merging; re-run the checks after each.
 - **Merge one feature at a time.** The next one brings `base_branch` in again and re-runs its review before its own merge.
 - **Local runtime:** each worktree installs its own dependencies and runs its dev server on its own port (e.g. `PORT=3000+<id>`), with its own local data. The run command given to the user says which.
@@ -304,7 +308,7 @@ Several features can be in flight at once (some in product work, others being bu
    # Handoff: [Feature Name]
    > Project: `<project_id>` · Feature: `<project_id>/<id>` · Date: YYYY-MM-DD
    - Branch: `<branch>` · Worktree: `<path>`
-   - Approved: PRD (date) · Prototype (date, or n/a) · UX Flow (date, or n/a) · Claude Design page: `Propuesta <id> · <title>` (or n/a)
+   - Approved: PRD (date) · Prototype (date, or n/a) · UX Flow (date, or n/a) · Claude Design page: `Propuesta <id> · <title>` and its snapshot `<id>_<slug>_design/` (or n/a)
    - Scope in 2-3 lines:
    - Open questions (owner):
    - Shared docs touched / needs (ADR, platform, release, shared kit), or "none":

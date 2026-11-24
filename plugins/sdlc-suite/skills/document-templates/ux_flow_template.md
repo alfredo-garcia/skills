@@ -45,7 +45,7 @@ Seven sections, in this order:
 > UI Standards referenced: `docs/context/ui_standards.md`
 > UI Kit Registry referenced: `docs/context/ui_kit_registry.md`
 > Prototype: `[path or description of the approved, signed-off prototype]`
-> Claude Design (Path A): Screens canvas `[claude_design_screens URL]` · proposal page `Propuesta <id> · <title>` · screen pages touched: [Home, …] · Integrated into Screens: pending / YYYY-MM-DD
+> Claude Design (Path A): Screens canvas `[claude_design_screens URL]` · proposal page `Propuesta <id> · <title>` · screen pages touched: [Home, …] · Approved design snapshot: `<id>_<slug>_design/` (production) or n/a · Integrated into Screens: pending / YYYY-MM-DD
 > Status: Approved by user on [date]
 
 This document is strict component-orchestration instructions for an implementation agent

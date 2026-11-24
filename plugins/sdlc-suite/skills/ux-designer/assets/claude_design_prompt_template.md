@@ -4,7 +4,7 @@
 >
 > **Language:** the prompt is written in `SDLC.md`'s `docs_language` (the UI copy too). Component, token and icon names stay exactly as in the registry and the design system.
 >
-> **Saved at:** `<prototypes>/<id>_<slug>_claude_design_prompt.md` (`prototypes` from `SDLC.md`; if it's `none`, `<features_root>/<id>_<slug>_claude_design_prompt.md`), and shown in chat inside **one** fenced code block, nothing else inside it, so the user copies it in one go.
+> **Saved at:** `<features_root>/<id>_<slug>_claude_design_prompt.md`, with the feature's other documents (never in `prototypes/`, which projects usually gitignore), and shown in chat inside **one** fenced code block, nothing else inside it, so the user copies it in one go.
 
 ---
 
@@ -80,6 +80,7 @@ Solo en la página "Propuesta [id] · [título]". Mantén el design system "[cla
 
 ```text
 Integra la feature [project_id]/[id] en el lienzo "[App] · Screens":
+0. Antes de nada, compara la propuesta con las páginas actuales que toca y dime si han cambiado desde que se hizo (otra feature integrada en medio); si es así, no sigas hasta que te diga cómo resolverlo.
 1. Página "[Pantalla]": sustituye el artboard "[x]" por "[y]" de "Propuesta [id] · [título]"; añade "[z]".
 2. Página nueva "[Pantalla nueva]" (si hay): con sus artboards en todos los estados y formatos, como las demás páginas.
 3. Aplica estos cambios hechos durante la implementación: [desviaciones aprobadas, o "ninguno"].

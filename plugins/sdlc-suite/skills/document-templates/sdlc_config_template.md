@@ -45,7 +45,8 @@
 - web_components: none              # e.g. apps/web/src/components
 - mobile_app: none                  # e.g. apps/mobile
 - mobile_components: none
-- prototypes: prototypes            # scratch area for code-first prototypes (gitignore it)
+- prototypes: prototypes            # scratch area for code-first prototypes (gitignore it). Claude Design prompts and
+                                    # design snapshots never go here: they live in features_root and docs_root/design
 
 ## Shared dependencies (type: app only)
 - shared_deps: none                 # comma-separated, paths RELATIVE TO THE GIT REPO ROOT, each optionally @YYYY-MM-DD
