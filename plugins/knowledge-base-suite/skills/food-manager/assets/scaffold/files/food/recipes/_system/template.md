@@ -23,6 +23,7 @@ source:
   original:
 photo:
 curated: false
+health: { score: , base: , cooking: }   # computed by scripts/health.py
 missing: []
 doubts:
 ---
