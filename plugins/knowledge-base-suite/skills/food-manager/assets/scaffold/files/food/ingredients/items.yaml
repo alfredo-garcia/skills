@@ -1,3 +1,3 @@
 # Ingredient catalog (Spanish ids). Starts empty: the food-manager skill adds each ingredient the first time a recipe or the user needs it.
-# <id>: { name, synonyms, family, staple }
+# <id>: { name, synonyms, family, staple, health: { score, nova }, unit_g }   (food/_system/schema.md, Healthiness)
 {}

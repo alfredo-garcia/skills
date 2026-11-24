@@ -51,11 +51,41 @@ def main():
         print(f"ERROR {os.path.relpath(f, root)}: {msg}")
 
     nonfood = {k for k, v in fams.items() if (v or {}).get("food") is False}
+    # healthiness is enforced once the group is on ingredients schema 2 / recipes schema 5
+    # (the upgrade in SKILL.md section 0 bumps them in _domains.json after the backfill)
+    try:
+        import json
+        doms = json.load(open(os.path.join(root, "_domains.json"), encoding="utf-8")).get("domains", {})
+    except Exception:
+        doms = {}
+    health_ings = (doms.get("ingredients") or {}).get("schema", 0) >= 2
+    health_recipes = (doms.get("recipes") or {}).get("schema", 0) >= 5
+    cat_file = os.path.join(food, "ingredients/items.yaml")
     for k, v in ings.items():
         if v.get("family") not in fams:
-            err(os.path.join(food, "ingredients/items.yaml"), f"ingredient '{k}' has unknown family '{v.get('family')}'")
+            err(cat_file, f"ingredient '{k}' has unknown family '{v.get('family')}'")
         elif v.get("family") in nonfood and v.get("staple"):
-            err(os.path.join(food, "ingredients/items.yaml"), f"non-food item '{k}' can't be a staple")
+            err(cat_file, f"non-food item '{k}' can't be a staple")
+        # healthiness (ingredients schema 2)
+        h = v.get("health")
+        if not health_ings and h is None:
+            continue
+        if v.get("family") in nonfood:
+            if h is not None or "unit_g" in v:
+                err(cat_file, f"non-food item '{k}' can't have health or unit_g")
+            continue
+        if h is None:
+            err(cat_file, f"ingredient '{k}' has no health (score 1-5 and nova 1-4, or exclude: true)")
+        elif not (isinstance(h, dict) and (h.get("exclude") is True or (
+                isinstance(h.get("score"), int) and 1 <= h["score"] <= 5
+                and isinstance(h.get("nova"), int) and 1 <= h["nova"] <= 4))):
+            err(cat_file, f"ingredient '{k}': health must be {{ score: 1-5, nova: 1-4 }} or {{ exclude: true }}")
+        elif h.get("nova") == 4 and h.get("score", 0) > 2:
+            err(cat_file, f"ingredient '{k}': an ultra-processed item (nova 4) scores 2 at most")
+        elif h.get("nova") == 3 and h.get("score", 0) > 4:
+            err(cat_file, f"ingredient '{k}': a processed food (nova 3) scores 4 at most")
+        if "unit_g" in v and not (isinstance(v["unit_g"], (int, float)) and v["unit_g"] > 0):
+            err(cat_file, f"ingredient '{k}': unit_g must be a positive number of grams")
 
     ids = {}
     for f in all_files:
@@ -136,6 +166,27 @@ def main():
             err(f, f"missing should be {sorted(exp | (stored & JUDGMENT))}, found {sorted(stored)}")
         if fm.get("curated") and fm.get("doubts"):
             err(f, "curated recipes must have empty doubts")
+
+    # healthiness of the recipes checked (recipes schema 5): stored value must match health.py
+    sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+    import health as H
+    calc = H.Calc(root)
+    for f in (files if health_recipes else []):
+        rid = os.path.basename(f)[:-3]
+        if rid not in calc.files:
+            continue
+        try:
+            res = calc.compute(rid)
+        except H.NoIngredients:
+            continue
+        except ValueError as e:
+            err(f, f"health can't be computed: {e}")
+            continue
+        stored = calc.front(rid).get("health")
+        if not H.same(stored, res):
+            err(f, f"health out of date (should be score {res['score']}, base {res['base']}): run scripts/health.py <root> --write")
+        if res["cooking"] is None:
+            err(f, f"health.cooking empty: set the main cooking method ({', '.join(H.COOKING)})")
 
     # reviews files (one per user)
     for rf in sorted(glob.glob(os.path.join(food, "reviews", "*.yaml"))):

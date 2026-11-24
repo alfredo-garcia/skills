@@ -12,14 +12,14 @@
       "type": "collection",
       "group": "food",
       "path": "food/recipes",
-      "schema": 4
+      "schema": 5
     },
     "ingredients": {
       "purpose": "Catálogo canónico de ingredientes que usan recetas y despensa.",
       "type": "catalog",
       "group": "food",
       "path": "food/ingredients",
-      "schema": 1
+      "schema": 2
     },
     "pantry": {
       "purpose": "Lo que hay en casa y lo que hay que comprar.",
