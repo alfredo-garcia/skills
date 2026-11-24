@@ -39,7 +39,7 @@ Only `id`, `domain`, `created`, `updated` and `title` are required. Unknown valu
 | photo | skill | `food/recipes/_attachments/<id>.jpg` (path from the root) |
 | curated | user | Boolean: the user has checked the recipe's data; when set to true the skill clears `doubts` |
 | status | skill, user | `to-try`, `tried` or `discarded` (below). Absent = `tried` |
-| health | skill | Healthiness indicator `{ score, base, cooking, estimated }` (section Healthiness). `score` 1–5 is computed by `scripts/health.py`, never by hand |
+| health | skill | Healthiness indicator `{ score, base, cooking, pending }` (section Healthiness). Optional: `score` 1–5 is computed by `scripts/health.py`, never by hand, and only when the recipe has all the data; otherwise there is no score and `pending` says what's missing |
 | missing | skill | Recomputed on every write; empty = complete. Values: `category`, `time`, `servings`, `quantities`, `ingredients`, `steps`, `tags`, `photo` |
 | doubts | skill | Free text (Spanish) about interpretations it wasn't sure of |
 
@@ -107,15 +107,21 @@ Processing caps the score: `nova: 4` (ultra-processed) → 2 at most; `nova: 3` 
 
 **Recipe score** (`health` in the recipe, computed by `scripts/health.py`):
 - **Base version only**: lines with `optional: true` don't count, and `## Variations` never counts. An alternative written in a line's `note` ("o jamón") doesn't count either: the line's `ing` does.
-- Each counted line weighs its grams: `g`, `kg`, `ml`, `l` as is (1 ml = 1 g); `cup` 240, `tbsp` 15, `tsp` 5, `oz` 30, `clove` 5, `sprig` 2, `leaf` 1, `can` 400, `packet` 10, `bunch` 50; pieces (`unit`) × the ingredient's `unit_g`; `pinch` 1, `to-taste` 2, `as-needed` 10. A line without quantity counts 50 g, a piece without `unit_g` 100 g; both are listed in `health.estimated`.
+- Each counted line weighs its grams: `g`, `kg`, `ml`, `l` as is (1 ml = 1 g); `cup` 240, `tbsp` 15, `tsp` 5, `oz` 30, `clove` 5, `sprig` 2, `leaf` 1, `can` 400, `packet` 10, `bunch` 50; pieces (`unit`) × the ingredient's `unit_g`; `pinch` 1, `to-taste` 2, `as-needed` 10. Quantities are never assumed: a line without quantity, or pieces of an ingredient without `unit_g`, leave the recipe pending (below).
 - Ingredients scoring 1 or 2 weigh **double** (sugar, fats and processed meats matter more than their mass). `exclude` ingredients (water) don't count.
-- A sub-recipe line (`recipe: <id>`) counts with that recipe's `base`, weighing its quantity if it is in a mass or volume unit, otherwise 150 g per portion.
+- A sub-recipe line (`recipe: <id>`) counts with that recipe's `base`, weighing its quantity in a mass, volume or unmeasured unit (`to-taste`, `pinch`, `as-needed`). Without one, or when the sub-recipe is itself pending, the recipe is pending.
 - `base` = weighted mean of the counted scores (one decimal).
-- `cooking`: the main cooking method of the dish, one of `raw`, `steam`, `boil` (+0.25), `stew`, `bake`, `grill`, `saute` (0), `fry` (−0.5, shallow frying), `deep-fry` (−1). Set by the skill from the steps; the method of the main component wins.
+- `cooking`: the main cooking method of the dish, one of `raw`, `steam`, `boil` (+0.25), `stew`, `bake`, `grill`, `saute` (0), `fry` (−0.5, shallow frying), `deep-fry` (−1). Set by the skill from the steps; the method of the main component wins. No steps to tell → left empty (the recipe is pending), never guessed.
 - `score` = `base` + the cooking modifier, rounded half up and kept within 1–5.
 
 ```yaml
-health: { score: 4, base: 3.8, cooking: bake, estimated: [huevo] }
+health: { score: 4, base: 3.8, cooking: bake }
+```
+
+**Pending.** The indicator is optional. A recipe without all the data it needs has no `score` or `base`: it is pending, and `pending` lists why, in this order: `ingredients` (no countable ingredient lines, or `missing` lists `ingredients`), `quantities` (a counted line without quantity), `unit_g` (pieces of an ingredient whose grams per piece aren't in the catalog), `cooking` (no cooking method), `sub-recipe` (a sub-recipe used is pending or not found). Pending is a normal state, never an error: clients show it as "Salud: pendiente" and leave it out of the 1–5 filter. It is computed as soon as the data arrives (the user adds the quantities, the skill sets `unit_g`).
+
+```yaml
+health: { cooking: stew, pending: [quantities] }
 ```
 
 **Recalculation.** `health` is recomputed with `scripts/health.py <root> --write` whenever anything it depends on changes: an ingredient line of the recipe (ingredient, quantity, unit, `optional`, a sub-recipe), its cooking method, or an ingredient's `health` or `unit_g` in the catalog (every recipe that uses it, and the recipes that use those as sub-recipes). A change in `health` sets the recipe's `updated`. Nothing else in the recipe changes.
