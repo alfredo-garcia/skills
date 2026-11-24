@@ -44,7 +44,7 @@ Hand the user **one ready-to-paste prompt**, built with `SKILL_DIR/assets/claude
 - an explicit instruction to use only design-system components, and to flag anything new instead of improvising it;
 - what to deliver (navigable prototype, every state visible, a list of components used and new ones flagged).
 
-Save it at `<prototypes>/<id>_<slug>_claude_design_prompt.md` and show it in chat in a single fenced code block, followed by the steps to use it (open a project with the design system, paste, iterate, bring the result back). For feedback during Stage 2, hand over follow-up prompts the same way.
+Save it at `<features_root>/<id>_<slug>_claude_design_prompt.md` and show it in chat in a single fenced code block, followed by the steps to use it (open a project with the design system, paste, iterate, bring the result back). For feedback during Stage 2, hand over follow-up prompts the same way.
 
 The user iterates there, with or without you present. Your role resumes when they bring the result back.
 
@@ -65,3 +65,17 @@ The UX Flow needs real component names and import paths, not visual descriptions
 ## 6. Integrating into the Screens canvas (Stage 4, after merge)
 
 The screen pages show the shipped app, so a feature's screens move there only once it's merged: from the proposal page plus any deviations approved during implementation. Hand the user the integration prompt (template), listing per screen page which artboards are replaced or added; then the proposal page is deleted. Pages for new screens or flows are created with the same structure as the others (all states, all formats).
+
+## 7. Designs in the repo (snapshots)
+
+The live canvas stays in Claude Design; the repo keeps **what was approved**, so it has history, diffs, travels with its feature and can be checked offline or in CI. **Only with `rigor: production`** (or when the user asks): the filtering and copying is scripted, but reading the canvas files from the artifact goes through the model and costs tokens (tens of thousands for a full Screens canvas). With `personal`, the UX Flow's canvas URL is the record.
+
+| Snapshot | Path | Content | Written by | When |
+| --- | --- | --- | --- | --- |
+| Approved proposal | `<features_root>/<id>_<slug>_design/` (feature branch) | The page `Propuesta <id> · …` | ux-designer Stage 2 | At prototype sign-off; again if it changes before handoff |
+| Shipped screens | `<docs_root>/design/screens/` (`base_branch` only) | Every page not named `Propuesta …` | ux-designer Stage 4 | After each merge and integration, one feature at a time |
+
+- **How:** read the canvas files with the artifact read tool: `project/canvas.json`, then the `*.dc.html` of every board on the pages in scope (`canvas.json` → `boards`, each with its `page`), into a scratch folder; note the artifact version the read reports. Then `snapshot_canvas.py <scratch> <path> --proposal <id> | --screens --artifact <url> --version <version>`. It writes a filtered `canvas.json`, the boards' `*.dc.html` and `design.json` (artifact, version, date, pages), and refuses to write if a board is missing. Without artifact access, ask the user for the canvas export and use its `project/` folder.
+- Left out on purpose: the Claude Design runtime (`artifact-type/`) and the design-system copies (`project/ds/`), whose source of truth is the code. So the `*.dc.html` don't open on their own: they're a record to diff and check (`check:design`-style tools can run on them), not a viewer; the canvas URL in the UX Flow is for viewing.
+- Proposal snapshots stay after merge, as the record of what was approved for that feature (like its PRD). The current state of the app is always `<docs_root>/design/screens/`.
+- `<docs_root>/design/screens/` is a shared file (protocol §15): never written from a feature branch.

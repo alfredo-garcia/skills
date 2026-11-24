@@ -99,7 +99,7 @@ After a PRD is approved (and, when `rigor: production`, its technical review has
 **Inputs:** the PRD (`<FEATURES_ROOT>/<id>_<slug>_prd.md`, with the ID from `bash "$TEMPLATES/scripts/next_feature_id.sh" "<FEATURES_ROOT>" <slug>` if you only have a name; never mint one), plus everything loaded in Step 0. Never invent PRD content.
 
 ### Choose the path (see "Design tool selection" above)
-- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built as a new page `Propuesta <id> · <title>` in the app's Screens canvas (`claude_design_screens`), which may copy artboards from the current screen pages and modify them. If `claude_design_screens` is `none`, this feature creates the canvas `<App> · Screens` first (handoff §2) and you record its URL in `SDLC.md` (shown, approved). **Right after scoping, deliver the Claude Design prompt** (`SKILL_DIR/assets/claude_design_prompt_template.md`): self-contained, in `docs_language`, saved at `<prototypes>/<id>_<slug>_claude_design_prompt.md`, and shown in chat inside a single fenced code block with nothing else in it, followed by the short steps to use it. This is the Stage 1 deliverable on Path A; never just describe what to do in Claude Design.
+- **Path A, Claude Design** (default when `claude_design: available`): read `SKILL_DIR/references/claude_design_handoff.md`. The prototype is built as a new page `Propuesta <id> · <title>` in the app's Screens canvas (`claude_design_screens`), which may copy artboards from the current screen pages and modify them. If `claude_design_screens` is `none`, this feature creates the canvas `<App> · Screens` first (handoff §2) and you record its URL in `SDLC.md` (shown, approved). **Right after scoping, deliver the Claude Design prompt** (`SKILL_DIR/assets/claude_design_prompt_template.md`): self-contained, in `docs_language`, saved at `<features_root>/<id>_<slug>_claude_design_prompt.md` (with the feature's other documents, so it's committed), and shown in chat inside a single fenced code block with nothing else in it, followed by the short steps to use it. This is the Stage 1 deliverable on Path A; never just describe what to do in Claude Design.
 - **Path B, code-first or another tool** (when Claude Design is unavailable, or by exception): read `SKILL_DIR/references/prototype_guidelines.md`.
 
 ### Scope first (both paths)
@@ -121,7 +121,7 @@ For every piece of feedback:
 5. **New component needed by the feedback?** Announce it before adding it, as above.
 6. **Feedback that changes the visual language** (new token, pattern or variant): it's a proposed `ui_standards.md` change. Show the diff and get approval; don't just apply it in the prototype.
 
-Repeat until the user explicitly signs off.
+Repeat until the user explicitly signs off. **On Path A with `rigor: production`, at sign-off, save the approved proposal in the feature branch** (with `personal`, skip it unless the user asks: reading the canvas costs tokens; the UX Flow keeps the canvas URL): read the Screens canvas files (`project/canvas.json` and the proposal page's `*.dc.html`) and run `python3 "$SKILL_DIR/scripts/snapshot_canvas.py" <downloaded> <features_root>/<id>_<slug>_design --proposal <id> --artifact <claude_design_screens> --version <artifact version>` (handoff §7). Commit it with the UX Flow.
 
 ## Stage 3: UX Flow doc
 
@@ -139,7 +139,10 @@ Name interactive elements consistently across the UX Flow (one name per element,
 When the feature is merged into `base_branch` (engineering-lead invokes this stage after the merge, or the user asks), bring the app's Screens canvas up to date, so its pages keep showing the shipped app:
 1. Take the final approved version: the proposal page plus any deviations approved during implementation (UX Flow deviations section, impl plan §8).
 2. Give the user an **integration prompt** (one copy-pasteable block, `claude_design_prompt_template.md` "Integration prompt"): for each screen page the feature touches, which artboards to replace or add, from which proposal artboards; then delete the proposal page.
-3. When the user confirms it's done, update the UX Flow header (`Integrated into Screens: YYYY-MM-DD`).
+3. When the user confirms it's done and `rigor: production` (with `personal`, only if the user asks), **update the Screens snapshot on `base_branch`** (handoff §7): read the canvas files of every screen page, run `snapshot_canvas.py … <docs_root>/design/screens --screens …`, and commit it on `base_branch` as a small change of its own (`[<project_id>/<id>] Design: integrate into Screens`). Only this stage writes that folder, one feature at a time, never a feature branch.
+4. Update the UX Flow header (`Integrated into Screens: YYYY-MM-DD`).
+
+**Before writing the integration prompt (step 2), with `rigor: production`, check two things against the canvas** (with `personal`, skip both; the integration prompt still asks Claude Design to compare the proposal with the current page first): (a) **drift**: snapshot the screen pages into a temporary folder and compare it with `<docs_root>/design/screens/` (`diff -r -x design.json`); any difference means someone changed the screen pages outside this process: show the user what changed and let them decide before integrating. (b) **Overlap**: if another feature integrated into the same screen pages after this feature's proposal was made (its snapshot `design.json` is older than the last Screens snapshot), the proposal starts from an older version of those artboards: the integration prompt first lists the differences with the current page so they're resolved in Claude Design, like a merge conflict.
 
 A feature that's abandoned or deferred keeps no proposal page: ask the user to delete it, and note it in the UX Flow if one exists.
 
@@ -174,5 +177,6 @@ If `SDLC.md` says `work_tracker: github`, follow `TEMPLATES/work_tracking_guide.
 - `SKILL_DIR/references/prototype_guidelines.md`: code-first path, Tmp convention, parity checklist, presenting.
 - `SKILL_DIR/references/claude_design_handoff.md`: the Claude Design path and reconciliation.
 - `SKILL_DIR/assets/claude_design_prompt_template.md`: the copy-pasteable Claude Design prompts: prototype (Stage 1), follow-up (Stage 2), integration (Stage 4).
+- `SKILL_DIR/scripts/snapshot_canvas.py`: copies canvas pages into the repo (the approved proposal per feature, the screen pages on `base_branch`).
 - `SKILL_DIR/assets/prototype_scaffold.html`: sandboxed React starting point with a design-token hook.
 - `TEMPLATES/work_tracking_guide.md`: GitHub Issues hierarchy, labels, issue bodies, checkpoints (protocol §13).
