@@ -1,2 +1,4 @@
-# Agendas and websites to search for plans, by city: { name, url, cities, categories, checked, note }.
+# Agendas and websites to search for plans, by city:
+# id: { name, url, cities, categories, method, fetcher, params, big_events, checked, note }
+# method: api | script | text (read by scripts/plan_sources.py) · browser · search · dead. See _system/schema.md → sources.
 {}

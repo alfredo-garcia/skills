@@ -1,0 +1,24 @@
+# Your plan filters. The weekly search extracts EVERYTHING from your sources and only drops what
+# these rules say; everything else becomes a "Por revisar" plan in the app. See _system/schema.md → filters.
+
+windows:
+  everyday_days: 21
+  big_only_days: 120
+  trip_lead_days: 35
+
+# What counts as a big event in big-only cities (venue words, or sources that only list big events).
+big_only:
+  venues: [arena, estadio, stadium, coliseo, "palau sant jordi", "plaza de toros"]
+  sources: []
+
+# Exact rules (applied by the script). Example:
+# - { id: caro, when: { price_over: 400000 }, reason: "Más de 400.000" }
+exclude: []
+
+# Rules that need understanding (Claude answers yes/no from title and description). Example:
+# - { id: cine-terror, when: { category: cinema }, rule: "Película de terror", reason: "No me gusta el terror" }
+judge: []
+
+defaults:
+  audience:
+    default: [friends, couple]
