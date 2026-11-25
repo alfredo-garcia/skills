@@ -18,3 +18,4 @@ nightlife: { label: Fiesta y rumba, type: music }   # bares de noche, discotecas
 game-night: { label: Noche de juegos, type: home }   # póker, juegos de mesa, videojuegos en casa
 comedy: { label: Comedia y stand-up, type: culture }
 running-race: { label: Carrera de running, type: sport }   # carreras populares en las que participar (5K, 10K, media maratón…)
+talk: { label: Charla o conferencia, type: culture }   # charlas, conversatorios, presentaciones de libros

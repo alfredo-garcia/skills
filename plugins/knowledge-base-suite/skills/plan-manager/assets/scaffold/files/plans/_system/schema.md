@@ -167,10 +167,39 @@ Overwritten on each digest; only the latest digest's numbers are valid.
 
 ## sources (schema 1)
 
-`items.yaml` keyed by id: `{ name, url, cities, categories, checked, note }`. `checked: false` = seeded but not yet verified by a search run.
+`items.yaml` keyed by id: `{ name, url, cities, categories, method, fetcher, params, big_events, checked, note }`. `checked: false` = seeded but not yet verified by a search run. New fields are optional; a source without `method` is read with the browser, as before.
+
+Each source says how to read it, cheapest first. The weekly search runs `scripts/plan_sources.py fetch` for `api`, `script` and `text` sources and only uses Claude to review what that script returns.
+
+| method | Read by | When to use it |
+| --- | --- | --- |
+| `api` | script, structured | The site has a JSON API the public page itself calls (WordPress REST, an event API) |
+| `script` | script, structured | Static HTML with a stable structure or schema.org JSON-LD |
+| `text` | script → page text for Claude | Downloadable without a browser, but the dates are free text (monthly guides, programmes) |
+| `browser` | built-in browser (`get_page_text`) | Only JavaScript-rendered pages with no usable API, and Instagram |
+| `search` | web search | No stable page; `params.queries` lists the queries |
+| `dead` | nobody | The site is gone; `note` says why and since when |
+
+- `fetcher` (for `api`/`script`/`text`): one of `tuboleta`, `plan52`, `wp-rest`, `wp-sitemap`, `cinepolis`, `respira`, `espn-soccer`, `jsonld`, `text`, `dated-list`; `params` are that fetcher's settings (see the script's docstrings). URLs in `params` may use `{yyyy}`, `{mm}` and `{mes}` (Spanish month name), expanded over the search window.
+- `big_events: true` (ticketing and big-concert sources): `everyday` cities are searched up to 4 months ahead in that source, like `big-only` cities, so big home-city events with early ticket sales are not missed.
+- System files of this domain, written only by the script: `_last_run.json` (result of the last run: candidates, `known`, `filtered` with reasons) and `_seen.json` (page texts already read, by hash). Candidates are never hidden for having been seen: the user's filters decide every week.
+
+## filters (`ideas/filters.yaml`)
+
+The user's own filters for the weekly search; the only thing that keeps an extracted event from becoming a plan. Edited by the user (or by Claude when asked: "no quiero ver X").
+
+| Key | Meaning |
+| --- | --- |
+| windows | `everyday_days`, `big_only_days`, `trip_lead_days` |
+| big_only | `venues` (words of big venues) and `sources` (lists of big events only): a `big-only` city's event passes only if it matches one |
+| exclude | Exact rules applied by the script: `{ id, when, reason }`; `when` keys: `category`, `city`, `scope`, `source`, `title_any`, `venue_any`, `rating`, `price_over`, `weekday` (0 = Monday) |
+| judge | Rules that need understanding ("película infantil", "terror"): `{ id, when, rule, reason }`; Claude answers yes/no from title and description only |
+| defaults.audience | Audience of auto-created plans per category (`default` for the rest) |
 
 ## Weekly search rules
 
 - Search windows come from each city's `scope` in `_system/cities.yaml`: `everyday` → next 3 weeks, every category, plus new openings; `big-only` → only `big-event`, up to 4 months ahead; `trip-only` → only for trip dates in `trips.yaml`, starting ~5 weeks before the trip. While the user is on a trip, `everyday` cities are searched only for dates after the return.
-- Dedup against `index.json` and by `series`; never re-propose `discarded` items; read `ideas/preferences.md` and past `discard_reason` first.
+- Extract everything; filter only with `ideas/filters.yaml` (never by Claude's taste); every event that passes becomes a plan (`proposed`, `pending`).
+- Dedup against every plan file (any status), by the event's own URL, title + date and `series` + year (`scripts/plan_sources.py match`); never re-propose `discarded` items.
+- `source.url` of a plan is the event's own page, never a source's listing page (agenda home, `#eventos`, a cinema's whole cartelera): listing URLs don't identify a plan.
 - New items: `status: proposed`, `report_status: pending`; after the digest → `notified`.
