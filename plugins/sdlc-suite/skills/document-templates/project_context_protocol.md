@@ -59,8 +59,8 @@ Run the script with `bash "$TEMPLATES/scripts/project_context.sh" <dir>` to reso
 | Master Functional Doc | `<docs_root>/functional-spec.md` (+ `<docs_root>/functional/…`) | document-manager |
 | Changelogs | `<docs_root>/changelog/<id>_<slug>_changelog.md` | document-manager |
 | Feature doc / PRD / UX Flow | `<features_root>/<id>_<slug>.md`, `_prd.md`, `_ux_flow.md` | product-manager / ux-designer |
-| Claude Design prompt | `<features_root>/<id>_<slug>_claude_design_prompt.md` | ux-designer |
-| Approved design snapshot (`rigor: production`) | `<features_root>/<id>_<slug>_design/` | ux-designer |
+| Claude Design prompt (fallback only) | `<features_root>/<id>_<slug>_claude_design_prompt.md` | ux-designer |
+| Approved design snapshot | `<features_root>/<id>_<slug>_design/` | ux-designer |
 | Screens snapshot, shipped app (`rigor: production`) | `<docs_root>/design/screens/` (base branch only) | ux-designer (Stage 4) |
 
 A skill writes only the documents it owns. It may read any of them.
@@ -243,7 +243,7 @@ Eight roles, one owner per kind of decision. When a skill hits a question outsid
 | Flow between roles | `autopilot`: skills chain on their own, 3 stops (PRD, prototype, merge) | `step`: the user invokes each step |
 | Implementation plan & independent review | Lite checklist, no separate approval; independent review per slice | Full plan per feature; small PRs; review per PR; review record; author never approves |
 | Test plan, tests first, verification | No test plan by default; acceptance tests for main flows from the PRD's ACs; light check before merge | Test plan per feature, acceptance tests before code, `Verified` verdict required to merge |
-| Claude Design snapshots in the repo (approved proposal, Screens) | Not taken (reading the canvas costs tokens); the UX Flow keeps the canvas URL. Only if the user asks | Taken at sign-off and after each integration |
+| Claude Design snapshots in the repo | Approved proposal: yes (free, from the files ux-designer wrote). Screens on the base branch: only if the user asks (reading the canvas costs tokens); the UX Flow keeps the canvas URL | Both: proposal at sign-off, Screens after each integration |
 | Platform Foundations (0.4) | Optional, minimal | Required, complete |
 | Release Process (0.5) | Optional | Required |
 | Subagents (Mode D) | `<id>-pr-reviewer` always; others only if the user asks | `<id>-pr-reviewer` always; others recommended when 2+ code surfaces, a team, or heavy cross-cutting rules, created with the user's approval |

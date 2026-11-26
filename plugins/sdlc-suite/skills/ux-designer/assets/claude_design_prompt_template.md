@@ -1,5 +1,7 @@
-# Template: Claude Design prompt (Path A, Stage 1)
+# Template: Claude Design prompt (Path A fallback)
 
+> **When this is used:** only when the session has no artifact tools (e.g. a sandboxed chat) or the user prefers to design in the canvas by hand. Normally ux-designer builds the canvas itself (`references/claude_design_handoff.md` §2-6).
+>
 > **What this is:** the ready-to-paste prompt the user drops into Claude Design to get a good first prototype of one feature, built on the project's design system. ux-designer writes it at the start of Stage 1 on Path A, from the approved PRD, the agreed scope list, `ui_standards.md` and `ui_kit_registry.md`.
 >
 > **Language:** the prompt is written in `SDLC.md`'s `docs_language` (the UI copy too). Component, token and icon names stay exactly as in the registry and the design system.
