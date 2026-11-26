@@ -14,7 +14,7 @@ Shared vocabularies in `_system/`: `types.yaml`, `categories.yaml`, `audiences.y
 
 - The group skill (or a scheduled search) creates items, maintains vocabularies, `sources` and `index.json` (it adds the entries).
 - The user (app, Claude or Telegram) changes `status`, `priority`, `scheduled`, `history`, `audience`, `tickets.state` and notes, and edits `trips`.
-- An app that applies the user's three actions (e.g. My Plans) also changes `report_status` and `updated` of that plan's entry in `ideas/index.json`; it never creates or removes entries. If the plan has no entry, it writes only the item file.
+- An app that applies the user's four actions (e.g. My Plans) also changes `report_status` and `updated` of that plan's entry in `ideas/index.json`; it never creates or removes entries. If the plan has no entry, it writes only the item file.
 - Every writer follows the optimistic write rule and sets `updated`.
 
 ## ideas (schema 1)
@@ -39,17 +39,18 @@ Labels live in `_system/statuses.yaml`; apps, Telegram and chat show the label, 
 | repertoire | Para repetir | — | ✓ | Done at least once and worth repeating |
 | discarded | Descartado | ✓ | ✓ | Not interested; `discard_reason` explains why (optional) |
 
-### The user's three actions
+### The user's four actions
 
-The user controls their plans with three actions. **None deletes anything**: files are never removed, and every action can be undone by applying another one.
+The user controls their plans with four actions. **None deletes anything**: files are never removed, and every action can be undone by applying another one.
 
 | Action | Sets status | Effects |
 | --- | --- | --- |
 | **Descartar** | `discarded` | `discard_reason` if the user gives one; `report_status: archived`. The weekly search never proposes it again (nor other editions of its `series` if the user says so) |
 | **Seguir** | `wishlist` | `report_status: notified`; reminders apply (tickets on sale, last chance). Also used to bring back a discarded plan ("recupera X") |
+| **Dejar de seguir** | `proposed` | Only from `wishlist`. `report_status: notified` (the digest does not send it again as new). The plan is back to "Por revisar": dated and not expired, it shows again among the proposals; timeless keeps its `history`. Undone with **Seguir** |
 | **Confirmar** | `scheduled` | `scheduled.start`: dated with a single session → that session; otherwise the date the user gives, or `null` if there is none yet (the digest will ask). `report_status: notified` |
 
-- Allowed from any status (also `proposed`, `done`, `repertoire`). Un-confirming without discarding = **Seguir**.
+- Seguir, Confirmar and Descartar are allowed from any status (also `proposed`, `done`, `repertoire`); Dejar de seguir only from `wishlist`. Un-confirming without discarding = **Seguir**.
 - Bringing back a discarded plan clears `discard_reason` and sets `report_status: notified`.
 - timeless: `scheduled` → after the date passes and the user confirms they went → `repertoire` + new `history` entry. Confirming it again sets `scheduled` again.
 - dated: "expired" is never stored; it's computed (all sessions / `available_until` in the past and status not `done`). The skill then sets `report_status: archived`.
