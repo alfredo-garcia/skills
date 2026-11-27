@@ -40,6 +40,7 @@ Keeps the user's leisure plans in the `plans` group, exactly as the contract say
 | "agenda X el sábado", "compré las entradas de X" | **Update** (section 5) | Always, before acting |
 | "fuimos a X", "ya vimos X" | **Done** (section 5) | Always |
 | "descarta X", "no me interesa X" | **Discard** (section 5) | Always |
+| "deja de seguir X", "ya no me interesa seguir X" | **Unfollow** (section 5) | Always |
 | Answer to the weekly digest ("me interesa el 2, descarta el 4 porque es caro") | **Review** (section 6) | Always, one combined confirmation |
 | "¿qué hacemos el finde?", "plan en pareja para un día de lluvia", "¿qué tengo agendado?" | **Suggest** (section 7) | None; read only |
 | "viajo a X del … al …" | **Trips** (section 8) | Always |
@@ -82,6 +83,7 @@ For dated plans include the date(s) and, if tickets are needed, the on-sale date
    - **Schedule**: `status: scheduled`, `scheduled: { start, end }`. Dated plans: the date must match a session or the window; if not, warn before confirming. Tickets bought → `tickets.state: bought`.
    - **Done**: dated → `status: done`, `report_status: archived`, keep `scheduled` (set it to the date the user says if it was empty). Timeless → `status: repertoire`, append `{ date, note }` to `history`, clear `scheduled`.
    - **Discard**: `status: discarded`, `discard_reason` (the user's words, short), `report_status: archived`. If the reason is a general taste ("no me gusta el reguetón", "nada de más de 200.000"), also offer to add it to `preferences.md` and add it only if they say yes.
+   - **Unfollow** ("deja de seguir X"): only a `wishlist` plan → `status: proposed`, `report_status: notified`. Nothing else changes (a timeless plan keeps its `history`).
    - **Unschedule** ("al final no vamos"): back to `wishlist` (or `repertoire` if timeless with history), clear `scheduled`.
 4. Set `updated`, update `index.json`, reply with before → after in one or two lines.
 
