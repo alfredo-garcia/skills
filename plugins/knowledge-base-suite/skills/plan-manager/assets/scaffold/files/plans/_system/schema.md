@@ -87,9 +87,14 @@ The user controls their plans with four actions. **None deletes anything**: file
 | links | List of `{ label, url }` |
 | source | `{ type, url, found, original }`; type `search`, `telegram`, `chat`, `app`, `web`; original = processed inbox file |
 | discard_reason | Short Spanish text when `discarded` |
-| photo | `plans/ideas/_attachments/<id>.<ext>` |
+| cover_url | URL of the plan's cover image at its source (poster, post image, `og:image`). Always set when known, even if `photo` exists |
+| photo | Local cover `plans/ideas/_attachments/<id>.<ext>`: the user's image, or `cover_url` downloaded. Never overwritten once there |
 
 Body: free Spanish notes.
+
+### Cover image
+
+Apps show `photo` first (local file), then `cover_url` (remote; it can expire or be blocked by its site), then a placeholder.
 
 ### type — derived from category
 

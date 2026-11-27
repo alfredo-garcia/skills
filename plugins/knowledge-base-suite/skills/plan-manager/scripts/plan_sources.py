@@ -7,6 +7,7 @@ texts (free-text programmes), browser sources and the `judge` rules of filters.y
     python3 scripts/plan_sources.py add    <kb-root> --file extracted.json   # events read from texts/browser
     python3 scripts/plan_sources.py judge  <kb-root> --exclude fp1:rule-id,fp2:rule-id
     python3 scripts/plan_sources.py create <kb-root>      # one plan per remaining candidate
+    python3 scripts/plan_sources.py covers <kb-root> [--ids a,b] [--force]  # fill cover_url / photo
     python3 scripts/plan_sources.py seen   <kb-root>      # remember page texts already read
     python3 scripts/plan_sources.py match  <kb-root> --title "…" [--date YYYY-MM-DD] [--city id] [--url …]
 
@@ -65,7 +66,21 @@ evento por para un una su sus lo segunda tercera fecha nueva funcion""".split())
 
 # ---------------------------------------------------------------- utilities
 
+_LAST_HIT = {}
+POLITE_DELAY = 0.5          # seconds between two requests to the same host
+
+
+def polite(url):
+    import time
+    host = urllib.parse.urlsplit(url).netloc
+    wait = POLITE_DELAY - (time.time() - _LAST_HIT.get(host, 0))
+    if wait > 0:
+        time.sleep(wait)
+    _LAST_HIT[host] = time.time()
+
+
 def http_get(url, headers=None, data=None, as_json=False):
+    polite(url)
     h = {"User-Agent": UA, "Accept": "text/html,application/xhtml+xml,application/json;q=0.9,*/*;q=0.8",
          "Accept-Language": "es-ES,es;q=0.9,en;q=0.5", "Accept-Encoding": "gzip, deflate"}
     if headers:
@@ -136,6 +151,87 @@ def clean_url(u):
     return f"{p.netloc.lower().removeprefix('www.')}{path}".lower()
 
 
+_GENERIC = re.compile(r"generic|logo|default|placeholder|favicon|sprite|blanco\.png|_ico\.", re.I)
+
+
+class _Generic:
+    """Logos and site-wide images, judged by the file name only (paths like /sites/default/ are fine)."""
+    @staticmethod
+    def search(u):
+        path = urllib.parse.urlsplit(u or "").path
+        return _GENERIC.search(path.rsplit("/", 1)[-1]) or "/genericos/" in path
+
+
+GENERIC_IMAGE = _Generic()
+
+
+# Sites whose event pages have no og:image: where their poster is (first match wins).
+SITE_IMAGE = {"tuboleta.com": r'(/sites/default/files/\d{4}-\d{2}/[^"\'?)\s]+\.(?:png|jpe?g|webp))'}
+
+
+def meta_image(s, base_url="", title=""):
+    """Cover image of a page: an <img> whose alt is the event's title (posters), then og:image /
+    twitter:image, then the first schema.org image. Logos and generic site images are ignored."""
+    found = []
+    if title:
+        want = set(norm(title).split())
+        for m in re.finditer(r"<img\b[^>]*>", s, re.I):
+            tag = m.group(0)
+            alt = re.search(r'alt\s*=\s*"([^"]*)"', tag)
+            src = re.search(r'\ssrc\s*=\s*"([^"]+)"', tag)
+            if alt and src and want and want <= set(norm(html.unescape(alt.group(1))).split()):
+                found.append(src.group(1))
+    for rx in (r'<meta[^>]+property\s*=\s*"og:image(?::secure_url)?"[^>]+content\s*=\s*"([^"]+)"',
+               r'<meta[^>]+content\s*=\s*"([^"]+)"[^>]+property\s*=\s*"og:image"',
+               r'<meta[^>]+name\s*=\s*"twitter:image"[^>]+content\s*=\s*"([^"]+)"'):
+        found += re.findall(rx, s, re.I)
+    for e in jsonld_events(s):
+        im = e.get("image")
+        im = im[0] if isinstance(im, list) and im else im
+        im = im.get("url") if isinstance(im, dict) else im
+        if isinstance(im, str) and im:
+            found.append(im)
+    host = urllib.parse.urlsplit(base_url).netloc.lower().removeprefix("www.")
+    if host in SITE_IMAGE:
+        found += re.findall(SITE_IMAGE[host], s)
+    for u in found:
+        if not GENERIC_IMAGE.search(u):
+            return urllib.parse.urljoin(base_url, html.unescape(u))
+    return ""
+
+
+IMAGE_TYPES = {"image/jpeg": "jpg", "image/png": "png", "image/webp": "webp", "image/gif": "gif",
+               "image/avif": "avif"}
+IMAGE_MAX = 8 * 1024 * 1024
+
+
+def download_image(url, dest_dir, pid):
+    """Save an image as <dest_dir>/<pid>.<ext>. Only real images (type and magic bytes), up to 8 MB.
+    Returns the file name, or raises."""
+    polite(url)
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Accept": "image/*"})
+    with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+        ctype = (r.headers.get("Content-Type") or "").split(";")[0].strip().lower()
+        data = r.read(IMAGE_MAX + 1)
+    if len(data) > IMAGE_MAX:
+        raise ValueError("image larger than 8 MB")
+    sig = {b"\xff\xd8\xff": "jpg", b"\x89PNG": "png", b"GIF8": "gif"}
+    ext = next((v for k, v in sig.items() if data.startswith(k)), None)
+    if not ext and data[:4] == b"RIFF" and data[8:12] == b"WEBP":
+        ext = "webp"
+    if not ext and data[4:12] in (b"ftypavif", b"ftypavis"):
+        ext = "avif"
+    if not ext:
+        raise ValueError(f"not an image ({ctype or 'unknown type'})")
+    os.makedirs(dest_dir, exist_ok=True)
+    name = f"{pid}.{ext}"
+    if any(re.fullmatch(rf"{re.escape(pid)}\.(jpg|jpeg|png|gif|webp|avif|heic)", f) for f in os.listdir(dest_dir)):
+        raise FileExistsError(f"{pid} already has an attachment; never overwritten")
+    with open(os.path.join(dest_dir, name), "wb") as f:
+        f.write(data)
+    return name
+
+
 def cand(**kw):
     c = {"title": "", "start": None, "end": None, "time": None, "venue": "", "city": None,
          "city_text": "", "price_amount": None, "price_currency": None, "url": "", "image": "",
@@ -175,6 +271,7 @@ class KB:
         self.tags = load_yaml(p("_system", "tags.yaml"), {})
         self.index_path = p("ideas", "index.json")
         self.items_dir = p("ideas", "items")
+        self.attachments_dir = p("ideas", "_attachments")
         self.seen_path = p("sources", "_seen.json")
         self.run_path = p("sources", "_last_run.json")
         self.seen = {"candidates": {}, "pages": {}}
@@ -370,10 +467,12 @@ def f_tuboleta(src, prm, ctx):
                     ds = [d for d in ds if d]
                     if not ds:
                         continue            # undated cards are landings (club pages, parking, gift cards)
+                    im = re.search(r'srcset="([^" ]+)', a) or re.search(r'<img[^>]+src="([^"]+)"', a)
+                    img = urllib.parse.urljoin(base, html.unescape(im.group(1))) if im else ""
                     out.append(cand(title=spans[0] if spans else href, venue=spans[1] if len(spans) > 2 else "",
                                     city_text=spans[-1] if spans else "", start=ds[0],
                                     end=ds[-1] if len(ds) > 1 else None, url=base + href, tickets_url=base + href,
-                                    category=our_cat))
+                                    category=our_cat, image=img))
                 if not new:
                     break
     return {"candidates": out}
@@ -392,9 +491,8 @@ def enrich_tuboleta(c):
         if t and not c.get("time"):
             h = int(t.group(1)) % 12 + (12 if t.group(3) == "p" else 0)
             c["time"] = f"{h:02d}:{t.group(2)}"
-    m = re.search(r'og:image" content="([^"]*)"', s)
-    if m and not c.get("image"):
-        c["image"] = m.group(1)
+    if not c.get("image"):
+        c["image"] = meta_image(s, c["url"], c.get("title", ""))
 
 
 def f_plan52(src, prm, ctx):
@@ -438,8 +536,8 @@ def f_wp_rest(src, prm, ctx):
     return {"texts": unseen_texts(texts, ctx)}
 
 
-def page_text(url):
-    s = http_get(url)
+def page_text(url, s=None):
+    s = s if s is not None else http_get(url)
     m = re.search(r"(?is)<(article|main)\b.*?</\1>", s)
     t = html_to_text(m.group(0) if m else s)
     t = re.sub(r"(?m)^(Leer más|Compartir.*|Otras publicaciones)$", "", t)
@@ -461,7 +559,11 @@ def f_wp_sitemap(src, prm, ctx):
         texts.append({"url": u.replace("http://", "https://"), "modified": lm})
         if len(texts) >= int(prm.get("max", 25)):
             break
-    return {"texts": unseen_texts(texts, ctx, lambda t: page_text(t["url"])[:3000])}
+    def load(t):
+        raw = http_get(t["url"])
+        t["image"] = meta_image(raw, t["url"])
+        return page_text(t["url"], raw)[:3000]
+    return {"texts": unseen_texts(texts, ctx, load)}
 
 
 def unseen_texts(texts, ctx, load=None):
@@ -1036,6 +1138,12 @@ def cmd_create(kb, now):
         L.append("links:")
         L += [f"- {{label: {ystr(l['label'])}, url: {ystr(l['url'])}}}" for l in links if l["url"]]
         L.append(f"source: {{type: search, url: {ystr(c.get('url'))}, found: {ystr(today)}, original: null}}")
+        cover, photo = cover_for(kb, pid, c.get("image"), [c.get("url"), c.get("tickets_url")]
+                                 + [a.get("url") for a in c.get("also_sources") or []], title=c["title"])
+        if cover:
+            L.append(f"cover_url: {ystr(cover)}")
+        if photo:
+            L.append(f"photo: {ystr(photo)}")
         L += ["---", "", c.get("description") or "", ""]
         with open(os.path.join(kb.items_dir, pid + ".md"), "w", encoding="utf-8") as f:
             f.write("\n".join(L))
@@ -1050,6 +1158,84 @@ def cmd_create(kb, now):
     with open(kb.run_path, "w", encoding="utf-8") as f:
         json.dump(report, f, ensure_ascii=False, indent=1, default=str)
     return {"created": len(created), "ids": created}
+
+
+def cover_for(kb, pid, image, page_urls, download=True, title=""):
+    """(cover_url, photo): the image URL (given, else the first event page among `page_urls` with
+    an image) and, when it downloads, its copy in plans/ideas/_attachments/. Listing pages are
+    never used: their image is the site's, not the event's."""
+    image = "" if image and GENERIC_IMAGE.search(image) else (image or "")
+    for u in ([page_urls] if isinstance(page_urls, str) else page_urls or []):
+        if image:
+            break
+        if u and clean_url(u) not in kb.listing_urls:
+            try:
+                image = meta_image(http_get(u), u, title)
+            except Exception:
+                pass
+    if not image:
+        return "", ""
+    if not download:
+        return image, ""
+    tries = [image] + ([image.replace("https://", "http://", 1)] if image.startswith("https://") else [])
+    for u in tries:                       # some image hosts serve only the http URL their own API gives
+        try:
+            name = download_image(u, kb.attachments_dir, pid)
+            return u, f"plans/ideas/_attachments/{name}"
+        except FileExistsError:
+            return image, ""
+        except Exception:
+            continue
+    return image, ""
+
+
+def cmd_covers(kb, now, only=None, force=False):
+    """Fill cover_url (always) and photo (only when the plan has none and the image downloads)
+    of existing plans. An existing photo, e.g. one the user sent, is never touched."""
+    with open(kb.index_path, encoding="utf-8") as f:
+        index = json.load(f)
+    done, failed = [], []
+    run_images = {}                       # images the last fetch saw, by the plan they became
+    if os.path.exists(kb.run_path):
+        with open(kb.run_path, encoding="utf-8") as f:
+            run = json.load(f)
+        for c in run.get("candidates", []):
+            if c.get("plan") and c.get("image"):
+                run_images[c["plan"]] = c["image"]
+    for it in kb.items:
+        pid = it.get("id")
+        if not pid or it.get("_error") or (only and pid not in only):
+            continue
+        has_photo = bool(it.get("photo"))
+        if it.get("cover_url") and (has_photo or not force):
+            continue
+        src = (it.get("source") or {}).get("url") or ""
+        urls = [src, (it.get("tickets") or {}).get("url") if isinstance(it.get("tickets"), dict) else None]
+        urls += [l.get("url") for l in it.get("links") or [] if isinstance(l, dict)]
+        cover, photo = cover_for(kb, pid, it.get("cover_url") or run_images.get(pid, ""), urls,
+                                 download=not has_photo, title=it.get("title", ""))
+        if not cover:
+            failed.append({"id": pid, "url": src})
+            continue
+        path = os.path.join(kb.items_dir, pid + ".md")
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        m = re.match(r"(---\s*\n)(.*?)(\n---)", text, re.S)
+        lines = [l for l in m.group(2).split("\n") if not l.startswith("cover_url:")
+                 and not (photo and l.startswith("photo:"))]
+        lines = [f"updated: {ystr(now.isoformat())}" if l.startswith("updated:") else l for l in lines]
+        lines.append(f"cover_url: {ystr(cover)}")
+        if photo:
+            lines.append(f"photo: {ystr(photo)}")
+        with open(path, "w", encoding="utf-8") as f:
+            f.write(m.group(1) + "\n".join(lines) + text[m.end(2):])
+        if pid in index:
+            index[pid]["updated"] = now.isoformat()
+        done.append({"id": pid, "downloaded": bool(photo)})
+    with open(kb.index_path, "w", encoding="utf-8") as f:
+        json.dump(index, f, ensure_ascii=False, indent=2)
+    return {"updated": len(done), "downloaded": sum(d["downloaded"] for d in done),
+            "url_only": [d["id"] for d in done if not d["downloaded"]], "no_image": failed}
 
 
 def cmd_seen(kb, today):
@@ -1067,12 +1253,14 @@ def cmd_seen(kb, today):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("command", choices=["fetch", "add", "judge", "create", "seen", "match"])
+    ap.add_argument("command", choices=["fetch", "add", "judge", "create", "covers", "seen", "match"])
     ap.add_argument("root")
     ap.add_argument("--today")
     ap.add_argument("--only", help="fetch: comma-separated source ids")
     ap.add_argument("--file", help="add: JSON list of candidates")
     ap.add_argument("--exclude", default="", help="judge: comma-separated fp:rule-id pairs to exclude")
+    ap.add_argument("--ids", help="covers: comma-separated plan ids (default: every plan missing a cover)")
+    ap.add_argument("--force", action="store_true", help="covers: look again even if the plan has one")
     ap.add_argument("--title")
     ap.add_argument("--date")
     ap.add_argument("--end")
@@ -1103,6 +1291,8 @@ def main():
         out = cmd_judge(kb, pairs)
     elif a.command == "create":
         out = cmd_create(kb, now)
+    elif a.command == "covers":
+        out = cmd_covers(kb, now, set(a.ids.split(",")) if a.ids else None, a.force)
     elif a.command == "seen":
         out = cmd_seen(kb, today)
     else:
